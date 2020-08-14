@@ -5,8 +5,8 @@ OPT := -O3 -DNDEBUG
 DEBUG := -ggdb3 -DDEBUG
 
 # Executable name and linked files without extensions.
-EXE :=
-LINKED_FILES := color
+EXE := demo
+LINKED_FILES := color standard_color high_intensity_color rgb_color greyscale_color colored_string
 
 # Expand the linked file names into lists of .cpp and .o files.
 LINKED_CPP := $(foreach file, $(LINKED_FILES), $(file).cpp)
