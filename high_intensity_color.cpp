@@ -11,7 +11,7 @@ high_intensity_color::high_intensity_color(palette color_in)
 
 color_t high_intensity_color::code() const {
   constexpr static auto offset = 8;
-  return static_cast<color_t>(static_cast<color_t>(m_color) + offset);
+  return static_cast<color_t>(underlying(m_color) + offset);
 }
 
 color* high_intensity_color::clone() const {

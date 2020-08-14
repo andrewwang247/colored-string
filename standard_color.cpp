@@ -8,6 +8,6 @@ Copyright 2020. Siwei Wang.
 
 standard_color::standard_color(palette color_in) : m_color(color_in) {}
 
-color_t standard_color::code() const { return static_cast<color_t>(m_color); }
+color_t standard_color::code() const { return underlying(m_color); }
 
 color* standard_color::clone() const { return new standard_color(*this); }

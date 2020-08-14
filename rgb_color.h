@@ -15,17 +15,17 @@ class rgb_color : public color {
   /**
    * Red channel.
    */
-  const color_t m_red;
+  const rgb m_red;
 
   /**
    * Green channel.
    */
-  const color_t m_green;
+  const rgb m_green;
 
   /**
    * Blue channel.
    */
-  const color_t m_blue;
+  const rgb m_blue;
 
   /**
    * The number of values possible for a channel.
@@ -38,23 +38,28 @@ class rgb_color : public color {
    * @param original Original color parameter.
    * @return A value uniformly distributed in {0,...,5}.
    */
-  static color_t squeeze(color_t original) noexcept;
+  static rgb squeeze(color_t original) noexcept;
 
  public:
   rgb_color() = delete;
 
   /**
-   * Explicitly set underlying RGB channels after squeezing.
-   * If convert is false: inputs take values in {0,...,5}.
-   * If convert is true: inputs may be any color_t value.
+   * Explicitly set underlying RGB channels.
    *
    * @param red_in    The red channel.
    * @param green_in  The green channel.
    * @param blue_in   The blue channel.
-   * @param convert   Conversion flag from true RGB.
    */
-  explicit rgb_color(color_t red_in, color_t green_in, color_t blue_in,
-                     bool convert = true);
+  explicit rgb_color(rgb red_in, rgb green_in, rgb blue_in);
+
+  /**
+   * Explicitly set underlying RGB channels after squeezing.
+   *
+   * @param red_in    The red channel.
+   * @param green_in  The green channel.
+   * @param blue_in   The blue channel.
+   */
+  explicit rgb_color(color_t red_in, color_t green_in, color_t blue_in);
 
   /**
    * See below.

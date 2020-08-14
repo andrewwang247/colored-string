@@ -10,10 +10,10 @@ Copyright 2020. Siwei Wang.
 #include <string>
 #include <utility>
 #include "base_color.h"
-#include "standard_color.h"
+#include "greyscale_color.h"
 #include "high_intensity_color.h"
 #include "rgb_color.h"
-#include "greyscale_color.h"
+#include "standard_color.h"
 
 /**
  * String that maintains foreground and background colors.
@@ -41,6 +41,12 @@ class colored_string : public std::string {
       : std::string(std::forward<Args>(args)...),
         m_foreground(nullptr),
         m_background(nullptr) {}
+
+  template <typename... Args>
+  colored_string& operator=(Args&&... args) {
+    std::string::operator=(std::forward<Args>(args)...);
+    return *this;
+  }
 
   /**
    * Modify the foreground color.
