@@ -86,11 +86,12 @@ void merica() {
     cout << blue_patch << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch << red_strip << '\n';
+         << white_patch << blue_patch << white_patch << blue_patch << red_strip
+         << '\n';
   };
   const auto star_line_white = [&]() {
-    cout << blue_patch << blue_patch << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch
+    cout << blue_patch << blue_patch << white_patch << blue_patch << white_patch
+         << blue_patch << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << blue_patch << white_strip << '\n';
   };
