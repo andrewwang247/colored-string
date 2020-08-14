@@ -32,7 +32,7 @@ class bright_color : public color {
    *
    * @return The 8-bit ANSI color code.
    */
-  color_t code() const override;
+  color_t code() const noexcept override;
 
  private:
   /**

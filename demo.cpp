@@ -54,8 +54,8 @@ void show_all() {
   for (color_t r = 0; r < 6; ++r) {
     for (color_t g = 0; g < 6; ++g) {
       for (color_t b = 0; b < 6; ++b) {
-        show_color(rgb_color(static_cast<rgb>(r), static_cast<rgb>(g),
-                             static_cast<rgb>(b)));
+        show_color(rgb_color(static_cast<channel>(r), static_cast<channel>(g),
+                             static_cast<channel>(b)));
       }
     }
   }

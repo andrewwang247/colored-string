@@ -32,7 +32,7 @@ constexpr auto underlying(T item) {
 }
 
 /**
- * Palette colors.
+ * Standard palette colors.
  */
 enum class palette : color_t {
   BLACK,
@@ -48,7 +48,7 @@ enum class palette : color_t {
 /**
  * RGB channel values for ANSI.
  */
-enum class rgb : color_t { C0, C1, C2, C3, C4, C5 };
+enum class channel : color_t { C0, C1, C2, C3, C4, C5 };
 
 /**
  * Greyscale colors.

@@ -15,17 +15,17 @@ class rgb_color : public color {
   /**
    * Red channel.
    */
-  const rgb m_red;
+  const channel m_red;
 
   /**
    * Green channel.
    */
-  const rgb m_green;
+  const channel m_green;
 
   /**
    * Blue channel.
    */
-  const rgb m_blue;
+  const channel m_blue;
 
   /**
    * The number of values possible for a channel.
@@ -38,7 +38,7 @@ class rgb_color : public color {
    * @param original Original color parameter.
    * @return A value uniformly distributed in {0,...,5}.
    */
-  static rgb squeeze(color_t original) noexcept;
+  static channel squeeze(color_t original) noexcept;
 
  public:
   rgb_color() = delete;
@@ -50,7 +50,7 @@ class rgb_color : public color {
    * @param green_in  The green channel.
    * @param blue_in   The blue channel.
    */
-  explicit rgb_color(rgb red_in, rgb green_in, rgb blue_in);
+  explicit rgb_color(channel red_in, channel green_in, channel blue_in);
 
   /**
    * Explicitly set underlying RGB channels after squeezing.
@@ -66,7 +66,7 @@ class rgb_color : public color {
    *
    * @return The 8-bit ANSI color code.
    */
-  color_t code() const override;
+  color_t code() const noexcept override;
 
  private:
   /**

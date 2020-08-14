@@ -6,11 +6,11 @@ Copyright 2020. Siwei Wang.
 */
 #include "rgb_color.h"
 
-rgb rgb_color::squeeze(color_t original) noexcept {
-  return static_cast<rgb>(original * rgb_color::CHANNEL_END / 256);
+channel rgb_color::squeeze(color_t original) noexcept {
+  return static_cast<channel>(original * rgb_color::CHANNEL_END / 256);
 }
 
-rgb_color::rgb_color(rgb red_in, rgb green_in, rgb blue_in)
+rgb_color::rgb_color(channel red_in, channel green_in, channel blue_in)
     : m_red(red_in), m_green(green_in), m_blue(blue_in) {}
 
 rgb_color::rgb_color(color_t red_in, color_t green_in, color_t blue_in)
@@ -18,7 +18,7 @@ rgb_color::rgb_color(color_t red_in, color_t green_in, color_t blue_in)
       m_green(squeeze(green_in)),
       m_blue(squeeze(blue_in)) {}
 
-color_t rgb_color::code() const {
+color_t rgb_color::code() const noexcept {
   constexpr static auto offset = 16;
   const auto red = CHANNEL_END * CHANNEL_END * underlying(m_red);
   const auto green = CHANNEL_END * underlying(m_green);

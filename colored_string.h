@@ -43,6 +43,28 @@ class colored_string : public std::string {
         m_background(nullptr) {}
 
   /**
+   * Copy constructor.
+   *
+   * @param other The other string.
+   */
+  colored_string(const colored_string& other);
+
+  /**
+   * Move constructor.
+   *
+   * @param other The other string.
+   */
+  colored_string(colored_string&& other);
+
+  /**
+   * Assignment operator.
+   *
+   * @param other The other string.
+   * @return A reference to this.
+   */
+  colored_string& operator=(colored_string other);
+
+  /**
    * Assignment operator for underlying std::string.
    *
    * @param args Arguments to std::string assignment.
@@ -68,12 +90,12 @@ class colored_string : public std::string {
    *
    * @return Pointer to foreground color.
    */
-  const color* foreground() const;
+  const color* foreground() const noexcept;
 
   /**
    * Reset foreground color to default.
    */
-  void reset_foreground() const;
+  void reset_foreground() const noexcept;
 
   /**
    * Modify the background color.
@@ -88,15 +110,23 @@ class colored_string : public std::string {
    *
    * @return Pointer to background color.
    */
-  const color* background() const;
+  const color* background() const noexcept;
 
   /**
    * Reset background color to default.
    */
-  void reset_background() const;
+  void reset_background() const noexcept;
 
   /**
    * Print with foreground and background colors.
    */
   friend std::ostream& operator<<(std::ostream& os, const colored_string& str);
+
+  /**
+   * Custom swapping for two colored strings.
+   *
+   * @param first The first colored string.
+   * @param second The second colored string.
+   */
+  friend void cs_swap(colored_string& first, colored_string& second) noexcept;
 };

@@ -7,24 +7,44 @@ Copyright 2020. Siwei Wang.
 #include "colored_string.h"
 using std::ostream;
 using std::string;
+using std::swap;
+
+colored_string::colored_string(const colored_string& other)
+    : string(other),
+      m_foreground(other.m_foreground ? other.m_foreground->clone() : nullptr),
+      m_background(other.m_background ? other.m_background->clone() : nullptr) {
+}
+
+colored_string::colored_string(colored_string&& other) : colored_string() {
+  cs_swap(*this, other);
+}
+
+colored_string& colored_string::operator=(colored_string other) {
+  cs_swap(*this, other);
+  return *this;
+}
 
 const colored_string& colored_string::foreground(const color& fore) const {
   m_foreground.reset(fore.clone());
   return *this;
 }
 
-const color* colored_string::foreground() const { return m_foreground.get(); }
+const color* colored_string::foreground() const noexcept {
+  return m_foreground.get();
+}
 
-void colored_string::reset_foreground() const { m_foreground.reset(); }
+void colored_string::reset_foreground() const noexcept { m_foreground.reset(); }
 
 const colored_string& colored_string::background(const color& back) const {
   m_background.reset(back.clone());
   return *this;
 }
 
-const color* colored_string::background() const { return m_background.get(); }
+const color* colored_string::background() const noexcept {
+  return m_background.get();
+}
 
-void colored_string::reset_background() const { m_background.reset(); }
+void colored_string::reset_background() const noexcept { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_foreground) {
@@ -34,4 +54,10 @@ ostream& operator<<(ostream& os, const colored_string& str) {
     os << "\033[48;5;" << +str.m_background->code() << 'm';
   }
   return os << str.c_str() << "\033[0m";
+}
+
+void cs_swap(colored_string& first, colored_string& second) noexcept {
+  swap(static_cast<string&>(first), static_cast<string&>(second));
+  swap(first.m_foreground, second.m_foreground);
+  swap(first.m_background, second.m_background);
 }

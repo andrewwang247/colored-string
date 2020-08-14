@@ -21,12 +21,12 @@ class color {
    *
    * @return The 8-bit ANSI color code.
    */
-  virtual color_t code() const = 0;
+  virtual color_t code() const noexcept = 0;
 
   /**
    * Default virtual destructor.
    */
-  virtual ~color() = default;
+  virtual ~color() noexcept = default;
 
  private:
   /**
