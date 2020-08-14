@@ -17,7 +17,7 @@ const colored_string& colored_string::foreground(const color& fore) const {
 
 const color& colored_string::foreground() const { return *m_foreground.get(); }
 
-void colored_string::reset_foreground() const { m_foreground.release(); }
+void colored_string::reset_foreground() const { m_foreground.reset(); }
 
 const colored_string& colored_string::background(const color& back) const {
   m_background.reset(back.clone());
@@ -26,7 +26,7 @@ const colored_string& colored_string::background(const color& back) const {
 
 const color& colored_string::background() const { return *m_background.get(); }
 
-void colored_string::reset_background() const { m_background.release(); }
+void colored_string::reset_background() const { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_foreground) {
