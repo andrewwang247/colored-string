@@ -1,12 +1,12 @@
 # Colored String
 
-The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). To use, add `#include "colored_string.h"` and compile/link the cpp files in this project. For an example, run `demo.cpp` with the included `Makefile`. See below for the terminal output when `demo` was executed on MacOS.
+The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). To use, add `#include "colored_string.h"` and compile/link the cpp files in this project. For an example, run `demo.cpp` with the included `Makefile`. See the image below for the terminal output when `demo` was executed on macOS.
 
-![Demo on MacOS](demo.png)
+![Running demo on macOS](demo.png)
 
 ## Colors
 
-Every supported color has a unique 8-bit ANSI code, yielding a total of 256 or 2^8 possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible.
+Every supported color has a unique 8-bit ANSI code, yielding a total of 256 or 2^8 possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible. These can be converted into `color_t` by using the helper function `underlying`. In addition, integer literals can be expressed as `color_t` directly by using `operator"" _c`.
 
 Each (non-abstract) color class implements the `color` interface (abstract class). This interface exposes a public `code` function that returns a `color_t` representing the ANSI code for this color. Every `color` can also polymorphically clone itself. This operation explicitly calls `new`. Thus it's encapsulated privately, and only available to the `colored_string` friend class.
 
@@ -14,12 +14,12 @@ From here on out, define [*n*] := {0, ..., *n* - 1} and [*a*, *b*] := {*a*,...,*
 
 ### Palette
 
-Palette based colors are those that can be constructed via the `palette` enum class, consisting of 8 standard colors. There are 2 palette based colors.
+Palette based colors are those that can be constructed via the `palette` enum class, consisting of 8 standard colors. There are 2 palette based color classes.
 
 - `standard_color`: codes in [0, 7]
 - `bright_color`: codes in [8, 15]
 
-The available `palette` colors are black, red, green, yellow, blue, magenta, cyan, and white.
+The available `palette` enumerations are black, red, green, yellow, blue, magenta, cyan, and white.
 
 ### RGB
 
