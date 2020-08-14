@@ -42,6 +42,12 @@ class colored_string : public std::string {
         m_foreground(nullptr),
         m_background(nullptr) {}
 
+  /**
+   * Assignment operator for underlying std::string.
+   *
+   * @param args Arguments to std::string assignment.
+   * @return A reference to this.
+   */
   template <typename... Args>
   colored_string& operator=(Args&&... args) {
     std::string::operator=(std::forward<Args>(args)...);
@@ -57,12 +63,12 @@ class colored_string : public std::string {
   const colored_string& foreground(const color& fore) const;
 
   /**
-   * See below.
+   * Get foreground color. Null if not present.
    *
    *
-   * @return Reference to foreground color.
+   * @return Pointer to foreground color.
    */
-  const color& foreground() const;
+  const color* foreground() const;
 
   /**
    * Reset foreground color to default.
@@ -78,11 +84,11 @@ class colored_string : public std::string {
   const colored_string& background(const color& back) const;
 
   /**
-   * See below.
+   * Get background color. Null if not present.
    *
-   * @return Reference to background color.
+   * @return Pointer to background color.
    */
-  const color& background() const;
+  const color* background() const;
 
   /**
    * Reset background color to default.
