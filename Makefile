@@ -4,13 +4,12 @@ FLAGS := -Wall -Werror -Wextra -Wconversion -pedantic -Wfloat-equal -Wduplicated
 OPT := -O3 -DNDEBUG
 DEBUG := -ggdb3 -DDEBUG
 
-# Executable name and linked files without extensions.
+# Executable name
 EXE := demo
-LINKED_FILES := color standard_color bright_color rgb_color greyscale_color colored_string
 
 # Expand the linked file names into lists of .cpp and .o files.
-LINKED_CPP := $(foreach file, $(LINKED_FILES), $(file).cpp)
-LINKED_O := $(foreach file, $(LINKED_FILES), $(file).o)
+LINKED_CPP := $(filter-out $(EXE).cpp, $(wildcard *.cpp))
+LINKED_O := $(LINKED_CPP:.cpp=.o)
 
 # Build optimized executable.
 release : $(EXE).cpp $(LINKED_CPP)
