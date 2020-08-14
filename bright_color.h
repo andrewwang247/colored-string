@@ -1,5 +1,5 @@
 /*
-High intensity palette colors.
+Bright palette colors.
 See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 Copyright 2020. Siwei Wang.
@@ -8,9 +8,9 @@ Copyright 2020. Siwei Wang.
 #include "base_color.h"
 
 /**
- * A high intensity palette color.
+ * A bright palette color.
  */
-class high_intensity_color : public color {
+class bright_color : public color {
  private:
   /**
    * The underlying palette color.
@@ -18,14 +18,14 @@ class high_intensity_color : public color {
   const palette m_color;
 
  public:
-  high_intensity_color() = delete;
+  bright_color() = delete;
 
   /**
    * Explicitly sets underlying palette color.
    *
    * @param color_in Input color.
    */
-  explicit high_intensity_color(palette color_in);
+  explicit bright_color(palette color_in);
 
   /**
    * See below.

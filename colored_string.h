@@ -10,8 +10,8 @@ Copyright 2020. Siwei Wang.
 #include <string>
 #include <utility>
 #include "base_color.h"
+#include "bright_color.h"
 #include "greyscale_color.h"
-#include "high_intensity_color.h"
 #include "rgb_color.h"
 #include "standard_color.h"
 
