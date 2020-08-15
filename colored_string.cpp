@@ -23,6 +23,11 @@ colored_string& colored_string::operator=(colored_string other) {
   return *this;
 }
 
+colored_string& colored_string::foreground(const color& fore) {
+  m_foreground.reset(fore.clone());
+  return *this;
+}
+
 const colored_string& colored_string::foreground(const color& fore) const {
   m_foreground.reset(fore.clone());
   return *this;
@@ -33,6 +38,11 @@ const color* colored_string::foreground() const noexcept {
 }
 
 void colored_string::reset_foreground() const noexcept { m_foreground.reset(); }
+
+colored_string& colored_string::background(const color& back) {
+  m_background.reset(back.clone());
+  return *this;
+}
 
 const colored_string& colored_string::background(const color& back) const {
   m_background.reset(back.clone());

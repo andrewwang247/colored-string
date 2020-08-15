@@ -82,6 +82,7 @@ class colored_string : public std::string {
    * @param fore The color of the foreground.
    * @return A reference to this.
    */
+  colored_string& foreground(const color& fore);
   const colored_string& foreground(const color& fore) const;
 
   /**
@@ -103,6 +104,7 @@ class colored_string : public std::string {
    * @param back The color of the background.
    * @return A reference to this.
    */
+  colored_string& background(const color& back);
   const colored_string& background(const color& back) const;
 
   /**
