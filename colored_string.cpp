@@ -7,7 +7,6 @@ Copyright 2020. Siwei Wang.
 #include "colored_string.h"
 using std::ostream;
 using std::string;
-using std::swap;
 
 colored_string::colored_string(const colored_string& other)
     : string(other),
@@ -16,11 +15,11 @@ colored_string::colored_string(const colored_string& other)
 }
 
 colored_string::colored_string(colored_string&& other) : colored_string() {
-  cs_swap(*this, other);
+  std::swap(*this, other);
 }
 
 colored_string& colored_string::operator=(colored_string other) {
-  cs_swap(*this, other);
+  std::swap(*this, other);
   return *this;
 }
 
@@ -54,10 +53,4 @@ ostream& operator<<(ostream& os, const colored_string& str) {
     os << "\033[48;5;" << +str.m_background->code() << 'm';
   }
   return os << str.c_str() << "\033[0m";
-}
-
-void cs_swap(colored_string& first, colored_string& second) noexcept {
-  swap(static_cast<string&>(first), static_cast<string&>(second));
-  swap(first.m_foreground, second.m_foreground);
-  swap(first.m_background, second.m_background);
 }

@@ -121,12 +121,4 @@ class colored_string : public std::string {
    * Print with foreground and background colors.
    */
   friend std::ostream& operator<<(std::ostream& os, const colored_string& str);
-
-  /**
-   * Custom swapping for two colored strings.
-   *
-   * @param first The first colored string.
-   * @param second The second colored string.
-   */
-  friend void cs_swap(colored_string& first, colored_string& second) noexcept;
 };
