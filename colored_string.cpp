@@ -62,5 +62,5 @@ ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_background) {
     os << "\033[48;5;" << +str.m_background->code() << 'm';
   }
-  return os << str.c_str() << "\033[0m";
+  return os << static_cast<string>(str) << "\033[0m";
 }
