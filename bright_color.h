@@ -10,7 +10,7 @@ Copyright 2020. Siwei Wang.
 /**
  * A bright palette color.
  */
-class bright_color : public color {
+class bright_color final : public color {
  private:
   /**
    * The underlying palette color.

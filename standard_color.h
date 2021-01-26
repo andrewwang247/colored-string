@@ -10,7 +10,7 @@ Copyright 2020. Siwei Wang.
 /**
  * A standard palette color.
  */
-class standard_color : public color {
+class standard_color final : public color {
  private:
   /**
    * The underlying palette color.

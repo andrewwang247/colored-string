@@ -75,7 +75,7 @@ void merica() {
   white_patch.foreground(white).background(blue);
   const colored_string blue_patch(" ");
   blue_patch.background(blue);
-  auto init_strip = "                        ";
+  const auto init_strip = "                        ";
   colored_string red_strip(init_strip);
   red_strip.background(red);
   colored_string white_strip(init_strip);
@@ -104,7 +104,7 @@ void merica() {
   star_line_white();
   star_line_red();
 
-  auto extension = "                 ";
+  const auto extension = "                 ";
   red_strip += extension;
   white_strip += extension;
 

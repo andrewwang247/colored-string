@@ -10,7 +10,7 @@ Copyright 2020. Siwei Wang.
 /**
  * An RGB color in {0,...,5}^3 space.
  */
-class rgb_color : public color {
+class rgb_color final : public color {
  private:
   /**
    * Red channel.
@@ -30,7 +30,7 @@ class rgb_color : public color {
   /**
    * The number of values possible for a channel.
    */
-  constexpr static color_t CHANNEL_END = 6;
+  static constexpr color_t CHANNEL_END = 6;
 
   /**
    * Uniformly squeeze the color range.

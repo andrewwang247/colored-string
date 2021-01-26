@@ -9,7 +9,7 @@ Copyright 2020. Siwei Wang.
 bright_color::bright_color(palette color_in) : m_color(color_in) {}
 
 color_t bright_color::code() const noexcept {
-  constexpr static auto offset = 8;
+  static constexpr auto offset = 8;
   return static_cast<color_t>(underlying(m_color) + offset);
 }
 

@@ -10,7 +10,7 @@ Copyright 2020. Siwei Wang.
 /**
  * A greyscale color taking on 24 possible values.
  */
-class greyscale_color : public color {
+class greyscale_color final : public color {
  private:
   /**
    * The underlying grey color.

@@ -19,7 +19,7 @@ rgb_color::rgb_color(color_t red_in, color_t green_in, color_t blue_in)
       m_blue(squeeze(blue_in)) {}
 
 color_t rgb_color::code() const noexcept {
-  constexpr static auto offset = 16;
+  static constexpr auto offset = 16;
   const auto red = CHANNEL_END * CHANNEL_END * underlying(m_red);
   const auto green = CHANNEL_END * underlying(m_green);
   const auto blue = underlying(m_blue);

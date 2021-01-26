@@ -9,7 +9,7 @@ Copyright 2020. Siwei Wang.
 greyscale_color::greyscale_color(grey color_in) : m_color(color_in) {}
 
 color_t greyscale_color::code() const noexcept {
-  constexpr static auto offset = 232;
+  static constexpr auto offset = 232;
   return static_cast<color_t>(underlying(m_color) + offset);
 }
 
