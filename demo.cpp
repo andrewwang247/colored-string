@@ -1,7 +1,7 @@
 /*
 Colorful string demo.
 
-Copyright 2020. Siwei Wang.
+Copyright 2026. Andrew Wang.
 */
 #include <iostream>
 #include "colored_string.h"

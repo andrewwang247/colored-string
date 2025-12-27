@@ -2,7 +2,7 @@
 Standard palette colors.
 See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
-Copyright 2020. Siwei Wang.
+Copyright 2026. Andrew Wang.
 */
 #include "standard_color.h"
 
