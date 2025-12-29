@@ -2,7 +2,7 @@
 CXX := g++ -std=c++17 
 FLAGS := -Wall -Werror -Wextra -Wconversion -pedantic -Wfloat-equal -Wshadow -Wdouble-promotion -Wundef
 OPT := -O3 -DNDEBUG
-DEBUG := -ggdb3 -DDEBUG
+DEBUG := -g3 -DDEBUG
 
 # Executable name
 EXE := demo
