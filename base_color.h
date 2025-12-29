@@ -5,6 +5,9 @@ See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+
+#include <memory>
+
 #include "color.h"
 
 class colored_string;
@@ -34,5 +37,5 @@ class color {
    *
    * @return A new copy of the color.
    */
-  virtual color* clone() const = 0;
+  virtual std::unique_ptr<color> clone() const = 0;
 };

@@ -72,10 +72,13 @@ void merica() {
   const standard_color red(palette::RED);
   const standard_color white(palette::WHITE);
   const standard_color blue(palette::BLUE);
+
   const colored_string white_patch("X");
   white_patch.foreground(white).background(blue);
+
   const colored_string blue_patch(" ");
   blue_patch.background(blue);
+
   const auto init_strip = "                        ";
   colored_string red_strip(init_strip);
   red_strip.background(red);
@@ -83,14 +86,14 @@ void merica() {
   white_strip.background(white);
 
   cout << "\n'MERICA:\n";
-  const auto star_line_red = [&]() {
+  const auto star_line_red = [&blue_patch, &white_patch, &red_strip]() {
     cout << blue_patch << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch << red_strip
          << '\n';
   };
-  const auto star_line_white = [&]() {
+  const auto star_line_white = [&blue_patch, &white_patch, &white_strip]() {
     cout << blue_patch << blue_patch << white_patch << blue_patch << white_patch
          << blue_patch << white_patch << blue_patch << white_patch << blue_patch
          << white_patch << blue_patch << white_patch << blue_patch
@@ -109,8 +112,10 @@ void merica() {
   red_strip += extension;
   white_strip += extension;
 
-  const auto strip_line_red = [&]() { cout << red_strip << '\n'; };
-  const auto strip_line_white = [&]() { cout << white_strip << '\n'; };
+  const auto strip_line_red = [&red_strip]() { cout << red_strip << '\n'; };
+  const auto strip_line_white = [&white_strip]() {
+    cout << white_strip << '\n';
+  };
 
   strip_line_white();
   strip_line_red();

@@ -6,6 +6,10 @@ Copyright 2026. Andrew Wang.
 */
 #include "rgb_color.h"
 
+#include <memory>
+using std::make_unique;
+using std::unique_ptr;
+
 channel rgb_color::squeeze(color_t original) noexcept {
   return static_cast<channel>(original * rgb_color::CHANNEL_END / 256);
 }
@@ -26,4 +30,6 @@ color_t rgb_color::code() const noexcept {
   return static_cast<color_t>(offset + red + green + blue);
 }
 
-color* rgb_color::clone() const { return new rgb_color(*this); }
+unique_ptr<color> rgb_color::clone() const {
+  return make_unique<rgb_color>(*this);
+}

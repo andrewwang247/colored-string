@@ -6,6 +6,10 @@ Copyright 2026. Andrew Wang.
 */
 #include "greyscale_color.h"
 
+#include <memory>
+using std::make_unique;
+using std::unique_ptr;
+
 greyscale_color::greyscale_color(grey color_in) : m_color(color_in) {}
 
 color_t greyscale_color::code() const noexcept {
@@ -13,4 +17,6 @@ color_t greyscale_color::code() const noexcept {
   return static_cast<color_t>(underlying(m_color) + offset);
 }
 
-color* greyscale_color::clone() const { return new greyscale_color(*this); }
+unique_ptr<color> greyscale_color::clone() const {
+  return make_unique<greyscale_color>(*this);
+}

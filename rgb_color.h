@@ -5,6 +5,9 @@ See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+
+#include <memory>
+
 #include "base_color.h"
 
 /**
@@ -74,5 +77,5 @@ class rgb_color final : public color {
    *
    * @return A new copy of the color.
    */
-  color* clone() const override;
+  std::unique_ptr<color> clone() const override;
 };
