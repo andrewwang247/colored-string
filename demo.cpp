@@ -4,6 +4,7 @@ Colorful string demo.
 Copyright 2026. Andrew Wang.
 */
 #include <iostream>
+
 #include "colored_string.h"
 using std::cout;
 using std::ios_base;

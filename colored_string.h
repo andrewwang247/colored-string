@@ -9,6 +9,7 @@ Copyright 2026. Andrew Wang.
 #include <memory>
 #include <string>
 #include <utility>
+
 #include "base_color.h"
 #include "bright_color.h"
 #include "greyscale_color.h"

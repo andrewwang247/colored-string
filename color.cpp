@@ -6,6 +6,6 @@ Copyright 2026. Andrew Wang.
 */
 #include "color.h"
 
-color_t operator"" _c(unsigned long long arg) noexcept {
+color_t operator"" _c(uint64_t arg) noexcept {
   return static_cast<color_t>(arg);
 }
