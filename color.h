@@ -13,14 +13,6 @@ Copyright 2026. Andrew Wang.
 using color_t = unsigned char;
 
 /**
- * Convert integer types to color_t.
- *
- * @param arg The input integer.
- * @return A color_t with the same value.
- */
-color_t operator"" _c(uint64_t arg) noexcept;
-
-/**
  * Cast to underlying type.
  *
  * @param item The item to cast.
