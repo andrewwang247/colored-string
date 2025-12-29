@@ -1,6 +1,5 @@
 /*
 Greyscale colors.
-See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 Copyright 2026. Andrew Wang.
 */
@@ -11,15 +10,41 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
+ * Greyscale colors.
+ *
+ * Goes from black to white as numbers increase.
+ */
+enum class grey : color_t {
+  G0,
+  G1,
+  G2,
+  G3,
+  G4,
+  G5,
+  G6,
+  G7,
+  G8,
+  G9,
+  G10,
+  G11,
+  G12,
+  G13,
+  G14,
+  G15,
+  G16,
+  G17,
+  G18,
+  G19,
+  G20,
+  G21,
+  G22,
+  G23
+};
+
+/**
  * A greyscale color taking on 24 possible values.
  */
-class greyscale_color final : public color {
- private:
-  /**
-   * The underlying grey color.
-   */
-  const grey m_color;
-
+class greyscale_color final : public singular_color {
  public:
   greyscale_color() = delete;
 
@@ -30,14 +55,8 @@ class greyscale_color final : public color {
    */
   explicit greyscale_color(grey color_in);
 
-  /**
-   * See below.
-   *
-   * @return The 8-bit ANSI color code.
-   */
-  color_t code() const noexcept override;
-
  private:
+  static constexpr auto OFFSET = 232;
   /**
    * Polymorphic cloning.
    *

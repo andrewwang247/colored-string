@@ -5,7 +5,12 @@ Copyright 2026. Andrew Wang.
 */
 #include <iostream>
 
+#include "bright_color.h"
 #include "colored_string.h"
+#include "greyscale_color.h"
+#include "rgb_color.h"
+#include "standard_color.h"
+
 using std::cout;
 using std::ios_base;
 using std::to_string;
@@ -69,21 +74,18 @@ void show_all() {
 }
 
 void merica() {
-  const standard_color red(palette::RED);
-  const standard_color white(palette::WHITE);
-  const standard_color blue(palette::BLUE);
+  const bright_color red(palette::RED);
+  const greyscale_color white(grey::G23);
+  const bright_color blue(palette::BLUE);
 
-  const colored_string white_patch("X");
-  white_patch.foreground(white).background(blue);
+  const auto white_patch =
+      colored_string{"X"}.foreground(white).background(blue);
 
-  const colored_string blue_patch(" ");
-  blue_patch.background(blue);
+  const auto blue_patch = colored_string{" "}.background(blue);
 
   const auto init_strip = "                        ";
-  colored_string red_strip(init_strip);
-  red_strip.background(red);
-  colored_string white_strip(init_strip);
-  white_strip.background(white);
+  auto red_strip = colored_string{init_strip}.background(red);
+  auto white_strip = colored_string{init_strip}.background(white);
 
   cout << "\n'MERICA:\n";
   const auto star_line_red = [&blue_patch, &white_patch, &red_strip]() {

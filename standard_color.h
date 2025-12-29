@@ -1,6 +1,5 @@
 /*
-Standard palette colors.
-See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+Standard colors.
 
 Copyright 2026. Andrew Wang.
 */
@@ -13,13 +12,7 @@ Copyright 2026. Andrew Wang.
 /**
  * A standard palette color.
  */
-class standard_color final : public color {
- private:
-  /**
-   * The underlying palette color.
-   */
-  const palette m_color;
-
+class standard_color final : public singular_color {
  public:
   standard_color() = delete;
 
@@ -30,14 +23,8 @@ class standard_color final : public color {
    */
   explicit standard_color(palette color_in);
 
-  /**
-   * See below.
-   *
-   * @return The 8-bit ANSI color code.
-   */
-  color_t code() const noexcept override;
-
  private:
+  static constexpr auto OFFSET = 0;
   /**
    * Polymorphic cloning.
    *

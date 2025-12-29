@@ -1,6 +1,5 @@
 /*
 RGB colors.
-See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 Copyright 2026. Andrew Wang.
 */
@@ -9,6 +8,12 @@ Copyright 2026. Andrew Wang.
 #include <memory>
 
 #include "base_color.h"
+
+/**
+ * RGB channel values for ANSI.
+ * Higher values correspond to stronger RGB channel input.
+ */
+enum class channel : color_t { C0, C1, C2, C3, C4, C5 };
 
 /**
  * An RGB color in {0,...,5}^3 space.
@@ -34,6 +39,8 @@ class rgb_color final : public color {
    * The number of values possible for a channel.
    */
   static constexpr color_t CHANNEL_END = 6;
+
+  static constexpr auto OFFSET = 16;
 
   /**
    * Uniformly squeeze the color range.
@@ -69,7 +76,7 @@ class rgb_color final : public color {
    *
    * @return The 8-bit ANSI color code.
    */
-  color_t code() const noexcept override;
+  color_t code() const override;
 
  private:
   /**

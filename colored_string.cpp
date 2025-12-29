@@ -1,6 +1,5 @@
 /*
 Colored strings.
-See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 Copyright 2026. Andrew Wang.
 */
@@ -8,6 +7,7 @@ Copyright 2026. Andrew Wang.
 
 #include <string>
 #include <utility>
+
 using std::ostream;
 using std::string;
 

@@ -1,6 +1,5 @@
 /*
 Colored strings.
-See https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 Copyright 2026. Andrew Wang.
 */
@@ -11,10 +10,6 @@ Copyright 2026. Andrew Wang.
 #include <utility>
 
 #include "base_color.h"
-#include "bright_color.h"
-#include "greyscale_color.h"
-#include "rgb_color.h"
-#include "standard_color.h"
 
 /**
  * String that maintains foreground and background colors.
