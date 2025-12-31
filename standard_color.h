@@ -19,9 +19,9 @@ class standard_color final : public singular_color {
   /**
    * Explicitly sets underlying palette color.
    *
-   * @param color_in Input color.
+   * @param palette_in Input palette.
    */
-  explicit standard_color(palette color_in);
+  explicit standard_color(palette palette_in);
 
  private:
   static constexpr auto OFFSET = 0;

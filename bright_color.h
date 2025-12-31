@@ -19,9 +19,9 @@ class bright_color final : public singular_color {
   /**
    * Explicitly sets underlying palette color.
    *
-   * @param color_in Input color.
+   * @param palette_in Input palette.
    */
-  explicit bright_color(palette color_in);
+  explicit bright_color(palette palette_in);
 
  private:
   static constexpr auto OFFSET = 8;

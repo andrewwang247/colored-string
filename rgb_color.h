@@ -13,11 +13,7 @@ Copyright 2026. Andrew Wang.
  * RGB channel values for ANSI.
  * Higher values correspond to stronger RGB channel input.
  */
-enum class channel : color_t { C0, C1, C2, C3, C4, C5 };
-/**
- * The number of values possible for a channel.
- */
-static constexpr color_t RGB_CHANNELS = 6;
+enum class channel : color_t { C0, C1, C2, C3, C4, C5, END };
 
 /**
  * An RGB color in {0,...,5}^3 space.

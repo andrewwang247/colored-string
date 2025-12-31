@@ -17,10 +17,11 @@ rgb_color::rgb_color(channel red_in, channel green_in, channel blue_in)
       m_blue(blue_in) {}
 
 color_t rgb_color::code() const {
-  const auto red = RGB_CHANNELS * RGB_CHANNELS * static_cast<color_t>(m_red);
-  const auto green = RGB_CHANNELS * static_cast<color_t>(m_green);
-  const auto blue = static_cast<color_t>(m_blue);
-  return static_cast<color_t>(m_offset + red + green + blue);
+  const color_t channel_max{color_cast(channel::END)};
+  const color_t red = channel_max * channel_max * color_cast(m_red);
+  const color_t green = channel_max * color_cast(m_green);
+  const color_t blue = color_cast(m_blue);
+  return red + green + blue + m_offset;
 }
 
 unique_ptr<color> rgb_color::clone() const {

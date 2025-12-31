@@ -38,13 +38,10 @@ enum class grey : color_t {
   G20,
   G21,
   G22,
-  G23
+  G23,
+
+  END
 };
-/**
- * The number of shades of grey. Popular opinion says there are 50.
- * In the world of colored strings, there are only 24.
- */
-static constexpr color_t SHADES_OF_GREY = 24;
 
 /**
  * A greyscale color taking on 24 possible values.
@@ -56,9 +53,9 @@ class greyscale_color final : public singular_color {
   /**
    * Explicitly sets underlying grey color.
    *
-   * @param color_in Input color.
+   * @param color_in Input grey scale indicator.
    */
-  explicit greyscale_color(grey color_in);
+  explicit greyscale_color(grey grey_in);
 
  private:
   static constexpr auto OFFSET = 232;
