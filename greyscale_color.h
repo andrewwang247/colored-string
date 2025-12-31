@@ -51,7 +51,7 @@ static constexpr color_t SHADES_OF_GREY = 24;
  */
 class greyscale_color final : public singular_color {
  public:
-  greyscale_color() = delete;
+  greyscale_color() = default;
 
   /**
    * Explicitly sets underlying grey color.

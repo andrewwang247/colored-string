@@ -24,9 +24,9 @@ class color {
   /**
    * The ANSI code offset from 0.
    */
-  const int m_offset;
+  int m_offset;
 
-  color() = delete;
+  color() = default;
 
   /**
    * Argument constructor.
@@ -62,9 +62,9 @@ class color {
  */
 class singular_color : public color {
  protected:
-  const color_t m_color;
+  color_t m_color;
 
-  singular_color() = delete;
+  singular_color() = default;
 
   /**
    * Argument constructor.

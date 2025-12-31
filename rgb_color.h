@@ -24,33 +24,12 @@ static constexpr color_t RGB_CHANNELS = 6;
  */
 class rgb_color final : public color {
  private:
-  /**
-   * Red channel.
-   */
-  const channel m_red;
-
-  /**
-   * Green channel.
-   */
-  const channel m_green;
-
-  /**
-   * Blue channel.
-   */
-  const channel m_blue;
+  channel m_red, m_green, m_blue;
 
   static constexpr auto OFFSET = 16;
 
-  /**
-   * Uniformly squeeze the color range.
-   *
-   * @param original Original color parameter.
-   * @return A value uniformly distributed in {0,...,5}.
-   */
-  static channel squeeze(color_t original) noexcept;
-
  public:
-  rgb_color() = delete;
+  rgb_color() = default;
 
   /**
    * Explicitly set underlying RGB channels.
@@ -59,16 +38,7 @@ class rgb_color final : public color {
    * @param green_in  The green channel.
    * @param blue_in   The blue channel.
    */
-  explicit rgb_color(channel red_in, channel green_in, channel blue_in);
-
-  /**
-   * Explicitly set underlying RGB channels after squeezing.
-   *
-   * @param red_in    The red channel.
-   * @param green_in  The green channel.
-   * @param blue_in   The blue channel.
-   */
-  explicit rgb_color(color_t red_in, color_t green_in, color_t blue_in);
+  rgb_color(channel red_in, channel green_in, channel blue_in);
 
   /**
    * See below.

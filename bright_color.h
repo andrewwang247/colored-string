@@ -14,7 +14,7 @@ Copyright 2026. Andrew Wang.
  */
 class bright_color final : public singular_color {
  public:
-  bright_color() = delete;
+  bright_color() = default;
 
   /**
    * Explicitly sets underlying palette color.

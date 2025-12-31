@@ -74,11 +74,14 @@ void show_all_colors() {
   cout << "\n\nRGB COLORS:";
   size_t rgb_displayed = 0;
   for (color_t r = 0; r < RGB_CHANNELS; ++r) {
+    const channel red{static_cast<channel>(r)};
     for (color_t g = 0; g < RGB_CHANNELS; ++g) {
+      const channel green{static_cast<channel>(g)};
       for (color_t b = 0; b < RGB_CHANNELS; ++b) {
+        const channel blue{static_cast<channel>(b)};
+
         if (rgb_displayed++ % PALETTE_SIZE == 0) cout << '\n';
-        const rgb_color rgb{static_cast<channel>(r), static_cast<channel>(g),
-                            static_cast<channel>(b)};
+        const rgb_color rgb{red, green, blue};
         show_color(rgb);
       }
     }
