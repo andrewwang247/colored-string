@@ -96,3 +96,7 @@ enum class palette : color_t {
   CYAN,
   WHITE
 };
+/**
+ * The number of palette colors.
+ */
+static constexpr color_t PALETTE_SIZE = 8;

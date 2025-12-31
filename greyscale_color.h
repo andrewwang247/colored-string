@@ -40,6 +40,11 @@ enum class grey : color_t {
   G22,
   G23
 };
+/**
+ * The number of shades of grey. Popular opinion says there are 50.
+ * In the world of colored strings, there are only 24.
+ */
+static constexpr color_t SHADES_OF_GREY = 24;
 
 /**
  * A greyscale color taking on 24 possible values.

@@ -3,7 +3,9 @@ Colorful string demo.
 
 Copyright 2026. Andrew Wang.
 */
+#include <iomanip>
 #include <iostream>
+#include <string>
 
 #include "bright_color.h"
 #include "colored_string.h"
@@ -13,12 +15,22 @@ Copyright 2026. Andrew Wang.
 
 using std::cout;
 using std::ios_base;
+using std::string;
 using std::to_string;
 
 /**
  * Demonstrate all ANSI 8-bit colors.
  */
-void show_all();
+void show_all_colors();
+
+/**
+ * Alternate printing 2 objects to std::cout.
+ * @param first The first object to print.
+ * @param second The second object to print.
+ * @param reps Number of times to alternate.
+ */
+template <typename T>
+void alternating_cout(const T& first, const T& second, int reps);
 
 /**
  * Paint the American flag.
@@ -27,7 +39,7 @@ void merica();
 
 int main() {
   ios_base::sync_with_stdio(false);
-  show_all();
+  show_all_colors();
   merica();
 }
 
@@ -37,7 +49,10 @@ int main() {
  * @param col The color to demonstrate.
  */
 void show_color(const color& col) {
-  colored_string str(to_string(col.code()));
+  // Pad code string to length 3
+  const auto code_str{to_string(col.code())};
+  const string filler_whitespace(3 - code_str.length(), ' ');
+  colored_string str{filler_whitespace + code_str};
   cout << str.foreground(col);
   str.reset_foreground();
   str = "   ";
@@ -45,32 +60,43 @@ void show_color(const color& col) {
   str.reset_background();
 }
 
-void show_all() {
+void show_all_colors() {
   cout << "STANDARD COLORS:\n";
-  for (color_t i = 0; i < 8; ++i) {
+  for (color_t i = 0; i < PALETTE_SIZE; ++i) {
     const auto shade = static_cast<palette>(i);
     show_color(standard_color(shade));
   }
   cout << "\n\nBRIGHT COLORS:\n";
-  for (color_t j = 0; j < 8; ++j) {
+  for (color_t j = 0; j < PALETTE_SIZE; ++j) {
     const auto shade = static_cast<palette>(j);
     show_color(bright_color(shade));
   }
-  cout << "\n\nRGB COLORS:\n";
-  for (color_t r = 0; r < 6; ++r) {
-    for (color_t g = 0; g < 6; ++g) {
-      for (color_t b = 0; b < 6; ++b) {
-        show_color(rgb_color(static_cast<channel>(r), static_cast<channel>(g),
-                             static_cast<channel>(b)));
+  cout << "\n\nRGB COLORS:";
+  size_t rgb_displayed = 0;
+  for (color_t r = 0; r < RGB_CHANNELS; ++r) {
+    for (color_t g = 0; g < RGB_CHANNELS; ++g) {
+      for (color_t b = 0; b < RGB_CHANNELS; ++b) {
+        if (rgb_displayed++ % PALETTE_SIZE == 0) cout << '\n';
+        const rgb_color rgb{static_cast<channel>(r), static_cast<channel>(g),
+                            static_cast<channel>(b)};
+        show_color(rgb);
       }
     }
   }
-  cout << "\n\nGREYSCALE COLORS:\n";
-  for (color_t k = 0; k < 24; ++k) {
+  cout << "\n\nGREYSCALE COLORS:";
+  for (color_t k = 0; k < SHADES_OF_GREY; ++k) {
+    if (k % PALETTE_SIZE == 0) cout << '\n';
     const auto shade = static_cast<grey>(k);
     show_color(greyscale_color(shade));
   }
   cout << '\n';
+}
+
+template <typename T>
+void alternating_cout(const T& left, const T& right, int reps) {
+  for (int i = 0; i < reps; ++i) {
+    cout << left << right;
+  }
 }
 
 void merica() {
@@ -78,30 +104,27 @@ void merica() {
   const greyscale_color white(grey::G23);
   const bright_color blue(palette::BLUE);
 
-  const auto white_patch =
+  const auto white_star =
       colored_string{"X"}.foreground(white).background(blue);
 
   const auto blue_patch = colored_string{" "}.background(blue);
 
-  const auto init_strip = "                        ";
+  constexpr auto len_right_of_stars_patch = 26;
+  const string init_strip(len_right_of_stars_patch, ' ');
   auto red_strip = colored_string{init_strip}.background(red);
   auto white_strip = colored_string{init_strip}.background(white);
 
+  const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
+    alternating_cout(blue_patch, white_star, 8);
+    cout << blue_patch << red_strip << '\n';
+  };
+  const auto star_line_white = [&blue_patch, &white_star, &white_strip]() {
+    cout << blue_patch << blue_patch;
+    alternating_cout(white_star, blue_patch, 7);
+    cout << blue_patch << white_strip << '\n';
+  };
+
   cout << "\n'MERICA:\n";
-  const auto star_line_red = [&blue_patch, &white_patch, &red_strip]() {
-    cout << blue_patch << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch << red_strip
-         << '\n';
-  };
-  const auto star_line_white = [&blue_patch, &white_patch, &white_strip]() {
-    cout << blue_patch << blue_patch << white_patch << blue_patch << white_patch
-         << blue_patch << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << white_patch << blue_patch
-         << white_patch << blue_patch << blue_patch << white_strip << '\n';
-  };
-
   star_line_red();
   star_line_white();
   star_line_red();
@@ -110,19 +133,14 @@ void merica() {
   star_line_white();
   star_line_red();
 
-  const auto extension = "                 ";
+  // Must go after printing lines with stars.
+  // We capture by reference in lambas.
+  constexpr auto len_of_stars_patch = 17;
+  const string extension(len_of_stars_patch, ' ');
   red_strip += extension;
   white_strip += extension;
 
-  const auto strip_line_red = [&red_strip]() { cout << red_strip << '\n'; };
-  const auto strip_line_white = [&white_strip]() {
-    cout << white_strip << '\n';
-  };
-
-  strip_line_white();
-  strip_line_red();
-  strip_line_white();
-  strip_line_red();
-  strip_line_white();
-  strip_line_red();
+  for (int i = 0; i < 3; ++i) {
+    cout << white_strip << '\n' << red_strip << '\n';
+  }
 }

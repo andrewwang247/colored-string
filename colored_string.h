@@ -53,12 +53,17 @@ class colored_string : public std::string {
   colored_string(colored_string&& other);
 
   /**
-   * Assignment operator.
+   * Assignment operator for copy and move.
    *
    * @param other The other string.
    * @return A reference to this.
    */
   colored_string& operator=(colored_string other);
+
+  /**
+   * Default destructor.
+   */
+  ~colored_string() = default;
 
   /**
    * Assignment operator for underlying std::string.

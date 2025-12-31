@@ -14,6 +14,10 @@ Copyright 2026. Andrew Wang.
  * Higher values correspond to stronger RGB channel input.
  */
 enum class channel : color_t { C0, C1, C2, C3, C4, C5 };
+/**
+ * The number of values possible for a channel.
+ */
+static constexpr color_t RGB_CHANNELS = 6;
 
 /**
  * An RGB color in {0,...,5}^3 space.
@@ -34,11 +38,6 @@ class rgb_color final : public color {
    * Blue channel.
    */
   const channel m_blue;
-
-  /**
-   * The number of values possible for a channel.
-   */
-  static constexpr color_t CHANNEL_END = 6;
 
   static constexpr auto OFFSET = 16;
 
