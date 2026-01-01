@@ -23,11 +23,11 @@ The available `palette` enumerations are black, red, green, yellow, blue, magent
 
 ### RGB
 
-The ANSI color standard specifies $216 = 6^3$ possible RGB colors. The `rgb_color` class has codes in $[16, 231]$. Each channel can take values in $[6]$. In order to support both ANSI and "true color" 24-bit RGB, an `rgb_color` can be constructed via 3 `channel` enum classes (possible values in C[6]) or via 3 `color_t` parameters. In the latter case, `rgb_color` will uniformly map $[256] \to [6]$.
+The ANSI color standard specifies $216 = 6^3$ possible RGB colors. The `rgb_color` class has codes in $[16, 231]$. Each channel can take values in $[6]$. In order to support both ANSI and "true color" 24-bit RGB, an `rgb_color` can be constructed via 3 `channel` enum classes (6 possible values from `C0` to `C5`) or via 3 `color_t` parameters. In the latter case, `rgb_color` will uniformly map $[256] \to [6]$.
 
 ### Greyscale
 
-The `greyscale_color` class has codes in $[232, 255]$. They are specified by the `grey` enum class (possible values in G[24]), which represents a 24-step color gradient from black (G0) to white (G23).
+The `greyscale_color` class has codes in $[232, 255]$. They are specified by the `grey` enum class (possible values in $[24]$), which represents a 24-step color gradient from black `G0` to white `G23`.
 
 ## Strings
 
@@ -40,3 +40,26 @@ Another notable design choice for `colored_string` is its `const` properties. Th
 The colors do not come into play until the overloaded `operator<<` is called. A null foreground or background color means that the default foreground or background is used, respectively. Otherwise, escape sequences are added such that a color with code x$ will have the sequence `\033[<g>;5;<x>m` inserted into the stream (`<x>` $= x$) before the body of the string. Substitute `<g>` with `38` for foreground colors and `48` for background colors. This operation assumes that the ANSI symbols for begin and end escape sequences are `\033` and `m` respectively, which is often the case.
 
 After the body of the string, the sequence `\033[0m` is added to reset foreground and background back to their default states. This is the main advantage of encapsulating the color state into a `colored_string` class. Objects have a user-defined lifetime and scope unlike `std::cout` and `std::cerr`. The user is free to print strings with any foreground and background combination. The color state of the stream always returns to default. Without this encapsulation, the user must keep track of state after every stream insertion.
+
+## Cylindrical Coordinates
+
+As a showcase of what you can do with colored strings, we include a fully unit tested implementation of [HSV and HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) color space conversion from RGB. Both types compute:
+
+- hue
+- chroma
+- saturation
+- value
+- lightness
+
+from an RGB input, differing in how they compute saturation. We support both the restricted $6^3$ `channel` space of the `rgb_color` type as well as the much larger $(2^8)^3$ implicit sRGB space using `color_t` as coordinates.
+
+### Spectrum
+
+The HSV / HSL spaces are much better at mapping to human spectral perception than RGB. As a result, we can roughly sort colors by hue to create rainbows. To generate the visual pleasing rainbows in `demo`, additional steps were taken:
+
+- Discard colors with lower values to keep the spectrum vibrant.
+- Dark, standard, and pastel variants are created by filtering in low, medium, and high lightness bands, respectively.
+
+### Testing
+
+We precomputed 5000 RGB to HSV / HSL conversions and stored the results in `tst`. When building the `debug` version, unit tests are executed when running `demo` to verify the correctness of our own `hsvl` conversion. Unit tests are skippedwhen running the `release` version.

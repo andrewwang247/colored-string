@@ -14,6 +14,7 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
+#include "unit_test.h"
 #include "util.h"
 
 using std::cout;
@@ -48,6 +49,9 @@ int main() {
   ios_base::sync_with_stdio(false);
   show_all_colors();
   paint_merica();
+#ifdef DEBUG
+  unit_test::hsvl();
+#endif
   display_rainbows();
 }
 
