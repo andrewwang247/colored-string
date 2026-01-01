@@ -6,7 +6,7 @@ The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI
 
 ## Colors
 
-Every supported color has a unique 8-bit ANSI code, yielding a total of $256 = 2^8$ possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible. These can be converted into `color_t` by using the helper function `underlying`. In addition, integer literals can be expressed as `color_t` directly by using `operator"" _c`.
+Every supported color has a unique 8-bit ANSI code, yielding a total of $256 = 2^8$ possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible. These can be converted into `color_t` by using the helper function `color_cast`.
 
 Each (non-abstract) color class implements the `color` interface (abstract class). This interface exposes a public `code` function that returns a `color_t` representing the ANSI code for this color. Every `color` can also polymorphically clone itself. This operation explicitly calls `new`. Thus it's encapsulated privately, and only available to the `colored_string` friend class.
 
