@@ -6,9 +6,13 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <algorithm>
 #include <initializer_list>
+#include <iostream>
 
 #include "rgb_color.h"
 
+/**
+ * Utility functions for colors and numerics.
+ */
 namespace util {
 /**
  * Normalize channel values to [0, 1] range.
@@ -49,6 +53,16 @@ bool almost_less(double lhs, double rhs, double epsilon = 1e-4) noexcept;
  */
 template <typename T>
 ptrdiff_t var_argmax(std::initializer_list<T> args);
+
+/**
+ * Alternate printing 2 objects to std::cout.
+ * @param first The first object to print.
+ * @param second The second object to print.
+ * @param reps Number of times to alternate.
+ */
+template <typename T>
+void alternating_cout(const T& first, const T& second, int reps);
+
 }  // namespace util
 
 // TEMPLATED IMPLEMENTATIONS
@@ -57,4 +71,11 @@ template <typename T>
 ptrdiff_t util::var_argmax(std::initializer_list<T> args) {
   const auto idx_max{std::max_element(args.begin(), args.end())};
   return idx_max - args.begin();
+}
+
+template <typename T>
+void util::alternating_cout(const T& left, const T& right, int reps) {
+  for (int i = 0; i < reps; ++i) {
+    std::cout << left << right;
+  }
 }

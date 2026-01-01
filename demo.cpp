@@ -5,18 +5,29 @@ Copyright 2026. Andrew Wang.
 */
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <string>
 
 #include "bright_color.h"
 #include "colored_string.h"
 #include "greyscale_color.h"
 #include "rgb_color.h"
+#include "spectrum.h"
 #include "standard_color.h"
+#include "util.h"
 
 using std::cout;
 using std::ios_base;
+using std::map;
 using std::string;
 using std::to_string;
+
+/**
+ * Demonstrate col by output to std::cout.
+ *
+ * @param col The color to demonstrate.
+ */
+void show_color(const color& col);
 
 /**
  * Demonstrate all ANSI 8-bit colors.
@@ -24,30 +35,22 @@ using std::to_string;
 void show_all_colors();
 
 /**
- * Alternate printing 2 objects to std::cout.
- * @param first The first object to print.
- * @param second The second object to print.
- * @param reps Number of times to alternate.
- */
-template <typename T>
-void alternating_cout(const T& first, const T& second, int reps);
-
-/**
  * Paint the American flag.
  */
-void merica();
+void paint_merica();
+
+/**
+ * Display various rainbows, showcasing cylindricals.
+ */
+void display_rainbows();
 
 int main() {
   ios_base::sync_with_stdio(false);
   show_all_colors();
-  merica();
+  paint_merica();
+  display_rainbows();
 }
 
-/**
- * Demonstrate col by output to std::cout.
- *
- * @param col The color to demonstrate.
- */
 void show_color(const color& col) {
   // Pad code string to length 3
   const auto code_str{to_string(col.code())};
@@ -95,14 +98,7 @@ void show_all_colors() {
   cout << '\n';
 }
 
-template <typename T>
-void alternating_cout(const T& left, const T& right, int reps) {
-  for (int i = 0; i < reps; ++i) {
-    cout << left << right;
-  }
-}
-
-void merica() {
+void paint_merica() {
   const bright_color red(palette::RED);
   const greyscale_color white(grey::G23);
   const bright_color blue(palette::BLUE);
@@ -118,12 +114,12 @@ void merica() {
   auto white_strip = colored_string{init_strip}.background(white);
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
-    alternating_cout(blue_patch, white_star, 8);
+    util::alternating_cout(blue_patch, white_star, 8);
     cout << blue_patch << red_strip << '\n';
   };
   const auto star_line_white = [&blue_patch, &white_star, &white_strip]() {
     cout << blue_patch << blue_patch;
-    alternating_cout(white_star, blue_patch, 7);
+    util::alternating_cout(white_star, blue_patch, 7);
     cout << blue_patch << white_strip << '\n';
   };
 
@@ -146,4 +142,14 @@ void merica() {
   for (int i = 0; i < 3; ++i) {
     cout << white_strip << '\n' << red_strip << '\n';
   }
+}
+
+void display_rainbows() {
+  const auto cyl_to_rgb{spectrum::generate<hsl>()};
+  cout << "\nDark rainbow:\n";
+  spectrum::display(cyl_to_rgb, .3, .55);
+  cout << "Standard rainbow:\n";
+  spectrum::display(cyl_to_rgb, .5, .95);
+  cout << "Pastel rainbow:\n";
+  spectrum::display(cyl_to_rgb, .7, .95);
 }
