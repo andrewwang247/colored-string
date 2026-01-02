@@ -5,9 +5,12 @@ Copyright 2026. Andrew Wang.
 */
 #include "util.h"
 
+#include <cmath>
 #include <limits>
 
 #include "rgb_color.h"
+
+using std::abs;
 using std::numeric_limits;
 
 double util::normalize(channel ch) noexcept {
