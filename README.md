@@ -62,4 +62,4 @@ The HSV / HSL spaces are much better at mapping to human spectral perception tha
 
 ### Testing
 
-We precomputed 5000 RGB to HSV / HSL conversions and stored the results in `tst`. When building the `debug` version, unit tests are executed when running `demo` to verify the correctness of our own `hsvl` conversion. Unit tests are skippedwhen running the `release` version.
+We precompute RGB to HSV / HSL conversions and store the results in `tst` in the `mat_*.txt` files. When building the `debug` version, unit tests are executed when running `demo` to verify the correctness of our own `hsvl` conversion. Unit tests are skipped when running the `release` version. The included `tst/hsvl_test_gen.py` can be used to generate new random test cases and their solutions.
