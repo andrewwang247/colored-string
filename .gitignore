@@ -11,7 +11,7 @@
 !*.*
 !Makefile
 
-# Exectuables and debug files.
+# Exectuables and debug files
 *.exe
 *.dSYM
 *.stackdump
