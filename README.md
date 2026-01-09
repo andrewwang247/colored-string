@@ -1,6 +1,6 @@
 # Colored String
 
-The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). To use, add `#include "colored_string.h"` and compile/link the cpp files in this project. For an example, run `demo.cpp` with the included `Makefile`. Below, we show terminal output when running `demo` on macOS.
+The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). For an example that displays all colors with some nifty drawings, build and run `demo` with the included `Makefile`. Below, we show terminal output when running the release version of `demo` on macOS.
 
 ![Output of demo on macOS](output.png)
 
@@ -62,4 +62,4 @@ The HSV / HSL spaces are much better at mapping to human spectral perception tha
 
 ### Testing
 
-We precompute RGB to HSV / HSL conversions and store the results in `tst` in the `mat_*.txt` files. When building the `debug` version, unit tests are executed when running `demo` to verify the correctness of our own `hsvl` conversion. Unit tests are skipped when running the `release` version. The included `tst/hsvl_test_gen.py` can be used to generate new random test cases and their solutions.
+We precompute RGB to HSV / HSL conversions and store the results in `test` in the `mat_*.txt` files. When building the `debug` version, unit tests are executed when running `demo` to verify the correctness of our own `hsvl` conversion. Unit tests are skipped when running the `release` version. The included `test/hsvl_test_gen.py` can be used to generate new random test cases and their solutions.

@@ -37,9 +37,9 @@ vector<triplet<T>> read_file(string name) {
 void unit_test::hsvl() {
   cout << "\n--- EXECUTING UNIT TESTS ---\n";
   cout << "Reading RGB, HSV, and HSL matrices\n";
-  const auto rgb_vec = read_file<unsigned>("tst/mat_rgb.txt");
-  const auto hsv_vec = read_file<double>("tst/mat_hsv.txt");
-  const auto hsl_vec = read_file<double>("tst/mat_hsl.txt");
+  const auto rgb_vec = read_file<unsigned>("test/mat_rgb.txt");
+  const auto hsv_vec = read_file<double>("test/mat_hsv.txt");
+  const auto hsl_vec = read_file<double>("test/mat_hsl.txt");
 
   cout << "Discovered " << NUM_CASES << " test cases\n";
   cout << "Verifying that hsvl coordinates match expected\n";
