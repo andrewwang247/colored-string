@@ -1,6 +1,11 @@
 # Colored String
 
-The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). For an example that displays all colors with some nifty drawings, build and run `demo` with the included `Makefile`. Below, we show terminal output when running the release version of `demo` on macOS.
+The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). Build and run `demo` with the `Makefile` targets:
+
+- `run` / `release` option to run / build an example usage of colored strings
+- `test` / `debug` option to run / build unit tests for cylindrical conversion
+
+Below, we show terminal output when running the release version of `demo` on macOS.
 
 ![Output of demo on macOS](output.png)
 

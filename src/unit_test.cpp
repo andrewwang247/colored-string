@@ -31,11 +31,13 @@ vector<triplet<T>> read_file(string name) {
   for (T a, b, c; fin >> a >> b >> c;) {
     data.emplace_back(a, b, c);
   }
+
+  assert(data.size() == unit_test::NUM_CASES);
   return data;
 }
 
 void unit_test::hsvl() {
-  cout << "\n--- EXECUTING UNIT TESTS ---\n";
+  cout << "--- EXECUTING UNIT TESTS ---\n";
   cout << "Reading RGB, HSV, and HSL matrices\n";
   const auto rgb_vec = read_file<unsigned>("test/mat_rgb.txt");
   const auto hsv_vec = read_file<double>("test/mat_hsv.txt");

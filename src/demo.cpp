@@ -47,12 +47,16 @@ void display_rainbows();
 
 int main() {
   ios_base::sync_with_stdio(false);
-  show_all_colors();
-  paint_merica();
+
 #ifdef DEBUG
   unit_test::hsvl();
 #endif
+
+#ifdef NDEBUG
+  show_all_colors();
+  paint_merica();
   display_rainbows();
+#endif
 }
 
 void show_color(const color& col) {
