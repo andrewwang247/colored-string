@@ -72,17 +72,17 @@ void show_color(const color& col) {
 }
 
 void show_all_colors() {
-  cout << "STANDARD COLORS:\n";
+  cout << "Standard colors:\n";
   for (color_t i = 0; i < color_cast(palette::END); ++i) {
     const auto shade = static_cast<palette>(i);
     show_color(standard_color(shade));
   }
-  cout << "\n\nBRIGHT COLORS:\n";
+  cout << "\n\nBright colors:\n";
   for (color_t j = 0; j < color_cast(palette::END); ++j) {
     const auto shade = static_cast<palette>(j);
     show_color(bright_color(shade));
   }
-  cout << "\n\nRGB COLORS:";
+  cout << "\n\nRGB colors:";
   size_t rgb_displayed = 0;
   for (color_t r = 0; r < color_cast(channel::END); ++r) {
     const channel red{static_cast<channel>(r)};
@@ -97,7 +97,7 @@ void show_all_colors() {
       }
     }
   }
-  cout << "\n\nGREYSCALE COLORS:";
+  cout << "\n\nGreyscale colors:";
   for (color_t k = 0; k < color_cast(grey::END); ++k) {
     if (k % color_cast(palette::END) == 0) cout << '\n';
     const auto shade = static_cast<grey>(k);

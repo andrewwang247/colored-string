@@ -58,12 +58,13 @@ template <typename T>
 std::map<T, rgb_color, rainbow> spectrum::generate() {
   static_assert(std::is_convertible_v<T*, cylindrical*>,
                 "Map key must be a cylindrical color type");
+  constexpr color_t channel_max{color_cast(channel::END)};
   std::map<T, rgb_color, rainbow> cyl_to_rgb;
-  for (color_t r = 0; r < color_cast(channel::END); ++r) {
+  for (color_t r = 0; r < channel_max; ++r) {
     const auto red{enum_cast<channel>(r)};
-    for (color_t g = 0; g < color_cast(channel::END); ++g) {
+    for (color_t g = 0; g < channel_max; ++g) {
       const auto green{enum_cast<channel>(g)};
-      for (color_t b = 0; b < color_cast(channel::END); ++b) {
+      for (color_t b = 0; b < channel_max; ++b) {
         const auto blue{enum_cast<channel>(b)};
 
         cyl_to_rgb.emplace(std::piecewise_construct,

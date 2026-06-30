@@ -17,7 +17,7 @@ rgb_color::rgb_color(channel red_in, channel green_in, channel blue_in)
       m_blue(blue_in) {}
 
 color_t rgb_color::code() const {
-  const color_t channel_max{color_cast(channel::END)};
+  constexpr color_t channel_max{color_cast(channel::END)};
   const color_t red = channel_max * channel_max * color_cast(m_red);
   const color_t green = channel_max * color_cast(m_green);
   const color_t blue = color_cast(m_blue);
