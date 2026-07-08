@@ -6,7 +6,7 @@ EXE := demo
 
 CXX := g++
 CPPFLAGS := -MMD
-CXXFLAGS := -std=c++17 -Wall -Werror -Wextra -Wconversion -pedantic -Wfloat-equal -Wshadow -Wdouble-promotion -Wundef
+CXXFLAGS := -std=c++20 -Wall -Werror -Wextra -Wconversion -pedantic -Wfloat-equal -Wshadow -Wdouble-promotion -Wundef
 OPT := -O3 -DNDEBUG
 DEBUG := -g3 -DDEBUG
 
