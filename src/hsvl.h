@@ -7,6 +7,7 @@ Copyright 2026. Andrew Wang.
 
 #include <algorithm>
 #include <cmath>
+#include <concepts>
 #include <initializer_list>
 #include <stdexcept>
 
@@ -44,6 +45,9 @@ class cylindrical {
    */
   virtual void set_saturation() = 0;
 };
+
+template <typename T>
+concept cylindrical_space = std::derived_from<T, cylindrical>;
 
 class hsv final : public cylindrical {
  public:

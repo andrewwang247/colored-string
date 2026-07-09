@@ -37,8 +37,8 @@ namespace spectrum {
  * Generate a rainbow sorted cylindrical to rgb spectrum map.
  * @return An iteration over all channel combinations.
  */
-template <typename T>
-std::map<T, rgb_color, rainbow> generate();
+template <cylindrical_space ColorSpace>
+std::map<ColorSpace, rgb_color, rainbow> generate();
 
 /**
  * Display a sorted spectrum to cout.
@@ -47,25 +47,23 @@ std::map<T, rgb_color, rainbow> generate();
  * @param lightness Filter for only the given lightness.
  * @param min_value Filter for only greater values.
  */
-template <typename T>
-void display(const std::map<T, rgb_color, rainbow>& cyl_to_rgb,
+template <cylindrical_space ColorSpace>
+void display(const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
              double lightness, double min_value);
 }  // namespace spectrum
 
 // TEMPLATED IMPLEMENTATIONS
 
-template <typename T>
-std::map<T, rgb_color, rainbow> spectrum::generate() {
-  static_assert(std::is_convertible_v<T*, cylindrical*>,
-                "Map key must be a cylindrical color type");
+template <cylindrical_space ColorSpace>
+std::map<ColorSpace, rgb_color, rainbow> spectrum::generate() {
   constexpr color_t channel_max{color_cast(channel::END)};
-  std::map<T, rgb_color, rainbow> cyl_to_rgb;
+  std::map<ColorSpace, rgb_color, rainbow> cyl_to_rgb;
   for (color_t r = 0; r < channel_max; ++r) {
-    const auto red{enum_cast<channel>(r)};
+    const auto red{static_cast<channel>(r)};
     for (color_t g = 0; g < channel_max; ++g) {
-      const auto green{enum_cast<channel>(g)};
+      const auto green{static_cast<channel>(g)};
       for (color_t b = 0; b < channel_max; ++b) {
-        const auto blue{enum_cast<channel>(b)};
+        const auto blue{static_cast<channel>(b)};
 
         cyl_to_rgb.emplace(std::piecewise_construct,
                            std::forward_as_tuple(red, green, blue),
@@ -76,11 +74,10 @@ std::map<T, rgb_color, rainbow> spectrum::generate() {
   return cyl_to_rgb;
 }
 
-template <typename T>
-void spectrum::display(const std::map<T, rgb_color, rainbow>& cyl_to_rgb,
-                       double lightness, double min_value) {
-  static_assert(std::is_convertible_v<T*, cylindrical*>,
-                "Map key must be a cylindrical color type");
+template <cylindrical_space ColorSpace>
+void spectrum::display(
+    const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
+    double lightness, double min_value) {
   const colored_string display{std::string(2, ' ')};
   for (const auto& pr : cyl_to_rgb) {
     const auto& cyl = pr.first;

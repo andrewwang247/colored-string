@@ -5,6 +5,7 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
+#include <concepts>
 #include <memory>
 #include <type_traits>
 
@@ -13,21 +14,18 @@ Copyright 2026. Andrew Wang.
  */
 using color_t = unsigned char;
 
+template <typename T>
+concept color_enum = std::same_as<std::underlying_type_t<T>, color_t>;
+
 /**
  * Cast to the underlying color type.
  * @param ce The color enum class.
  * @return Cast to the underlying color_t.
  */
-template <typename T>
-constexpr color_t color_cast(T ce);
-
-/**
- * Cast to the enum type.
- * @param col The underlying color.
- * @return An enum with this value.
- */
-template <typename T>
-constexpr T enum_cast(color_t col);
+template <color_enum T>
+constexpr color_t color_cast(T ce) {
+  return static_cast<color_t>(ce);
+}
 
 class colored_string;
 
@@ -115,19 +113,3 @@ enum class palette : color_t {
 
   END
 };
-
-// TEMPLATED IMPLEMENTATIONS
-
-template <typename T>
-constexpr color_t color_cast(T ce) {
-  static_assert(std::is_same_v<std::underlying_type_t<T>, color_t>,
-                "Input must be an enum with underlying type color_t");
-  return static_cast<color_t>(ce);
-}
-
-template <typename T>
-constexpr T enum_cast(color_t col) {
-  static_assert(std::is_same_v<std::underlying_type_t<T>, color_t>,
-                "Input must be an enum with underlying type color_t");
-  return static_cast<T>(col);
-}
