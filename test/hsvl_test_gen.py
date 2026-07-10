@@ -7,6 +7,7 @@ from os import path
 from pathlib import Path
 from colorsys import rgb_to_hsv, rgb_to_hls
 import numpy as np
+import numpy.typing as npt
 
 # Required number of test cases
 NUM_TESTS = 5_000
@@ -15,20 +16,20 @@ FILE_DIR = Path(__file__).resolve().parent
 
 
 @np.vectorize(signature='(3)->(3)')
-def to_hsv(row: np.ndarray) -> np.ndarray:
+def to_hsv(row: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Convert row from RGB to HSV."""
     h, s, v = rgb_to_hsv(*row)
     return np.array([360 * h, s, v])
 
 
 @np.vectorize(signature='(3)->(3)')
-def to_hsl(row: np.ndarray) -> np.ndarray:
+def to_hsl(row: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Convert row from RGB to HSL."""
     h, l, s = rgb_to_hls(*row)
     return np.array([360 * h, s, l])
 
 
-def main():
+def main() -> None:
     """Generate test cases and export."""
     rgb_char = np.random.randint(0, MAX_UCHAR, (NUM_TESTS, 3))
     rgb_norm = rgb_char / MAX_UCHAR
