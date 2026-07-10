@@ -5,6 +5,7 @@ Copyright 2026. Andrew Wang.
 */
 #include "colored_string.h"
 
+#include <iostream>
 #include <string>
 #include <utility>
 

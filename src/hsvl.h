@@ -8,7 +8,6 @@ Copyright 2026. Andrew Wang.
 #include <algorithm>
 #include <cmath>
 #include <concepts>
-#include <initializer_list>
 #include <stdexcept>
 
 #include "rgb_color.h"

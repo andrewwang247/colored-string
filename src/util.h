@@ -7,6 +7,7 @@ Copyright 2026. Andrew Wang.
 #include <algorithm>
 #include <initializer_list>
 #include <iostream>
+#include <iterator>
 
 #include "rgb_color.h"
 
@@ -69,8 +70,8 @@ void alternating_cout(const T& first, const T& second, int reps);
 
 template <typename T>
 ptrdiff_t util::var_argmax(std::initializer_list<T> args) {
-  const auto idx_max{std::max_element(args.begin(), args.end())};
-  return idx_max - args.begin();
+  const auto idx_max = std::ranges::max_element(args);
+  return std::distance(args.begin(), idx_max);
 }
 
 template <typename T>

@@ -5,9 +5,7 @@ Copyright 2026. Andrew Wang.
 */
 #include "spectrum.h"
 
-#include "colored_string.h"
 #include "hsvl.h"
-#include "rgb_color.h"
 
 bool rainbow::operator()(const cylindrical& lhs, const cylindrical& rhs) const {
   if (!util::almost_eq(lhs.lightness(), rhs.lightness())) {

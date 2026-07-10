@@ -8,8 +8,7 @@ Copyright 2026. Andrew Wang.
 #include <map>
 #include <string>
 #include <tuple>
-#include <type_traits>
-#include <utility>
+// #include <utility>
 
 #include "colored_string.h"
 #include "hsvl.h"
@@ -24,7 +23,7 @@ struct rainbow {
    * Comparison operator between cylindrical coordinates.
    * @param lhs The left coordinates to test.
    * @param rhs The right coordinates to test.
-   * @return A binary predicate ordering cylindrical coordintes.
+   * @return A binary predicate ordering cylindrical coordinates.
    */
   bool operator()(const cylindrical& lhs, const cylindrical& rhs) const;
 };
