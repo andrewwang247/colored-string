@@ -6,9 +6,7 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <iostream>
 #include <map>
-#include <string>
 #include <tuple>
-// #include <utility>
 
 #include "colored_string.h"
 #include "hsvl.h"
@@ -77,13 +75,12 @@ template <cylindrical_space ColorSpace>
 void spectrum::display(
     const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
     double lightness, double min_value) {
-  const colored_string display{std::string(2, ' ')};
-  for (const auto& pr : cyl_to_rgb) {
-    const auto& cyl = pr.first;
-    const auto passed_filter = util::almost_eq(cyl.lightness(), lightness) &&
-                               util::almost_less(min_value, cyl.value());
-    if (!passed_filter) continue;
-    std::cout << display.background(pr.second);
+  const colored_string display{"  "};
+  for (const auto& [cyl, rgb] : cyl_to_rgb) {
+    if (util::almost_eq(lightness, cyl.lightness()) &&
+        util::almost_less(min_value, cyl.value())) {
+      std::cout << display.background(rgb);
+    }
   }
   std::cout << '\n';
 }
