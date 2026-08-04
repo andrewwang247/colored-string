@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 
 #include "bright_color.h"
 #include "colored_string.h"
-#include "greyscale_color.h"
+#include "grayscale_color.h"
 #include "rgb_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
@@ -97,18 +97,18 @@ void show_all_colors() {
       }
     }
   }
-  cout << "\n\nGreyscale colors:";
-  for (color_t k = 0; k < color_cast(grey::END); ++k) {
+  cout << "\n\nGrayscale colors:";
+  for (color_t k = 0; k < color_cast(gray::END); ++k) {
     if (k % color_cast(palette::END) == 0) cout << '\n';
-    const auto shade = static_cast<grey>(k);
-    show_color(greyscale_color(shade));
+    const auto shade = static_cast<gray>(k);
+    show_color(grayscale_color(shade));
   }
   cout << '\n';
 }
 
 void paint_merica() {
   const bright_color red(palette::RED);
-  const greyscale_color white(grey::G23);
+  const grayscale_color white(gray::G23);
   const bright_color blue(palette::BLUE);
 
   const auto white_star =

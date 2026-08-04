@@ -61,10 +61,10 @@ void colored_string::reset_background() const noexcept { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_foreground) {
-    os << "\033[38;5;" << +str.m_foreground->code() << 'm';
+    os << colored_string::FORE_CODE << +str.m_foreground->code() << 'm';
   }
   if (str.m_background) {
-    os << "\033[48;5;" << +str.m_background->code() << 'm';
+    os << colored_string::BACK_CODE << +str.m_background->code() << 'm';
   }
-  return os << static_cast<string>(str) << "\033[0m";
+  return os << static_cast<string>(str) << colored_string::CLEAR_CODE;
 }

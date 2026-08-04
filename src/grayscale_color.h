@@ -1,5 +1,5 @@
 /*
-Greyscale colors.
+Grayscale colors.
 
 Copyright 2026. Andrew Wang.
 */
@@ -10,11 +10,11 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * Greyscale colors.
+ * Grayscale colors.
  *
  * Goes from black to white as numbers increase.
  */
-enum class grey : color_t {
+enum class gray : color_t {
   G0,
   G1,
   G2,
@@ -44,18 +44,18 @@ enum class grey : color_t {
 };
 
 /**
- * A greyscale color taking on 24 possible values.
+ * A grayscale color taking on 24 possible values.
  */
-class greyscale_color final : public singular_color {
+class grayscale_color final : public singular_color {
  public:
-  greyscale_color() = default;
+  grayscale_color() = default;
 
   /**
-   * Explicitly sets underlying grey color.
+   * Explicitly sets underlying gray color.
    *
-   * @param color_in Input grey scale indicator.
+   * @param color_in Input gray scale indicator.
    */
-  explicit greyscale_color(grey grey_in);
+  explicit grayscale_color(gray gray_in);
 
  private:
   static constexpr auto OFFSET = 232;

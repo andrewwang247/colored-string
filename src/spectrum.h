@@ -61,7 +61,6 @@ std::map<ColorSpace, rgb_color, rainbow> spectrum::generate() {
       const auto green{static_cast<channel>(g)};
       for (color_t b = 0; b < channel_max; ++b) {
         const auto blue{static_cast<channel>(b)};
-
         cyl_to_rgb.emplace(std::piecewise_construct,
                            std::forward_as_tuple(red, green, blue),
                            std::forward_as_tuple(red, green, blue));
@@ -75,7 +74,7 @@ template <cylindrical_space ColorSpace>
 void spectrum::display(
     const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
     double lightness, double min_value) {
-  const colored_string display{"  "};
+  static const colored_string display{"  "};
   for (const auto& [cyl, rgb] : cyl_to_rgb) {
     if (util::almost_eq(lightness, cyl.lightness()) &&
         util::almost_less(min_value, cyl.value())) {

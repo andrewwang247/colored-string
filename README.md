@@ -30,13 +30,13 @@ The available `palette` enumerations are black, red, green, yellow, blue, magent
 
 The ANSI color standard specifies $216 = 6^3$ possible RGB colors. The `rgb_color` class has codes in [16, 231]. Each channel can take values in [6]. In order to support both ANSI and "true color" 24-bit RGB, an `rgb_color` can be constructed via 3 `channel` enum classes (6 possible values from `C0` to `C5`) or via 3 `color_t` parameters. In the latter case, `rgb_color` will uniformly map [256] to [6].
 
-### Greyscale
+### Grayscale
 
-The `greyscale_color` class has codes in [232, 255]. They are specified by the `grey` enum class (possible values in [24]), which represents a 24-step color gradient from black `G0` to white `G23`.
+The `grayscale_color` class has codes in [232, 255]. They are specified by the `gray` enum class (possible values in [24]), which represents a 24-step color gradient from black `G0` to white `G23`.
 
 ## Strings
 
-Using the polymorphic behavior of the `color` interface, each `colored_string` (which publically inherits from `std::string`) is fully specified by adding 2 colors for the foreground and background. Since `std::string` has so many constructors, the design choice was made to determine colors after the `colored_string` was constructed. This allows for constructor parameters to `colored_string` to be perfectly forwarded to the underlying `std::string` constructor without obstruction.
+Using the polymorphic behavior of the `color` interface, each `colored_string` (which publicly inherits from `std::string`) is fully specified by adding 2 colors for the foreground and background. Since `std::string` has so many constructors, the design choice was made to determine colors after the `colored_string` was constructed. This allows for constructor parameters to `colored_string` to be perfectly forwarded to the underlying `std::string` constructor without obstruction.
 
 Another notable design choice for `colored_string` is its `const` properties. The foreground and background colors are `mutable` and are thus not part of the `const`-ness of the `colored_string`. Hence, all operations that are valid on a `const std::string` are also valid on a `const colored_string`. This has additional benefit of allowing the foreground and background colors to be set, replaced, and reset on the fly without modifying the underlying `std::string`.
 

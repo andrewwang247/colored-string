@@ -16,6 +16,11 @@ Copyright 2026. Andrew Wang.
  */
 class colored_string : public std::string {
  private:
+  // ANSI 8-bit escape sequences
+  static constexpr auto FORE_CODE = "\033[38;5;";
+  static constexpr auto BACK_CODE = "\033[48;5;";
+  static constexpr auto CLEAR_CODE = "\033[0m";
+
   /**
    * Foreground color.
    */
