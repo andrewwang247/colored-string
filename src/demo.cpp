@@ -122,12 +122,12 @@ void paint_merica() {
   auto white_strip = colored_string{init_strip}.background(white);
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
-    util::alternating_cout(blue_patch, white_star, 8);
+    for (int i = 0; i < 8; ++i) cout << blue_patch << white_star;
     cout << blue_patch << red_strip << '\n';
   };
   const auto star_line_white = [&blue_patch, &white_star, &white_strip]() {
     cout << blue_patch << blue_patch;
-    util::alternating_cout(white_star, blue_patch, 7);
+    for (int i = 0; i < 7; ++i) cout << white_star << blue_patch;
     cout << blue_patch << white_strip << '\n';
   };
 
@@ -142,8 +142,7 @@ void paint_merica() {
 
   // Must go after printing lines with stars.
   // We capture by reference in lambas.
-  constexpr auto len_of_stars_patch = 17;
-  const string extension(len_of_stars_patch, ' ');
+  const string extension(17, ' ');
   red_strip += extension;
   white_strip += extension;
 

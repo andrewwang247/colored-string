@@ -8,6 +8,7 @@ Copyright 2026. Andrew Wang.
 #include <algorithm>
 #include <cmath>
 #include <concepts>
+#include <iterator>
 #include <stdexcept>
 
 #include "rgb_color.h"
@@ -73,9 +74,10 @@ void cylindrical::generic_construct(T red, T green, T blue) {
   const auto r{util::normalize(red)};
   const auto g{util::normalize(green)};
   const auto b{util::normalize(blue)};
+  const auto rgb_list = {r, g, b};
 
-  const auto x_max{std::max({r, g, b})};
-  const auto x_min{std::min({r, g, b})};
+  const auto x_max{std::max(rgb_list)};
+  const auto x_min{std::min(rgb_list)};
 
   m_value = x_max;
   m_chroma = x_max - x_min;
@@ -83,7 +85,10 @@ void cylindrical::generic_construct(T red, T green, T blue) {
 
   if (util::almost_eq(m_chroma, 0.)) return;
 
-  switch (util::var_argmax({r, g, b})) {
+  const auto max_iter = std::ranges::max_element(rgb_list);
+  const auto var_argmax = std::distance(rgb_list.begin(), max_iter);
+
+  switch (var_argmax) {
     case 0:  // r
       m_hue = std::fmod((g - b) / m_chroma, 6.);
       m_hue += m_hue < 0. ? 6. : 0.;

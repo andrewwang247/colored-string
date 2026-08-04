@@ -5,14 +5,16 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <algorithm>
+#include <cmath>
 #include <initializer_list>
 #include <iostream>
 #include <iterator>
+#include <limits>
 
 #include "rgb_color.h"
 
 /**
- * Utility functions for colors and numerics.
+ * Constexpr noexcept utility functions for colors and numerics.
  */
 namespace util {
 /**
@@ -20,14 +22,20 @@ namespace util {
  * @param ch The channel input value.
  * @return The normalized floating point value.
  */
-double normalize(channel ch) noexcept;
+constexpr double normalize(channel ch) noexcept {
+  constexpr color_t denom{color_cast(channel::END) - 1};
+  return std::abs(static_cast<double>(ch)) / denom;
+}
 
 /**
  * Normalize color values to [0, 1] range.
  * @param color The color input value.
  * @return The normalized floating point value.
  */
-double normalize(color_t color) noexcept;
+constexpr double normalize(color_t color) noexcept {
+  constexpr color_t denom{std::numeric_limits<color_t>::max()};
+  return std::abs(static_cast<double>(color)) / denom;
+}
 
 /**
  * Approximate equality to deal with floating point imprecision.
@@ -36,7 +44,10 @@ double normalize(color_t color) noexcept;
  * @param epsilon The allowed quantity of imprecision.
  * @return Whether lhs and rhs are within epsilon of each other.
  */
-bool almost_eq(double lhs, double rhs, double epsilon = 1e-4) noexcept;
+constexpr bool almost_eq(double lhs, double rhs,
+                         double epsilon = 1e-4) noexcept {
+  return std::abs(lhs - rhs) < epsilon;
+}
 
 /**
  * Approximate comparison to deal with floating point imprecision.
@@ -45,38 +56,9 @@ bool almost_eq(double lhs, double rhs, double epsilon = 1e-4) noexcept;
  * @param epsilon The allowed quantity of imprecision.
  * @return Whether lhs is more than epsilon less than rhs.
  */
-bool almost_less(double lhs, double rhs, double epsilon = 1e-4) noexcept;
-
-/**
- * Variadic argmax over arbitrary arguments.
- * @param args The values to compute argmax over.
- * @return The index to the maximum.
- */
-template <typename T>
-ptrdiff_t var_argmax(std::initializer_list<T> args);
-
-/**
- * Alternate printing 2 objects to std::cout.
- * @param first The first object to print.
- * @param second The second object to print.
- * @param reps Number of times to alternate.
- */
-template <typename T>
-void alternating_cout(const T& first, const T& second, int reps);
+constexpr bool almost_less(double lhs, double rhs,
+                           double epsilon = 1e-4) noexcept {
+  return lhs + epsilon < rhs;
+}
 
 }  // namespace util
-
-// TEMPLATED IMPLEMENTATIONS
-
-template <typename T>
-ptrdiff_t util::var_argmax(std::initializer_list<T> args) {
-  const auto idx_max = std::ranges::max_element(args);
-  return std::distance(args.begin(), idx_max);
-}
-
-template <typename T>
-void util::alternating_cout(const T& left, const T& right, int reps) {
-  for (int i = 0; i < reps; ++i) {
-    std::cout << left << right;
-  }
-}
