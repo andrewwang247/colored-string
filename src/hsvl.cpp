@@ -10,9 +10,6 @@ Copyright 2026. Andrew Wang.
 
 #include "util.h"
 
-using std::abs;
-using std::min;
-
 cylindrical::cylindrical()
     : m_hue(0.), m_chroma(0.), m_saturation(0.), m_value(0.), m_lightness(0.) {}
 
@@ -46,7 +43,7 @@ hsv::hsv(color_t red, color_t green, color_t blue)
 
 void hsv::set_saturation() {
   if (util::almost_eq(m_chroma, 0.)) return;
-  m_saturation = abs(m_chroma / m_value);
+  m_saturation = std::abs(m_chroma / m_value);
 }
 
 hsl::hsl() : cylindrical() {}
@@ -64,6 +61,6 @@ hsl::hsl(color_t red, color_t green, color_t blue)
 void hsl::set_saturation() {
   if (util::almost_eq(m_lightness, 0.) || util::almost_eq(m_lightness, 1.))
     return;
-  m_saturation =
-      abs((m_value - m_lightness) / min(m_lightness, 1. - m_lightness));
+  m_saturation = std::abs((m_value - m_lightness) /
+                          std::min(m_lightness, 1. - m_lightness));
 }

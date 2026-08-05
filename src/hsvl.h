@@ -81,7 +81,8 @@ void cylindrical::generic_construct(T red, T green, T blue) {
 
   m_value = x_max;
   m_chroma = x_max - x_min;
-  m_lightness = (x_max + x_min) / 2;
+  // Avoid unsigned char overflow when computing midpoint
+  m_lightness = x_min + (x_max - x_min) / 2;
 
   if (util::almost_eq(m_chroma, 0.)) return;
 

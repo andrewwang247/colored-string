@@ -17,6 +17,10 @@ Copyright 2026. Andrew Wang.
  * Constexpr noexcept utility functions for colors and numerics.
  */
 namespace util {
+
+// Default allowed floating point imprecision.
+static constexpr double EPSILON = 1e-4;
+
 /**
  * Normalize channel values to [0, 1] range.
  * @param ch The channel input value.
@@ -45,7 +49,7 @@ constexpr double normalize(color_t color) noexcept {
  * @return Whether lhs and rhs are within epsilon of each other.
  */
 constexpr bool almost_eq(double lhs, double rhs,
-                         double epsilon = 1e-4) noexcept {
+                         double epsilon = EPSILON) noexcept {
   return std::abs(lhs - rhs) < epsilon;
 }
 
@@ -57,7 +61,7 @@ constexpr bool almost_eq(double lhs, double rhs,
  * @return Whether lhs is more than epsilon less than rhs.
  */
 constexpr bool almost_less(double lhs, double rhs,
-                           double epsilon = 1e-4) noexcept {
+                           double epsilon = EPSILON) noexcept {
   return lhs + epsilon < rhs;
 }
 
