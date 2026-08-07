@@ -36,7 +36,7 @@ class cylindrical {
   /**
    * Generic helper to compute representation.
    */
-  template <typename T>
+  template <color_specifier T>
   void generic_construct(T red, T green, T blue);
 
  protected:
@@ -69,7 +69,7 @@ class hsl final : public cylindrical {
   void set_saturation() override;
 };
 
-template <typename T>
+template <color_specifier T>
 void cylindrical::generic_construct(T red, T green, T blue) {
   const auto r{util::normalize(red)};
   const auto g{util::normalize(green)};

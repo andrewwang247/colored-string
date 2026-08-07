@@ -22,13 +22,13 @@ namespace util {
 static constexpr double EPSILON = 1e-4;
 
 /**
- * Normalize channel values to [0, 1] range.
- * @param ch The channel input value.
+ * Normalize specifier values to [0, 1] range.
+ * @param cs The enum input value.
  * @return The normalized floating point value.
  */
-constexpr double normalize(channel ch) noexcept {
-  constexpr color_t denom{color_cast(channel::END) - 1};
-  return std::abs(static_cast<double>(ch)) / denom;
+constexpr double normalize(color_specifier auto cs) noexcept {
+  constexpr color_t denom{color_cast(decltype(cs)::END) - 1};
+  return std::abs(static_cast<double>(cs)) / denom;
 }
 
 /**

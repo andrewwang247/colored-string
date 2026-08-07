@@ -15,16 +15,16 @@ Copyright 2026. Andrew Wang.
 using color_t = unsigned char;
 
 template <typename T>
-concept color_enum = std::same_as<std::underlying_type_t<T>, color_t>;
+concept color_specifier = std::same_as<std::underlying_type_t<T>, color_t> ||
+                          std::same_as<T, color_t>;
 
 /**
  * Cast to the underlying color type.
- * @param ce The color enum class.
+ * @param cs The color specifier class.
  * @return Cast to the underlying color_t.
  */
-template <color_enum T>
-constexpr color_t color_cast(T ce) {
-  return static_cast<color_t>(ce);
+constexpr color_t color_cast(color_specifier auto cs) {
+  return static_cast<color_t>(cs);
 }
 
 class colored_string;
