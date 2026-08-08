@@ -25,8 +25,6 @@ class rgb_color final : public color {
   static constexpr auto OFFSET = 16;
 
  public:
-  rgb_color() = default;
-
   /**
    * Explicitly set underlying RGB channels.
    *

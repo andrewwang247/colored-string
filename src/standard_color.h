@@ -14,8 +14,6 @@ Copyright 2026. Andrew Wang.
  */
 class standard_color final : public singular_color {
  public:
-  standard_color() = default;
-
   /**
    * Explicitly sets underlying palette color.
    *

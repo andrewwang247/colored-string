@@ -7,6 +7,8 @@ Copyright 2026. Andrew Wang.
 
 #include <memory>
 
+#include "base_color.h"
+
 using std::make_unique;
 using std::unique_ptr;
 

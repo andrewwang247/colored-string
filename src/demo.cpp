@@ -3,23 +3,22 @@ Colorful string demo.
 
 Copyright 2026. Andrew Wang.
 */
-#include <iomanip>
+#include <cstddef>
 #include <iostream>
-#include <map>
 #include <string>
 
+#include "base_color.h"
 #include "bright_color.h"
 #include "colored_string.h"
 #include "grayscale_color.h"
+#include "hsvl.h"
 #include "rgb_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
 #include "unit_test.h"
-#include "util.h"
 
 using std::cout;
 using std::ios_base;
-using std::map;
 using std::string;
 using std::to_string;
 
@@ -28,38 +27,7 @@ using std::to_string;
  *
  * @param col The color to demonstrate.
  */
-void show_color(const color& col);
-
-/**
- * Demonstrate all ANSI 8-bit colors.
- */
-void show_all_colors();
-
-/**
- * Paint the American flag.
- */
-void paint_merica();
-
-/**
- * Display various rainbows, showcasing cylindricals.
- */
-void display_rainbows();
-
-int main() {
-  ios_base::sync_with_stdio(false);
-
-#ifdef DEBUG
-  unit_test::hsvl();
-#endif
-
-#ifdef NDEBUG
-  show_all_colors();
-  paint_merica();
-  display_rainbows();
-#endif
-}
-
-void show_color(const color& col) {
+static void show_color(const color& col) {
   // Pad code string to length 3
   const auto code_str{to_string(col.code())};
   const string filler_whitespace(3 - code_str.length(), ' ');
@@ -71,7 +39,10 @@ void show_color(const color& col) {
   str.reset_background();
 }
 
-void show_all_colors() {
+/**
+ * Demonstrate all ANSI 8-bit colors.
+ */
+[[maybe_unused]] static void show_all_colors() {
   cout << "Standard colors:\n";
   for (color_t i = 0; i < color_cast(palette::END); ++i) {
     const auto shade = static_cast<palette>(i);
@@ -106,7 +77,10 @@ void show_all_colors() {
   cout << '\n';
 }
 
-void paint_merica() {
+/**
+ * Paint the American flag.
+ */
+[[maybe_unused]] static void paint_merica() {
   const bright_color red(palette::RED);
   const grayscale_color white(gray::G23);
   const bright_color blue(palette::BLUE);
@@ -151,7 +125,10 @@ void paint_merica() {
   }
 }
 
-void display_rainbows() {
+/**
+ * Display various rainbows, showcasing cylindricals.
+ */
+[[maybe_unused]] static void display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
   cout << "\nDark rainbow:\n";
   spectrum::display(cyl_to_rgb, .3, .55);
@@ -159,4 +136,18 @@ void display_rainbows() {
   spectrum::display(cyl_to_rgb, .5, .95);
   cout << "Pastel rainbow:\n";
   spectrum::display(cyl_to_rgb, .7, .95);
+}
+
+int main() {
+  ios_base::sync_with_stdio(false);
+
+#ifdef DEBUG
+  unit_test::hsvl();
+#endif
+
+#ifdef NDEBUG
+  show_all_colors();
+  paint_merica();
+  display_rainbows();
+#endif
 }

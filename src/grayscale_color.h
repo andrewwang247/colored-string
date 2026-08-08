@@ -48,8 +48,6 @@ enum class gray : color_t {
  */
 class grayscale_color final : public singular_color {
  public:
-  grayscale_color() = default;
-
   /**
    * Explicitly sets underlying gray color.
    *

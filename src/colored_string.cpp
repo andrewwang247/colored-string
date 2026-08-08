@@ -18,7 +18,8 @@ colored_string::colored_string(const colored_string& other)
       m_background(other.m_background ? other.m_background->clone() : nullptr) {
 }
 
-colored_string::colored_string(colored_string&& other) : colored_string() {
+colored_string::colored_string(colored_string&& other) noexcept
+    : colored_string() {
   std::swap(*this, other);
 }
 
@@ -66,5 +67,6 @@ ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_background) {
     os << colored_string::BACK_CODE << +str.m_background->code() << 'm';
   }
-  return os << static_cast<string>(str) << colored_string::CLEAR_CODE;
+  return os << static_cast<string>(str)  // NOLINT(cppcoreguidelines-slicing)
+            << colored_string::CLEAR_CODE;
 }

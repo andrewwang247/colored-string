@@ -41,8 +41,6 @@ class color {
    */
   color_t m_offset;
 
-  color() = default;
-
   /**
    * Argument constructor.
    *
@@ -78,8 +76,6 @@ class color {
 class singular_color : public color {
  protected:
   color_t m_color;
-
-  singular_color() = default;
 
   /**
    * Argument constructor.

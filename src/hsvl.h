@@ -19,9 +19,9 @@ Copyright 2026. Andrew Wang.
  */
 class cylindrical {
  protected:
-  double m_hue, m_chroma, m_saturation, m_value, m_lightness;
+  double m_hue = 0., m_chroma = 0., m_saturation = 0., m_value = 0.,
+         m_lightness = 0.;
 
-  cylindrical();
   cylindrical(channel red, channel green, channel blue);
   cylindrical(color_t red, color_t green, color_t blue);
 
@@ -31,6 +31,8 @@ class cylindrical {
   double saturation() const noexcept;
   double value() const noexcept;
   double lightness() const noexcept;
+
+  virtual ~cylindrical() = default;
 
  private:
   /**
@@ -51,7 +53,6 @@ concept cylindrical_space = std::derived_from<T, cylindrical>;
 
 class hsv final : public cylindrical {
  public:
-  hsv();
   hsv(channel red, channel green, channel blue);
   hsv(color_t red, color_t green, color_t blue);
 
@@ -61,7 +62,6 @@ class hsv final : public cylindrical {
 
 class hsl final : public cylindrical {
  public:
-  hsl();
   hsl(channel red, channel green, channel blue);
   hsl(color_t red, color_t green, color_t blue);
 

@@ -39,7 +39,7 @@ class colored_string : public std::string {
    */
   template <typename... Args>
   explicit colored_string(Args&&... args)
-      : std::string(std::forward<Args>(args)...),
+      : std::string(std::forward<Args>(args)...),  // NOLINT
         m_foreground(nullptr),
         m_background(nullptr) {}
 
@@ -55,7 +55,7 @@ class colored_string : public std::string {
    *
    * @param other The other string.
    */
-  colored_string(colored_string&& other);
+  colored_string(colored_string&& other) noexcept;
 
   /**
    * Assignment operator for copy and move.
@@ -78,7 +78,7 @@ class colored_string : public std::string {
    */
   template <typename... Args>
   colored_string& operator=(Args&&... args) {
-    std::string::operator=(std::forward<Args>(args)...);
+    std::string::operator=(std::forward<Args>(args)...);  // NOLINT
     return *this;
   }
 
