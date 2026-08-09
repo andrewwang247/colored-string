@@ -19,10 +19,6 @@ struct triplet {
 namespace unit_test {
 static constexpr unsigned NUM_CASES = 5000;
 static constexpr double PRECISION = 1e-1;
-/**
- * Run HSVL conversion tests against precomputed values.
- */
-void hsvl();
 }  // namespace unit_test
 
 template <typename T>

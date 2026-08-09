@@ -3,6 +3,8 @@ Colorful string demo.
 
 Copyright 2026. Andrew Wang.
 */
+#include "demo.h"
+
 #include <cstddef>
 #include <iostream>
 #include <string>
@@ -15,19 +17,21 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
-#include "unit_test.h"
 
 using std::cout;
 using std::ios_base;
 using std::string;
 using std::to_string;
 
-/**
- * Demonstrate col by output to std::cout.
- *
- * @param col The color to demonstrate.
- */
-static void show_color(const color& col) {
+int main() {
+  ios_base::sync_with_stdio(false);
+
+  demo::show_all_colors();
+  demo::paint_merica();
+  demo::display_rainbows();
+}
+
+void demo::show_color(const color& col) {
   // Pad code string to length 3
   const auto code_str{to_string(col.code())};
   const string filler_whitespace(3 - code_str.length(), ' ');
@@ -42,7 +46,7 @@ static void show_color(const color& col) {
 /**
  * Demonstrate all ANSI 8-bit colors.
  */
-[[maybe_unused]] static void show_all_colors() {
+void demo::show_all_colors() {
   cout << "Standard colors:\n";
   for (color_t i = 0; i < color_cast(palette::END); ++i) {
     const auto shade = static_cast<palette>(i);
@@ -77,10 +81,7 @@ static void show_color(const color& col) {
   cout << '\n';
 }
 
-/**
- * Paint the American flag.
- */
-[[maybe_unused]] static void paint_merica() {
+void demo::paint_merica() {
   const bright_color red(palette::RED);
   const grayscale_color white(gray::G23);
   const bright_color blue(palette::BLUE);
@@ -125,10 +126,7 @@ static void show_color(const color& col) {
   }
 }
 
-/**
- * Display various rainbows, showcasing cylindricals.
- */
-[[maybe_unused]] static void display_rainbows() {
+void demo::display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
   cout << "\nDark rainbow:\n";
   spectrum::display(cyl_to_rgb, .3, .55);
@@ -136,18 +134,4 @@ static void show_color(const color& col) {
   spectrum::display(cyl_to_rgb, .5, .95);
   cout << "Pastel rainbow:\n";
   spectrum::display(cyl_to_rgb, .7, .95);
-}
-
-int main() {
-  ios_base::sync_with_stdio(false);
-
-#ifdef DEBUG
-  unit_test::hsvl();
-#endif
-
-#ifdef NDEBUG
-  show_all_colors();
-  paint_merica();
-  display_rainbows();
-#endif
 }

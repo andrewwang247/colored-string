@@ -18,8 +18,11 @@ Copyright 2026. Andrew Wang.
 
 using std::cout;
 using std::ifstream;
+using std::ios_base;
 using std::runtime_error;
 using std::vector;
+
+using unit_test::PRECISION;
 
 template <typename T>
 static vector<triplet<T>> read_file(const char* name) {
@@ -36,16 +39,18 @@ static vector<triplet<T>> read_file(const char* name) {
   return data;
 }
 
-void unit_test::hsvl() {
+int main() {
+  ios_base::sync_with_stdio(false);
+
   cout << "--- EXECUTING UNIT TESTS ---\n";
   cout << "Reading RGB, HSV, and HSL matrices\n";
   const auto rgb_vec = read_file<unsigned>("test/mat_rgb.txt");
   const auto hsv_vec = read_file<double>("test/mat_hsv.txt");
   const auto hsl_vec = read_file<double>("test/mat_hsl.txt");
 
-  cout << "Discovered " << NUM_CASES << " test cases\n";
+  cout << "Discovered " << unit_test::NUM_CASES << " test cases\n";
   cout << "Verifying that hsvl coordinates match expected\n";
-  for (size_t i = 0; i < NUM_CASES; ++i) {
+  for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
     const auto& rgb_actual = rgb_vec.at(i);
     const auto r{static_cast<color_t>(rgb_actual.m_a)};
     const auto g{static_cast<color_t>(rgb_actual.m_b)};

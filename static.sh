@@ -28,7 +28,6 @@ cpplint --filter=-build/include_subdir --quiet $hfiles $cppfiles
 printf "\nRunning clang-tidy...\n\n"
 if [[ ! -f "compile_commands.json" ]]; then
     printf "Generating compile commands\n"
-    make clean
-    bear -- make debug EXTRA="-DNDEBUG"
+    bear -- make clean debug release
 fi
 clang-tidy $cppfiles
