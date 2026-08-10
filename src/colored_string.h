@@ -21,20 +21,12 @@ class colored_string : public std::string {
   static constexpr auto BACK_CODE = "\x1b[48;5;";
   static constexpr auto CLEAR_CODE = "\x1b[0m";
 
-  /**
-   * Foreground color.
-   */
   mutable std::unique_ptr<color> m_foreground;
-
-  /**
-   * Background color.
-   */
   mutable std::unique_ptr<color> m_background;
 
  public:
   /**
-   * Constructor for the underlying std::string.
-   *
+   * @brief Constructor for the underlying std::string.
    * @param args Arguments to std::string constructor.
    */
   template <typename... Args>
@@ -44,35 +36,26 @@ class colored_string : public std::string {
         m_background(nullptr) {}
 
   /**
-   * Copy constructor.
-   *
+   * @brief Copy constructor.
    * @param other The other string.
    */
   colored_string(const colored_string& other);
 
   /**
-   * Move constructor.
-   *
+   * @brief Move constructor.
    * @param other The other string.
    */
   colored_string(colored_string&& other) noexcept;
 
   /**
-   * Assignment operator for copy and move.
-   *
+   * @brief Assignment operator for copy and move.
    * @param other The other string.
    * @return A reference to this.
    */
   colored_string& operator=(colored_string other);
 
   /**
-   * Default destructor.
-   */
-  ~colored_string() = default;
-
-  /**
-   * Assignment operator for underlying std::string.
-   *
+   * @brief Assignment operator for underlying std::string.
    * @param args Arguments to std::string assignment.
    * @return A reference to this.
    */
@@ -83,8 +66,7 @@ class colored_string : public std::string {
   }
 
   /**
-   * Modify the foreground color.
-   *
+   * @brief Modify the foreground color.
    * @param fore The color of the foreground.
    * @return A reference to this.
    */
@@ -92,21 +74,18 @@ class colored_string : public std::string {
   const colored_string& foreground(const color& fore) const;
 
   /**
-   * Get foreground color. Null if not present.
-   *
-   *
+   * @brief Get foreground color. Null if not present.
    * @return Pointer to foreground color.
    */
   const color* foreground() const noexcept;
 
   /**
-   * Reset foreground color to default.
+   * @brief Reset foreground color to default.
    */
   void reset_foreground() const noexcept;
 
   /**
-   * Modify the background color.
-   *
+   * @brief Modify the background color.
    * @param back The color of the background.
    * @return A reference to this.
    */
@@ -114,19 +93,21 @@ class colored_string : public std::string {
   const colored_string& background(const color& back) const;
 
   /**
-   * Get background color. Null if not present.
-   *
+   * @brief Get background color. Null if not present.
    * @return Pointer to background color.
    */
   const color* background() const noexcept;
 
   /**
-   * Reset background color to default.
+   * @brief Reset background color to default.
    */
   void reset_background() const noexcept;
 
   /**
-   * Print with foreground and background colors.
+   * @brief Print with foreground and background colors.
+   * @param os The output stream.
+   * @param str Colored string to print.
+   * @return Reference to output stream.
    */
   friend std::ostream& operator<<(std::ostream& os, const colored_string& str);
 };

@@ -12,24 +12,23 @@ Copyright 2026. Andrew Wang.
  */
 namespace demo {
 /**
- * Demonstrate col by output to std::cout.
- *
+ * @brief Demonstrate col by output to std::cout.
  * @param col The color to demonstrate.
  */
 void show_color(const color& col);
 
 /**
- * Demonstrate all ANSI 8-bit colors.
+ * @brief Demonstrate all ANSI 8-bit colors.
  */
 void show_all_colors();
 
 /**
- * Paint the American flag.
+ * @brief Paint the American flag.
  */
-void paint_merica();
+void paint_america();
 
 /**
- * Display various rainbows, showcasing cylindricals.
+ * @brief Display rainbows to showcase cylindrical color space.
  */
 void display_rainbows();
 }  // namespace demo

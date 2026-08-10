@@ -19,7 +19,7 @@ concept color_specifier = std::same_as<std::underlying_type_t<T>, color_t> ||
                           std::same_as<T, color_t>;
 
 /**
- * Cast to the underlying color type.
+ * @brief Cast to the underlying color type.
  * @param cs The color specifier class.
  * @return Cast to the underlying color_t.
  */
@@ -42,29 +42,23 @@ class color {
   color_t m_offset;
 
   /**
-   * Argument constructor.
-   *
+   * @brief Argument constructor.
    * @param offset The ANSI code offset.
    */
   explicit color(color_t offset_in);
 
  public:
   /**
-   * See below.
-   *
+   * @brief See below.
    * @return The 8-bit ANSI color code.
    */
   virtual color_t code() const = 0;
 
-  /**
-   * Default virtual destructor.
-   */
   virtual ~color() noexcept = default;
 
  private:
   /**
-   * Polymorphic cloning.
-   *
+   * @brief Polymorphic cloning.
    * @return A new copy of the color.
    */
   virtual std::unique_ptr<color> clone() const = 0;
@@ -78,19 +72,13 @@ class singular_color : public color {
   color_t m_color;
 
   /**
-   * Argument constructor.
-   *
+   * @brief Argument constructor.
    * @param color_in The underlying color.
    * @param offset_in The ANSI code offset.
    */
   singular_color(color_t color_in, color_t offset_in);
 
  public:
-  /**
-   * See below.
-   *
-   * @return The 8-bit ANSI color code.
-   */
   color_t code() const override;
 };
 

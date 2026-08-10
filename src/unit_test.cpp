@@ -9,7 +9,6 @@ Copyright 2026. Andrew Wang.
 #include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
 #include <vector>
 
 #include "base_color.h"
@@ -20,35 +19,30 @@ Copyright 2026. Andrew Wang.
 using std::cout;
 using std::ifstream;
 using std::ios_base;
-using std::runtime_error;
 using std::vector;
 
-using unit_test::PRECISION;
+int main() {
+  ios_base::sync_with_stdio(false);
 
-/**
- * Read triplets from a file.
- * @param name The file name.
- * @return A list of triplets.
- */
-template <typename T>
-static vector<triplet<T>> read_file(const char* name) {
-  vector<triplet<T>> data;
-  data.reserve(unit_test::NUM_CASES);
+  cout << "--- EXECUTING UNIT TESTS ---\n";
+  cout << "Validating channel conversion interoperability\n";
+  unit_test::validate_interop();
+  cout << "All RGB - HSVL channel conversions match\n";
 
-  ifstream fin{name};
-  if (!fin) throw runtime_error("Could not open matrix file");
-  for (T a, b, c; fin >> a >> b >> c;) {
-    data.emplace_back(a, b, c);
-  }
+  const auto rgb_vec = unit_test::read_file<unsigned>(unit_test::RGB_MATRIX);
+  const auto hsv_vec = unit_test::read_file<double>(unit_test::HSV_MATRIX);
+  const auto hsl_vec = unit_test::read_file<double>(unit_test::HSL_MATRIX);
+  cout << "Discovered " << unit_test::NUM_CASES << " sRGB space test cases\n";
 
-  assert(data.size() == unit_test::NUM_CASES);
-  return data;
+  unit_test::validate_srgb(rgb_vec, hsv_vec, hsl_vec);
+  cout << "Verified that all coordinate triplets match\n"
+       << "--- FINISHED UNIT TESTS ---\n";
 }
 
 /**
- * Validate conversions between RGB and HSVL.
+ * @brief Validate conversions between RGB and HSVL.
  */
-static void validate_interop() {
+void unit_test::validate_interop() {
   constexpr color_t channel_max{color_cast(channel::END)};
   for (color_t r = 0; r < channel_max; ++r) {
     const auto red{static_cast<channel>(r)};
@@ -67,40 +61,28 @@ static void validate_interop() {
   }
 }
 
-int main() {
-  ios_base::sync_with_stdio(false);
-
-  cout << "--- EXECUTING UNIT TESTS ---\n";
-  cout << "Validating channel conversion interoperability\n";
-  validate_interop();
-  cout << "All RGB - HSVL channel conversions match\n";
-
-  const auto rgb_vec = read_file<unsigned>("test/mat_rgb.txt");
-  const auto hsv_vec = read_file<double>("test/mat_hsv.txt");
-  const auto hsl_vec = read_file<double>("test/mat_hsl.txt");
-
-  cout << "Discovered " << unit_test::NUM_CASES << " sRGB space test cases\n";
+void unit_test::validate_srgb(const vector<triplet<unsigned>>& rgb_vec,
+                              const vector<triplet<double>>& hsv_vec,
+                              const vector<triplet<double>>& hsl_vec) {
   for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
-    const auto& rgb_actual = rgb_vec.at(i);
+    const auto& rgb_actual = rgb_vec[i];  // NOLINT
     const auto r{static_cast<color_t>(rgb_actual.m_a)};
     const auto g{static_cast<color_t>(rgb_actual.m_b)};
     const auto b{static_cast<color_t>(rgb_actual.m_c)};
 
     const hsv hsv_actual{r, g, b};
-    [[maybe_unused]] const auto& hsv_expected = hsv_vec.at(i);
+    [[maybe_unused]] const auto& hsv_expected = hsv_vec[i];  // NOLINT
     assert(util::almost_eq(hsv_actual.hue(), hsv_expected.m_a, PRECISION));
     assert(
         util::almost_eq(hsv_actual.saturation(), hsv_expected.m_b, PRECISION));
     assert(util::almost_eq(hsv_actual.value(), hsv_expected.m_c, PRECISION));
 
     const hsl hsl_actual{r, g, b};
-    [[maybe_unused]] const auto& hsl_expected = hsl_vec.at(i);
+    [[maybe_unused]] const auto& hsl_expected = hsl_vec[i];  // NOLINT
     assert(util::almost_eq(hsl_actual.hue(), hsl_expected.m_a, PRECISION));
     assert(
         util::almost_eq(hsl_actual.saturation(), hsl_expected.m_b, PRECISION));
     assert(
         util::almost_eq(hsl_actual.lightness(), hsl_expected.m_c, PRECISION));
   }
-  cout << "Verified that all coordinate triplets match\n"
-       << "--- FINISHED UNIT TESTS ---\n";
 }

@@ -33,7 +33,7 @@ class cylindrical {
   double lightness() const noexcept;
 
   /**
-   * Compute the closest ANSI RGB color to this.
+   * @brief Compute the closest ANSI RGB color to this.
    * @return ANSI RGB approximation.
    */
   virtual rgb_color to_rgb() const = 0;
@@ -42,14 +42,14 @@ class cylindrical {
 
  private:
   /**
-   * Generic helper to compute representation.
+   * @brief Generic helper to compute representation.
    */
   template <color_specifier T>
   void generic_construct(T red, T green, T blue);
 
  protected:
   /**
-   * Set the saturation using other members.
+   * @brief Set the saturation using other members.
    */
   virtual void set_saturation() = 0;
 };

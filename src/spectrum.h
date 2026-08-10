@@ -18,7 +18,7 @@ Copyright 2026. Andrew Wang.
  */
 struct rainbow {
   /**
-   * Comparison operator between cylindrical coordinates.
+   * @brief Comparison operator between cylindrical coordinates.
    * @param lhs The left coordinates to test.
    * @param rhs The right coordinates to test.
    * @return A binary predicate ordering cylindrical coordinates.
@@ -31,14 +31,14 @@ struct rainbow {
  */
 namespace spectrum {
 /**
- * Generate a rainbow sorted cylindrical to rgb spectrum map.
+ * @brief Generate a rainbow sorted cylindrical to rgb spectrum map.
  * @return An iteration over all channel combinations.
  */
 template <cylindrical_space ColorSpace>
 std::map<ColorSpace, rgb_color, rainbow> generate();
 
 /**
- * Display a sorted spectrum to cout.
+ * @brief Display a sorted spectrum to cout.
  * @param cyl_to_rgb Mapping sorted by the rainbow
  * functor.
  * @param lightness Filter for only the given lightness.

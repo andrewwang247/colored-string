@@ -49,18 +49,13 @@ enum class gray : color_t {
 class grayscale_color final : public singular_color {
  public:
   /**
-   * Explicitly sets underlying gray color.
-   *
+   * @brief Explicitly sets underlying gray color.
    * @param color_in Input gray scale indicator.
    */
   explicit grayscale_color(gray gray_in);
 
  private:
   static constexpr auto OFFSET = 232;
-  /**
-   * Polymorphic cloning.
-   *
-   * @return A new copy of the color.
-   */
+
   std::unique_ptr<color> clone() const override;
 };

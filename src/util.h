@@ -18,11 +18,13 @@ Copyright 2026. Andrew Wang.
  */
 namespace util {
 
-// Default allowed floating point imprecision.
+/**
+ * Default allowed floating point imprecision.
+ */
 static constexpr double EPSILON = 1e-4;
 
 /**
- * Normalize specifier values to [0, 1] range.
+ * @brief Normalize specifier values to [0, 1] range.
  * @param cs The enum input value.
  * @return The normalized floating point value.
  */
@@ -32,7 +34,7 @@ constexpr double normalize(color_specifier auto cs) noexcept {
 }
 
 /**
- * Normalize color values to [0, 1] range.
+ * @brief Normalize color values to [0, 1] range.
  * @param color The color input value.
  * @return The normalized floating point value.
  */
@@ -42,7 +44,7 @@ constexpr double normalize(color_t color) noexcept {
 }
 
 /**
- * Denormalize values back to channel range.
+ * @brief Denormalize values back to channel range.
  * @param normed Normalized value in [0, 1] range.
  * @return Denormalized channel.
  */
@@ -53,7 +55,7 @@ constexpr channel denormalize(double normed) noexcept {
 }
 
 /**
- * Approximate equality to deal with floating point imprecision.
+ * @brief Approximate equality to deal with floating point imprecision.
  * @param lhs Left side to compare.
  * @param rhs Right side to compare.
  * @param epsilon The allowed quantity of imprecision.
@@ -65,7 +67,7 @@ constexpr bool almost_eq(double lhs, double rhs,
 }
 
 /**
- * Approximate comparison to deal with floating point imprecision.
+ * @brief Approximate comparison to deal with floating point imprecision.
  * @param lhs Left side to compare.
  * @param rhs Right side to compare.
  * @param epsilon The allowed quantity of imprecision.

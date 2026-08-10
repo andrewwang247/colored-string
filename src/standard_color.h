@@ -15,7 +15,7 @@ Copyright 2026. Andrew Wang.
 class standard_color final : public singular_color {
  public:
   /**
-   * Explicitly sets underlying palette color.
+   * @brief Explicitly sets underlying palette color.
    *
    * @param palette_in Input palette.
    */
@@ -23,10 +23,6 @@ class standard_color final : public singular_color {
 
  private:
   static constexpr auto OFFSET = 0;
-  /**
-   * Polymorphic cloning.
-   *
-   * @return A new copy of the color.
-   */
+
   std::unique_ptr<color> clone() const override;
 };

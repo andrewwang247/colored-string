@@ -6,8 +6,8 @@ Copyright 2026. Andrew Wang.
 #include "demo.h"
 
 #include <cstddef>
+#include <format>
 #include <iostream>
-#include <string>
 
 #include "base_color.h"
 #include "bright_color.h"
@@ -19,23 +19,19 @@ Copyright 2026. Andrew Wang.
 #include "standard_color.h"
 
 using std::cout;
+using std::format;
 using std::ios_base;
-using std::string;
-using std::to_string;
 
 int main() {
   ios_base::sync_with_stdio(false);
 
   demo::show_all_colors();
-  demo::paint_merica();
+  demo::paint_america();
   demo::display_rainbows();
 }
 
 void demo::show_color(const color& col) {
-  // Pad code string to length 3
-  const auto code_str{to_string(col.code())};
-  const string filler_whitespace(3 - code_str.length(), ' ');
-  colored_string str{filler_whitespace + code_str};
+  colored_string str{format(R"({:>3})", col.code())};
   cout << str.foreground(col);
   str.reset_foreground();
   str = "   ";
@@ -81,7 +77,7 @@ void demo::show_all_colors() {
   cout << '\n';
 }
 
-void demo::paint_merica() {
+void demo::paint_america() {
   const bright_color red(palette::RED);
   const grayscale_color white(gray::G23);
   const bright_color blue(palette::BLUE);
@@ -91,10 +87,9 @@ void demo::paint_merica() {
 
   const auto blue_patch = colored_string{" "}.background(blue);
 
-  constexpr auto len_right_of_stars_patch = 26;
-  const string init_strip(len_right_of_stars_patch, ' ');
-  auto red_strip = colored_string{init_strip}.background(red);
-  auto white_strip = colored_string{init_strip}.background(white);
+  const auto right_strip = format(R"({:<26})", "");
+  auto red_strip = colored_string{right_strip}.background(red);
+  auto white_strip = colored_string{right_strip}.background(white);
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
     for (int i = 0; i < 8; ++i) cout << blue_patch << white_star;
@@ -115,9 +110,7 @@ void demo::paint_merica() {
   star_line_white();
   star_line_red();
 
-  // Must go after printing lines with stars.
-  // We capture by reference in lambas.
-  const string extension(17, ' ');
+  const auto extension = format(R"({:<17})", "");
   red_strip += extension;
   white_strip += extension;
 

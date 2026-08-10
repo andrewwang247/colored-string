@@ -26,26 +26,15 @@ class rgb_color final : public color {
 
  public:
   /**
-   * Explicitly set underlying RGB channels.
-   *
+   * @brief Explicitly set underlying RGB channels.
    * @param red_in    The red channel.
    * @param green_in  The green channel.
    * @param blue_in   The blue channel.
    */
   rgb_color(channel red_in, channel green_in, channel blue_in);
 
-  /**
-   * See below.
-   *
-   * @return The 8-bit ANSI color code.
-   */
   color_t code() const override;
 
  private:
-  /**
-   * Polymorphic cloning.
-   *
-   * @return A new copy of the color.
-   */
   std::unique_ptr<color> clone() const override;
 };
