@@ -32,6 +32,12 @@ class cylindrical {
   double value() const noexcept;
   double lightness() const noexcept;
 
+  /**
+   * Compute the closest ANSI RGB color to this.
+   * @return ANSI RGB approximation.
+   */
+  virtual rgb_color to_rgb() const = 0;
+
   virtual ~cylindrical() = default;
 
  private:
@@ -56,6 +62,8 @@ class hsv final : public cylindrical {
   hsv(channel red, channel green, channel blue);
   hsv(color_t red, color_t green, color_t blue);
 
+  rgb_color to_rgb() const override;
+
  protected:
   void set_saturation() override;
 };
@@ -64,6 +72,8 @@ class hsl final : public cylindrical {
  public:
   hsl(channel red, channel green, channel blue);
   hsl(color_t red, color_t green, color_t blue);
+
+  rgb_color to_rgb() const override;
 
  protected:
   void set_saturation() override;

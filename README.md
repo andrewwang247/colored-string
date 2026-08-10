@@ -48,7 +48,7 @@ After the body of the string, the sequence `\x1b[0m` is added to reset foregroun
 
 ## Cylindrical Coordinates
 
-As a showcase of what you can do with colored strings, we include a fully unit tested implementation of [HSV and HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) color space conversion from RGB. Both types compute:
+As a showcase of what you can do with colored strings, we include a fully unit tested implementation of [HSV and HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) color space conversion to and from RGB. Both types compute:
 
 - hue
 - chroma
@@ -67,4 +67,4 @@ The HSV / HSL spaces are much better at mapping to human spectral perception tha
 
 ### Testing
 
-We precompute RGB to HSV / HSL conversions and store the results in `test` in the `mat_*.txt` files. When building the `debug` version, unit tests are executed when running `unit_test` to verify the correctness of our own `hsvl` conversion. The included `test/hsvl_test_gen.py` can be used to generate new random test cases and their solutions.
+We validate all $6^3$ possible conversions between RGB and HSV / HSL using the `channel` enum. We also sample points in the larger sRGB space and precompute the RGB to HSV / HSL conversions. The results are stored in the `test/mat_*.txt` files. When building the `debug` version, unit tests are executed when running `unit_test` to verify the correctness of our own `hsvl` conversion. The included `test/hsvl_test_gen.py` can be used to generate new random test cases and their solutions.

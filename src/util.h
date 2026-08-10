@@ -42,6 +42,17 @@ constexpr double normalize(color_t color) noexcept {
 }
 
 /**
+ * Denormalize values back to channel range.
+ * @param normed Normalized value in [0, 1] range.
+ * @return Denormalized channel.
+ */
+constexpr channel denormalize(double normed) noexcept {
+  constexpr auto multiplier = color_cast(channel::END) - 1;
+  const auto expanded = std::lround(multiplier * normed);
+  return static_cast<channel>(expanded);
+}
+
+/**
  * Approximate equality to deal with floating point imprecision.
  * @param lhs Left side to compare.
  * @param rhs Right side to compare.
