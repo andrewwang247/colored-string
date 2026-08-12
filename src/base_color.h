@@ -45,7 +45,7 @@ class color {
    * @brief Argument constructor.
    * @param offset The ANSI code offset.
    */
-  explicit color(color_t offset_in);
+  explicit color(color_t offset);
 
  public:
   /**

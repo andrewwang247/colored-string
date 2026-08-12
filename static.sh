@@ -16,6 +16,7 @@ printf "Running cppcheck...\n\n"
 cppcheck --language=c++ --std=c++20 --quiet \
     --check-level=exhaustive \
     --enable=all \
+    --inconclusive \
     --template=gcc \
     --suppress=checkersReport \
     --suppress=missingIncludeSystem \
