@@ -5,10 +5,12 @@ Copyright 2026. Andrew Wang.
 */
 #include "colored_string.h"
 
+#include <format>
 #include <iostream>
 #include <string>
 #include <utility>
 
+using std::format;
 using std::ostream;
 using std::string;
 
@@ -60,13 +62,17 @@ const color* colored_string::background() const noexcept {
 
 void colored_string::reset_background() const noexcept { m_background.reset(); }
 
+string colored_string::show() const {
+  const auto fore_str =
+      m_foreground ? format("{}{}m", FORE_CODE, +m_foreground->code()) : "";
+  const auto back_str =
+      m_background ? format("{}{}m", BACK_CODE, +m_background->code()) : "";
+  return format(
+      "{}{}{}{}", fore_str, back_str,
+      static_cast<string>(*this),  // NOLINT(cppcoreguidelines-slicing)
+      colored_string::CLEAR_CODE);
+}
+
 ostream& operator<<(ostream& os, const colored_string& str) {
-  if (str.m_foreground) {
-    os << colored_string::FORE_CODE << +str.m_foreground->code() << 'm';
-  }
-  if (str.m_background) {
-    os << colored_string::BACK_CODE << +str.m_background->code() << 'm';
-  }
-  return os << static_cast<string>(str)  // NOLINT(cppcoreguidelines-slicing)
-            << colored_string::CLEAR_CODE;
+  return os << str.show();
 }

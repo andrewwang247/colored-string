@@ -104,6 +104,12 @@ class colored_string : public std::string {
   void reset_background() const noexcept;
 
   /**
+   * @brief Get the string that is printed to get colors.
+   * @returns The constructed string with included ANSI color codes.
+   */
+  std::string show() const;
+
+  /**
    * @brief Print with foreground and background colors.
    * @param os The output stream.
    * @param str Colored string to print.

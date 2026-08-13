@@ -7,6 +7,7 @@ Copyright 2026. Andrew Wang.
 
 #include <cassert>
 #include <cstddef>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -17,32 +18,24 @@ Copyright 2026. Andrew Wang.
 #include "util.h"  // NOLINT(misc-include-cleaner)
 
 using std::cout;
+using std::format;
 using std::ifstream;
 using std::ios_base;
 using std::vector;
 
 int main() {
   ios_base::sync_with_stdio(false);
-
-  cout << "--- EXECUTING UNIT TESTS ---\n";
-  cout << "Validating channel conversion interoperability\n";
-  unit_test::validate_interop();
-  cout << "All RGB - HSVL channel conversions match\n";
-
   const auto rgb_vec = unit_test::read_file<unsigned>(unit_test::RGB_MATRIX);
   const auto hsv_vec = unit_test::read_file<double>(unit_test::HSV_MATRIX);
   const auto hsl_vec = unit_test::read_file<double>(unit_test::HSL_MATRIX);
-  cout << "Discovered " << unit_test::NUM_CASES << " sRGB space test cases\n";
 
-  unit_test::validate_srgb(rgb_vec, hsv_vec, hsl_vec);
-  cout << "Verified that all coordinate triplets match\n"
-       << "--- FINISHED UNIT TESTS ---\n";
+  cout << "--- EXECUTING UNIT TESTS ---\n";
+  unit_test::rgb_color_hsvl();
+  unit_test::srgb_hsvl(rgb_vec, hsv_vec, hsl_vec);
+  cout << "--- FINISHED UNIT TESTS ---\n";
 }
 
-/**
- * @brief Validate conversions between RGB and HSVL.
- */
-void unit_test::validate_interop() {
+void unit_test::rgb_color_hsvl() {
   constexpr color_t channel_max{color_cast(channel::END)};
   for (color_t r = 0; r < channel_max; ++r) {
     const auto red{static_cast<channel>(r)};
@@ -59,11 +52,12 @@ void unit_test::validate_interop() {
       }
     }
   }
+  cout << format(ANNOUNCE_TEMPLATE, "rgb_color -- HSV/L");
 }
 
-void unit_test::validate_srgb(const vector<triplet<unsigned>>& rgb_vec,
-                              const vector<triplet<double>>& hsv_vec,
-                              const vector<triplet<double>>& hsl_vec) {
+void unit_test::srgb_hsvl(const vector<triplet<unsigned>>& rgb_vec,
+                          const vector<triplet<double>>& hsv_vec,
+                          const vector<triplet<double>>& hsl_vec) {
   for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
     const auto& rgb_actual = rgb_vec[i];  // NOLINT
     const auto r{static_cast<color_t>(rgb_actual.m_a)};
@@ -85,4 +79,5 @@ void unit_test::validate_srgb(const vector<triplet<unsigned>>& rgb_vec,
     assert(
         util::almost_eq(hsl_actual.lightness(), hsl_expected.m_c, PRECISION));
   }
+  cout << format(ANNOUNCE_TEMPLATE, "sRGB -- HSV/L");
 }

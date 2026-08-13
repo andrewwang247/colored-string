@@ -28,6 +28,8 @@ static constexpr auto RGB_MATRIX = "test/mat_rgb.txt";
 static constexpr auto HSV_MATRIX = "test/mat_hsv.txt";
 static constexpr auto HSL_MATRIX = "test/mat_hsl.txt";
 
+static constexpr auto ANNOUNCE_TEMPLATE = "Test {:<25} passed\n";
+
 /**
  * @brief Read triplets from a file.
  * @param name The file name.
@@ -39,7 +41,7 @@ static std::vector<triplet<T>> read_file(const char* name);
 /**
  * @brief Validate conversions between RGB and HSVL.
  */
-void validate_interop();
+void rgb_color_hsvl();
 
 /**
  * @brief Validate sRGB conversions to and from HSVL.
@@ -47,9 +49,9 @@ void validate_interop();
  * @param hsv_vec HSV triplets with expected values.
  * @param hsl_vec HSL triplets with expected values.
  */
-void validate_srgb(const std::vector<triplet<unsigned>>& rgb_vec,
-                   const std::vector<triplet<double>>& hsv_vec,
-                   const std::vector<triplet<double>>& hsl_vec);
+void srgb_hsvl(const std::vector<triplet<unsigned>>& rgb_vec,
+               const std::vector<triplet<double>>& hsv_vec,
+               const std::vector<triplet<double>>& hsl_vec);
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS

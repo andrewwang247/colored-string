@@ -87,7 +87,7 @@ void demo::paint_america() {
 
   const auto blue_patch = colored_string{" "}.background(blue);
 
-  const auto right_strip = format(R"({:<26})", "");
+  const auto right_strip = format("{:<26}", "");
   auto red_strip = colored_string{right_strip}.background(red);
   auto white_strip = colored_string{right_strip}.background(white);
 
@@ -110,12 +110,12 @@ void demo::paint_america() {
   star_line_white();
   star_line_red();
 
-  const auto extension = format(R"({:<17})", "");
+  const auto extension = format("{:<17}", "");
   red_strip += extension;
   white_strip += extension;
 
   for (int i = 0; i < 3; ++i) {
-    cout << white_strip << '\n' << red_strip << '\n';
+    cout << format("{}\n{}\n", white_strip.show(), red_strip.show());
   }
 }
 
