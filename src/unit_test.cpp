@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 #include <format>
 #include <fstream>
 #include <iostream>
-#include <vector>
+#include <span>
 
 #include "base_color.h"
 #include "hsvl.h"
@@ -21,7 +21,7 @@ using std::cout;
 using std::format;
 using std::ifstream;
 using std::ios_base;
-using std::vector;
+using std::span;
 
 int main() {
   ios_base::sync_with_stdio(false);
@@ -55,9 +55,9 @@ void unit_test::rgb_color_hsvl() {
   cout << format(ANNOUNCE_TEMPLATE, "rgb_color -- HSV/L");
 }
 
-void unit_test::srgb_hsvl(const vector<triplet<unsigned>>& rgb_vec,
-                          const vector<triplet<double>>& hsv_vec,
-                          const vector<triplet<double>>& hsl_vec) {
+void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_vec,
+                          span<const triplet<double>> hsv_vec,
+                          span<const triplet<double>> hsl_vec) {
   for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
     const auto& rgb_actual = rgb_vec[i];  // NOLINT
     const auto r{static_cast<color_t>(rgb_actual.m_a)};

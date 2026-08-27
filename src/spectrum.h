@@ -30,31 +30,34 @@ struct rainbow {
  * Utility functions for spectrums and rainbows.
  */
 namespace spectrum {
+
+template <cylindrical_space CS>
+using spectrum_map_t = std::map<CS, rgb_color, rainbow>;
+
 /**
  * @brief Generate a rainbow sorted cylindrical to rgb spectrum map.
  * @return An iteration over all channel combinations.
  */
-template <cylindrical_space ColorSpace>
-std::map<ColorSpace, rgb_color, rainbow> generate();
+template <cylindrical_space CS>
+spectrum_map_t<CS> generate();
 
 /**
  * @brief Display a sorted spectrum to cout.
- * @param cyl_to_rgb Mapping sorted by the rainbow
- * functor.
+ * @param cyl_to_rgb Map sorted by rainbow functor.
  * @param lightness Filter for only the given lightness.
  * @param min_value Filter for only greater values.
  */
-template <cylindrical_space ColorSpace>
-void display(const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
-             double lightness, double min_value);
+template <cylindrical_space CS>
+void display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
+             double min_value);
 }  // namespace spectrum
 
 // TEMPLATED IMPLEMENTATIONS
 
-template <cylindrical_space ColorSpace>
-std::map<ColorSpace, rgb_color, rainbow> spectrum::generate() {
+template <cylindrical_space CS>
+spectrum::spectrum_map_t<CS> spectrum::generate() {
   constexpr color_t channel_max{color_cast(channel::END)};
-  std::map<ColorSpace, rgb_color, rainbow> cyl_to_rgb;
+  spectrum_map_t<CS> cyl_to_rgb;
   for (color_t r = 0; r < channel_max; ++r) {
     const auto red{static_cast<channel>(r)};
     for (color_t g = 0; g < channel_max; ++g) {
@@ -70,10 +73,9 @@ std::map<ColorSpace, rgb_color, rainbow> spectrum::generate() {
   return cyl_to_rgb;
 }
 
-template <cylindrical_space ColorSpace>
-void spectrum::display(
-    const std::map<ColorSpace, rgb_color, rainbow>& cyl_to_rgb,
-    double lightness, double min_value) {
+template <cylindrical_space CS>
+void spectrum::display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
+                       double min_value) {
   static const colored_string display{"  "};
   for (const auto& [cyl, rgb] : cyl_to_rgb) {
     if (util::almost_eq(lightness, cyl.lightness()) &&

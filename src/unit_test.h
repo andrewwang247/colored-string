@@ -6,6 +6,7 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <cassert>
 #include <fstream>
+#include <span>
 #include <stdexcept>
 #include <vector>
 
@@ -49,9 +50,9 @@ void rgb_color_hsvl();
  * @param hsv_vec HSV triplets with expected values.
  * @param hsl_vec HSL triplets with expected values.
  */
-void srgb_hsvl(const std::vector<triplet<unsigned>>& rgb_vec,
-               const std::vector<triplet<double>>& hsv_vec,
-               const std::vector<triplet<double>>& hsl_vec);
+void srgb_hsvl(std::span<const triplet<unsigned>> rgb_vec,
+               std::span<const triplet<double>> hsv_vec,
+               std::span<const triplet<double>> hsl_vec);
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
