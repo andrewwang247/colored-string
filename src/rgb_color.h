@@ -31,9 +31,9 @@ class rgb_color final : public color {
    * @param green_in  The green channel.
    * @param blue_in   The blue channel.
    */
-  rgb_color(channel red_in, channel green_in, channel blue_in);
+  rgb_color(channel red_in, channel green_in, channel blue_in) noexcept;
 
-  color_t code() const override;
+  color_t code() const noexcept override;
 
  private:
   std::unique_ptr<color> clone() const override;

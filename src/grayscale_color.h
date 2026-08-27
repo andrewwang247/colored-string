@@ -52,7 +52,7 @@ class grayscale_color final : public singular_color {
    * @brief Explicitly sets underlying gray color.
    * @param color_in Input gray scale indicator.
    */
-  explicit grayscale_color(gray gray_in);
+  explicit grayscale_color(gray gray_in) noexcept;
 
  private:
   static constexpr auto OFFSET = 232;

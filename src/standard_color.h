@@ -19,7 +19,7 @@ class standard_color final : public singular_color {
    *
    * @param palette_in Input palette.
    */
-  explicit standard_color(palette palette_in);
+  explicit standard_color(palette palette_in) noexcept;
 
  private:
   static constexpr auto OFFSET = 0;

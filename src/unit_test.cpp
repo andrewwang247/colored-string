@@ -35,7 +35,7 @@ int main() {
   cout << "--- FINISHED UNIT TESTS ---\n";
 }
 
-void unit_test::rgb_color_hsvl() {
+void unit_test::rgb_color_hsvl() noexcept {
   constexpr color_t channel_max{color_cast(channel::END)};
   for (color_t r = 0; r < channel_max; ++r) {
     const auto red{static_cast<channel>(r)};
@@ -57,7 +57,7 @@ void unit_test::rgb_color_hsvl() {
 
 void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_vec,
                           span<const triplet<double>> hsv_vec,
-                          span<const triplet<double>> hsl_vec) {
+                          span<const triplet<double>> hsl_vec) noexcept {
   for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
     const auto& rgb_actual = rgb_vec[i];  // NOLINT
     const auto r{static_cast<color_t>(rgb_actual.m_a)};

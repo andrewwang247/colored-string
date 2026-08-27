@@ -18,7 +18,7 @@ struct triplet {
  public:
   T m_a, m_b, m_c;
 
-  triplet(T a, T b, T c);
+  triplet(T a, T b, T c) noexcept;
 };
 
 namespace unit_test {
@@ -42,7 +42,7 @@ static std::vector<triplet<T>> read_file(const char* name);
 /**
  * @brief Validate conversions between RGB and HSVL.
  */
-void rgb_color_hsvl();
+void rgb_color_hsvl() noexcept;
 
 /**
  * @brief Validate sRGB conversions to and from HSVL.
@@ -52,13 +52,13 @@ void rgb_color_hsvl();
  */
 void srgb_hsvl(std::span<const triplet<unsigned>> rgb_vec,
                std::span<const triplet<double>> hsv_vec,
-               std::span<const triplet<double>> hsl_vec);
+               std::span<const triplet<double>> hsl_vec) noexcept;
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
 
 template <typename T>
-triplet<T>::triplet(T a, T b, T c) : m_a(a), m_b(b), m_c(c) {}
+triplet<T>::triplet(T a, T b, T c) noexcept : m_a(a), m_b(b), m_c(c) {}
 
 template <typename T>
 static std::vector<triplet<T>> unit_test::read_file(const char* name) {

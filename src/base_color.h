@@ -23,7 +23,7 @@ concept color_specifier = std::same_as<std::underlying_type_t<T>, color_t> ||
  * @param cs The color specifier class.
  * @return Cast to the underlying color_t.
  */
-constexpr color_t color_cast(color_specifier auto cs) {
+constexpr color_t color_cast(color_specifier auto cs) noexcept {
   return static_cast<color_t>(cs);
 }
 
@@ -45,14 +45,14 @@ class color {
    * @brief Argument constructor.
    * @param offset The ANSI code offset.
    */
-  explicit color(color_t offset);
+  explicit color(color_t offset) noexcept;
 
  public:
   /**
    * @brief See below.
    * @return The 8-bit ANSI color code.
    */
-  virtual color_t code() const = 0;
+  virtual color_t code() const noexcept = 0;
 
   virtual ~color() noexcept = default;
 
@@ -76,10 +76,10 @@ class singular_color : public color {
    * @param color_in The underlying color.
    * @param offset_in The ANSI code offset.
    */
-  singular_color(color_t color_in, color_t offset_in);
+  singular_color(color_t color_in, color_t offset_in) noexcept;
 
  public:
-  color_t code() const override;
+  color_t code() const noexcept override;
 };
 
 /**

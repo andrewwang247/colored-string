@@ -8,8 +8,8 @@ Copyright 2026. Andrew Wang.
 #include <algorithm>
 #include <cmath>
 #include <concepts>
+#include <exception>
 #include <iterator>
-#include <stdexcept>
 
 #include "rgb_color.h"
 #include "util.h"
@@ -22,8 +22,8 @@ class cylindrical {
   double m_hue = 0., m_chroma = 0., m_saturation = 0., m_value = 0.,
          m_lightness = 0.;
 
-  cylindrical(channel red, channel green, channel blue);
-  cylindrical(color_t red, color_t green, color_t blue);
+  cylindrical(channel red, channel green, channel blue) noexcept;
+  cylindrical(color_t red, color_t green, color_t blue) noexcept;
 
  public:
   double hue() const noexcept;
@@ -36,7 +36,7 @@ class cylindrical {
    * @brief Compute the closest ANSI RGB color to this.
    * @return ANSI RGB approximation.
    */
-  virtual rgb_color to_rgb() const = 0;
+  virtual rgb_color to_rgb() const noexcept = 0;
 
   virtual ~cylindrical() = default;
 
@@ -45,13 +45,13 @@ class cylindrical {
    * @brief Generic helper to compute representation.
    */
   template <color_specifier T>
-  void generic_construct(T red, T green, T blue);
+  void generic_construct(T red, T green, T blue) noexcept;
 
  protected:
   /**
    * @brief Set the saturation using other members.
    */
-  virtual void set_saturation() = 0;
+  virtual void set_saturation() noexcept = 0;
 };
 
 template <typename T>
@@ -59,28 +59,28 @@ concept cylindrical_space = std::derived_from<T, cylindrical>;
 
 class hsv final : public cylindrical {
  public:
-  hsv(channel red, channel green, channel blue);
-  hsv(color_t red, color_t green, color_t blue);
+  hsv(channel red, channel green, channel blue) noexcept;
+  hsv(color_t red, color_t green, color_t blue) noexcept;
 
-  rgb_color to_rgb() const override;
+  rgb_color to_rgb() const noexcept override;
 
  protected:
-  void set_saturation() override;
+  void set_saturation() noexcept override;
 };
 
 class hsl final : public cylindrical {
  public:
-  hsl(channel red, channel green, channel blue);
-  hsl(color_t red, color_t green, color_t blue);
+  hsl(channel red, channel green, channel blue) noexcept;
+  hsl(color_t red, color_t green, color_t blue) noexcept;
 
-  rgb_color to_rgb() const override;
+  rgb_color to_rgb() const noexcept override;
 
  protected:
-  void set_saturation() override;
+  void set_saturation() noexcept override;
 };
 
 template <color_specifier T>
-void cylindrical::generic_construct(T red, T green, T blue) {
+void cylindrical::generic_construct(T red, T green, T blue) noexcept {
   const auto r{util::normalize(red)};
   const auto g{util::normalize(green)};
   const auto b{util::normalize(blue)};
@@ -111,7 +111,8 @@ void cylindrical::generic_construct(T red, T green, T blue) {
       m_hue = 4. + (r - g) / m_chroma;
       break;
     default:
-      throw std::out_of_range("Unexpected pointer difference from argmax");
+      // Unexpected pointer difference from argmax
+      std::terminate();
   }
   m_hue = 60 * std::abs(m_hue);
 }
