@@ -6,8 +6,10 @@ Copyright 2026. Andrew Wang.
 #include "demo.h"
 
 #include <cstddef>
+#include <exception>
 #include <format>
 #include <iostream>
+#include <optional>
 
 #include "base_color.h"
 #include "bright_color.h"
@@ -21,6 +23,8 @@ Copyright 2026. Andrew Wang.
 using std::cout;
 using std::format;
 using std::ios_base;
+using std::nullopt;
+using std::terminate;
 
 int main() {
   ios_base::sync_with_stdio(false);
@@ -32,10 +36,12 @@ int main() {
 
 void demo::show_color(const color& col) {
   colored_string str{format(R"({:>3})", col.code())};
-  cout << str.foreground(col);
+  cout << str.set_foreground(col);
+  if (str.get_foreground()->code() != col.code()) terminate();
   str.reset_foreground();
-  str = "   ";
-  cout << str.background(col) << ' ';
+  str.data_reference() = "   ";
+  cout << str.set_background(col) << ' ';
+  if (str.get_background()->code() != col.code()) terminate();
   str.reset_background();
 }
 
@@ -82,14 +88,12 @@ void demo::paint_america() {
   const grayscale_color white(gray::G23);
   const bright_color blue(palette::BLUE);
 
-  const auto white_star =
-      colored_string{"X"}.foreground(white).background(blue);
-
-  const auto blue_patch = colored_string{" "}.background(blue);
+  const colored_string white_star{"X", white, blue};
+  const colored_string blue_patch{" ", nullopt, blue};
 
   const auto right_strip = format("{:<26}", "");
-  auto red_strip = colored_string{right_strip}.background(red);
-  auto white_strip = colored_string{right_strip}.background(white);
+  colored_string red_strip{right_strip, nullopt, red};
+  colored_string white_strip{right_strip, nullopt, white};
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
     for (int i = 0; i < 8; ++i) cout << blue_patch << white_star;
@@ -111,8 +115,8 @@ void demo::paint_america() {
   star_line_red();
 
   const auto extension = format("{:<17}", "");
-  red_strip += extension;
-  white_strip += extension;
+  red_strip.data_reference() += extension;
+  white_strip.data_reference() += extension;
 
   for (int i = 0; i < 3; ++i) {
     cout << format("{}\n{}\n", white_strip.show(), red_strip.show());

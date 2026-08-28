@@ -47,15 +47,15 @@ enum class gray : color_t {
  * A grayscale color taking on 24 possible values.
  */
 class grayscale_color final : public singular_color {
+ private:
+  static constexpr auto OFFSET = 232;
+
  public:
   /**
    * @brief Explicitly sets underlying gray color.
    * @param color_in Input gray scale indicator.
    */
   explicit grayscale_color(gray gray_in) noexcept;
-
- private:
-  static constexpr auto OFFSET = 232;
 
   std::unique_ptr<color> clone() const override;
 };

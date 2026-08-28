@@ -35,6 +35,5 @@ class rgb_color final : public color {
 
   color_t code() const noexcept override;
 
- private:
   std::unique_ptr<color> clone() const override;
 };

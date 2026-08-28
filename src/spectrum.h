@@ -76,11 +76,11 @@ spectrum::spectrum_map_t<CS> spectrum::generate() {
 template <cylindrical_space CS>
 void spectrum::display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
                        double min_value) {
-  static const colored_string display{"  "};
+  colored_string display{"  "};
   for (const auto& [cyl, rgb] : cyl_to_rgb) {
     if (util::almost_eq(lightness, cyl.lightness()) &&
         util::almost_less(min_value, cyl.value())) {
-      std::cout << display.background(rgb);
+      std::cout << display.set_background(rgb);
     }
   }
   std::cout << '\n';

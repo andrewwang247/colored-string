@@ -27,14 +27,10 @@ constexpr color_t color_cast(color_specifier auto cs) noexcept {
   return static_cast<color_t>(cs);
 }
 
-class colored_string;
-
 /**
  * Abstract interface for all color types.
  */
 class color {
-  friend class colored_string;
-
  protected:
   /**
    * The ANSI code offset from 0.
@@ -54,14 +50,13 @@ class color {
    */
   virtual color_t code() const noexcept = 0;
 
-  virtual ~color() noexcept = default;
-
- private:
   /**
    * @brief Polymorphic cloning.
    * @return A new copy of the color.
    */
   virtual std::unique_ptr<color> clone() const = 0;
+
+  virtual ~color() noexcept = default;
 };
 
 /**

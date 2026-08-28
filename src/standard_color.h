@@ -13,6 +13,9 @@ Copyright 2026. Andrew Wang.
  * A standard palette color.
  */
 class standard_color final : public singular_color {
+ private:
+  static constexpr auto OFFSET = 0;
+
  public:
   /**
    * @brief Explicitly sets underlying palette color.
@@ -20,9 +23,6 @@ class standard_color final : public singular_color {
    * @param palette_in Input palette.
    */
   explicit standard_color(palette palette_in) noexcept;
-
- private:
-  static constexpr auto OFFSET = 0;
 
   std::unique_ptr<color> clone() const override;
 };
