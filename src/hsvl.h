@@ -15,7 +15,7 @@ Copyright 2026. Andrew Wang.
 #include "util.h"
 
 /**
- * Base cylindrical representation.
+ * @brief Base cylindrical representation.
  */
 class cylindrical {
  protected:
@@ -26,11 +26,11 @@ class cylindrical {
   cylindrical(color_t red, color_t green, color_t blue) noexcept;
 
  public:
-  double hue() const noexcept;
-  double chroma() const noexcept;
-  double saturation() const noexcept;
-  double value() const noexcept;
-  double lightness() const noexcept;
+  constexpr double hue() const noexcept { return m_hue; }
+  constexpr double chroma() const noexcept { return m_chroma; }
+  constexpr double saturation() const noexcept { return m_saturation; }
+  constexpr double value() const noexcept { return m_value; }
+  constexpr double lightness() const noexcept { return m_lightness; }
 
   /**
    * @brief Compute the closest ANSI RGB color to this.
@@ -45,7 +45,7 @@ class cylindrical {
    * @brief Generic helper to compute representation.
    */
   template <color_specifier T>
-  void generic_construct(T red, T green, T blue) noexcept;
+  constexpr void generic_construct(T red, T green, T blue) noexcept;
 
  protected:
   /**
@@ -57,6 +57,9 @@ class cylindrical {
 template <typename T>
 concept cylindrical_space = std::derived_from<T, cylindrical>;
 
+/**
+ * @brief Hue saturation value representation.
+ */
 class hsv final : public cylindrical {
  public:
   hsv(channel red, channel green, channel blue) noexcept;
@@ -68,6 +71,9 @@ class hsv final : public cylindrical {
   void set_saturation() noexcept override;
 };
 
+/**
+ * @brief Hue saturation lightness representation.
+ */
 class hsl final : public cylindrical {
  public:
   hsl(channel red, channel green, channel blue) noexcept;
@@ -79,15 +85,17 @@ class hsl final : public cylindrical {
   void set_saturation() noexcept override;
 };
 
+// CONSTEXPR AND TEMPLATED IMPLEMENTATIONS
+
 template <color_specifier T>
-void cylindrical::generic_construct(T red, T green, T blue) noexcept {
-  const auto r{util::normalize(red)};
-  const auto g{util::normalize(green)};
-  const auto b{util::normalize(blue)};
+constexpr void cylindrical::generic_construct(T red, T green, T blue) noexcept {
+  const auto r = util::normalize(red);
+  const auto g = util::normalize(green);
+  const auto b = util::normalize(blue);
   const auto rgb_list = {r, g, b};
 
-  const auto x_max{std::max(rgb_list)};
-  const auto x_min{std::min(rgb_list)};
+  const auto x_max = std::max(rgb_list);
+  const auto x_min = std::min(rgb_list);
 
   m_value = x_max;
   m_chroma = x_max - x_min;

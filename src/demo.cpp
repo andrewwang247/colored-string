@@ -35,7 +35,7 @@ int main() {
 }
 
 void demo::show_color(const color& col) {
-  colored_string str{format(R"({:>3})", col.code())};
+  colored_string str{format("{:>3}", col.code())};
   cout << str.set_foreground(col);
   if (str.get_foreground()->code() != col.code()) terminate();
   str.reset_foreground();
@@ -45,9 +45,6 @@ void demo::show_color(const color& col) {
   str.reset_background();
 }
 
-/**
- * Demonstrate all ANSI 8-bit colors.
- */
 void demo::show_all_colors() {
   cout << "Standard colors:\n";
   for (color_t i = 0; i < color_cast(palette::END); ++i) {

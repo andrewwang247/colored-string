@@ -20,12 +20,6 @@ cylindrical::cylindrical(color_t red, color_t green, color_t blue) noexcept {
   generic_construct(red, green, blue);
 }
 
-double cylindrical::hue() const noexcept { return m_hue; }
-double cylindrical::chroma() const noexcept { return m_chroma; }
-double cylindrical::saturation() const noexcept { return m_saturation; }
-double cylindrical::value() const noexcept { return m_value; }
-double cylindrical::lightness() const noexcept { return m_lightness; }
-
 hsv::hsv(channel red, channel green, channel blue) noexcept
     : cylindrical(red, green, blue) {
   set_saturation();

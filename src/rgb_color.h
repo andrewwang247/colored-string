@@ -10,19 +10,19 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * RGB channel values for ANSI.
+ * @brief RGB channel values for ANSI.
+ *
  * Higher values correspond to stronger RGB channel input.
  */
 enum class channel : color_t { C0, C1, C2, C3, C4, C5, END };
 
 /**
- * An RGB color in {0,...,5}^3 space.
+ * @brief An RGB color in {0,...,5}^3 space.
  */
 class rgb_color final : public color {
  private:
-  channel m_red, m_green, m_blue;
-
   static constexpr auto OFFSET = 16;
+  channel m_red, m_green, m_blue;
 
  public:
   /**

@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 #include <type_traits>
 
 /**
- * 8-bit ANSI color type.
+ * @brief 8-bit ANSI color type.
  */
 using color_t = unsigned char;
 
@@ -28,13 +28,11 @@ constexpr color_t color_cast(color_specifier auto cs) noexcept {
 }
 
 /**
- * Abstract interface for all color types.
+ * @brief Abstract interface for all color types.
  */
 class color {
  protected:
-  /**
-   * The ANSI code offset from 0.
-   */
+  // The ANSI code offset from 0.
   color_t m_offset;
 
   /**
@@ -60,7 +58,7 @@ class color {
 };
 
 /**
- * Abstract class for colors that are canonically described by a single value.
+ * @brief Colors that are canonically described by a single value.
  */
 class singular_color : public color {
  protected:
@@ -78,7 +76,7 @@ class singular_color : public color {
 };
 
 /**
- * Standard palette colors.
+ * @brief Standard palette colors.
  */
 enum class palette : color_t {
   BLACK,

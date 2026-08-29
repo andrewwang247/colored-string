@@ -8,7 +8,7 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * Demo of colored string abilities.
+ * @brief Demo of colored string abilities.
  */
 namespace demo {
 /**

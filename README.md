@@ -9,6 +9,8 @@ Below, we show terminal output when running the release version of `demo` on mac
 
 ![Output of demo on macOS](output.png)
 
+Warning: `colored_string` does not work with certain text formatting options introduced in C++2x. Alignment, width, and padding options used in `std::format` and `std::print/ln` are not supported due to ANSI code prefixes and suffixes.
+
 ## Colors
 
 Every supported color has a unique 8-bit ANSI code, yielding a total of $256 = 2^8$ possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible. These can be converted into `color_t` by using the helper function `color_cast`.

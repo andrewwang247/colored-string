@@ -14,12 +14,12 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 
 /**
- * Constexpr noexcept utility functions for colors and numerics.
+ * @brief Constexpr noexcept utility functions for colors and numerics.
  */
 namespace util {
 
 /**
- * Default allowed floating point imprecision.
+ * @brief Default allowed floating point imprecision.
  */
 static constexpr double EPSILON = 1e-4;
 

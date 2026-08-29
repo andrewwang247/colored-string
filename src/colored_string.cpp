@@ -1,5 +1,5 @@
 /*
-Colored strings.
+Colored strings implementation.
 
 Copyright 2026. Andrew Wang.
 */

@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * A standard palette color.
+ * @brief A standard palette color.
  */
 class standard_color final : public singular_color {
  private:

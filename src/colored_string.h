@@ -1,5 +1,5 @@
 /*
-Colored strings.
+Colored strings interface.
 
 Copyright 2026. Andrew Wang.
 */
@@ -14,7 +14,7 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * String that maintains foreground and background colors.
+ * @brief String that maintains foreground and background colors.
  */
 class colored_string {
  private:
@@ -27,6 +27,9 @@ class colored_string {
   std::unique_ptr<color> m_foreground, m_background;
 
  public:
+  /**
+   * @brief Default constructor with empty data and colors.
+   */
   explicit colored_string() = default;
 
   /**

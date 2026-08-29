@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * Grayscale colors.
+ * @brief Grayscale colors.
  *
  * Goes from black to white as numbers increase.
  */
@@ -44,7 +44,7 @@ enum class gray : color_t {
 };
 
 /**
- * A grayscale color taking on 24 possible values.
+ * @brief A grayscale color taking on 24 possible values.
  */
 class grayscale_color final : public singular_color {
  private:

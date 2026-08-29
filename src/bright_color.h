@@ -10,7 +10,7 @@ Copyright 2026. Andrew Wang.
 #include "base_color.h"
 
 /**
- * A bright palette color.
+ * @brief A bright palette color.
  */
 class bright_color final : public singular_color {
  private:

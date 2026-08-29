@@ -11,7 +11,7 @@ Copyright 2026. Andrew Wang.
 #include <vector>
 
 /**
- * Triplet of 3 equal types.
+ * @brief Triplet of 3 equal types.
  */
 template <typename T>
 struct triplet {
@@ -21,6 +21,9 @@ struct triplet {
   triplet(T a, T b, T c) noexcept;
 };
 
+/**
+ * @brief Unit testing.
+ */
 namespace unit_test {
 static constexpr auto NUM_CASES = 5000UZ;
 static constexpr auto PRECISION = 1e-1;
@@ -46,13 +49,13 @@ void rgb_color_hsvl() noexcept;
 
 /**
  * @brief Validate sRGB conversions to and from HSVL.
- * @param rgb_vec RGB triplets with expected values.
- * @param hsv_vec HSV triplets with expected values.
- * @param hsl_vec HSL triplets with expected values.
+ * @param rgb_list RGB triplets with expected values.
+ * @param hsv_list HSV triplets with expected values.
+ * @param hsl_list HSL triplets with expected values.
  */
-void srgb_hsvl(std::span<const triplet<unsigned>> rgb_vec,
-               std::span<const triplet<double>> hsv_vec,
-               std::span<const triplet<double>> hsl_vec) noexcept;
+void srgb_hsvl(std::span<const triplet<unsigned>> rgb_list,
+               std::span<const triplet<double>> hsv_list,
+               std::span<const triplet<double>> hsl_list) noexcept;
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS

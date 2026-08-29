@@ -6,6 +6,7 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <iostream>
 #include <map>
+#include <ranges>
 #include <tuple>
 
 #include "colored_string.h"
@@ -13,8 +14,10 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 #include "util.h"
 
+namespace views = std::views;
+
 /**
- * Functor for sorting cylindrical coordinates.
+ * @brief Functor for sorting cylindrical coordinates.
  */
 struct rainbow {
   /**
@@ -23,11 +26,26 @@ struct rainbow {
    * @param rhs The right coordinates to test.
    * @return A binary predicate ordering cylindrical coordinates.
    */
-  bool operator()(const cylindrical& lhs, const cylindrical& rhs) const;
+  constexpr static bool operator()(const cylindrical& lhs,
+                                   const cylindrical& rhs) {
+    if (!util::almost_eq(lhs.lightness(), rhs.lightness())) {
+      return lhs.lightness() < rhs.lightness();
+    }
+    if (!util::almost_eq(lhs.hue(), rhs.hue())) {
+      return lhs.hue() < rhs.hue();
+    }
+    if (!util::almost_eq(lhs.chroma(), rhs.chroma())) {
+      return lhs.chroma() < rhs.chroma();
+    }
+    if (!util::almost_eq(lhs.value(), rhs.value())) {
+      return lhs.value() < rhs.value();
+    }
+    return lhs.saturation() < rhs.saturation();
+  }
 };
 
 /**
- * Utility functions for spectrums and rainbows.
+ * @brief Utility functions for spectrums and rainbows.
  */
 namespace spectrum {
 
@@ -56,19 +74,14 @@ void display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
 
 template <cylindrical_space CS>
 spectrum::spectrum_map_t<CS> spectrum::generate() {
-  constexpr color_t channel_max{color_cast(channel::END)};
   spectrum_map_t<CS> cyl_to_rgb;
-  for (color_t r = 0; r < channel_max; ++r) {
-    const auto red{static_cast<channel>(r)};
-    for (color_t g = 0; g < channel_max; ++g) {
-      const auto green{static_cast<channel>(g)};
-      for (color_t b = 0; b < channel_max; ++b) {
-        const auto blue{static_cast<channel>(b)};
-        cyl_to_rgb.emplace(std::piecewise_construct,
-                           std::forward_as_tuple(red, green, blue),
-                           std::forward_as_tuple(red, green, blue));
-      }
-    }
+  const auto ch_rng =
+      views::iota(color_cast(channel::C0), color_cast(channel::END)) |
+      views::transform(
+          [](auto col) static constexpr { return static_cast<channel>(col); });
+  for (auto&& [r, g, b] : views::cartesian_product(ch_rng, ch_rng, ch_rng)) {
+    cyl_to_rgb.emplace(std::piecewise_construct, std::forward_as_tuple(r, g, b),
+                       std::forward_as_tuple(r, g, b));
   }
   return cyl_to_rgb;
 }
