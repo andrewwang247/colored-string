@@ -131,7 +131,7 @@ class colored_string {
   void reset_background() noexcept;
 
   /**
-   * @brief Get the string that is printed to get colors.
+   * @brief Get the string that is printed with colors.
    * @returns The constructed string with included ANSI color codes.
    */
   std::string show() const;

@@ -6,10 +6,8 @@ Copyright 2026. Andrew Wang.
 #include "unit_test.h"
 
 #include <cassert>
-#include <cstddef>
-#include <format>
 #include <fstream>
-#include <iostream>
+#include <print>
 #include <span>
 
 #include "base_color.h"
@@ -17,22 +15,19 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 #include "util.h"  // NOLINT(misc-include-cleaner)
 
-using std::cout;
-using std::format;
 using std::ifstream;
-using std::ios_base;
+using std::println;
 using std::span;
 
 int main() {
-  ios_base::sync_with_stdio(false);
   const auto rgb_vec = unit_test::read_file<unsigned>(unit_test::RGB_MATRIX);
   const auto hsv_vec = unit_test::read_file<double>(unit_test::HSV_MATRIX);
   const auto hsl_vec = unit_test::read_file<double>(unit_test::HSL_MATRIX);
 
-  cout << "--- EXECUTING UNIT TESTS ---\n";
+  println("--- EXECUTING UNIT TESTS ---");
   unit_test::rgb_color_hsvl();
   unit_test::srgb_hsvl(rgb_vec, hsv_vec, hsl_vec);
-  cout << "--- FINISHED UNIT TESTS ---\n";
+  println("--- FINISHED UNIT TESTS ---");
 }
 
 void unit_test::rgb_color_hsvl() noexcept {
@@ -52,13 +47,13 @@ void unit_test::rgb_color_hsvl() noexcept {
       }
     }
   }
-  cout << format(ANNOUNCE_TEMPLATE, "rgb_color -- HSV/L");
+  println(ANNOUNCE_TEMPLATE, "rgb_color -- HSV/L");
 }
 
 void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_vec,
                           span<const triplet<double>> hsv_vec,
                           span<const triplet<double>> hsl_vec) noexcept {
-  for (size_t i = 0; i < unit_test::NUM_CASES; ++i) {
+  for (auto i = 0UZ; i < unit_test::NUM_CASES; ++i) {
     const auto& rgb_actual = rgb_vec[i];  // NOLINT
     const auto r{static_cast<color_t>(rgb_actual.m_a)};
     const auto g{static_cast<color_t>(rgb_actual.m_b)};
@@ -79,5 +74,5 @@ void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_vec,
     assert(
         util::almost_eq(hsl_actual.lightness(), hsl_expected.m_c, PRECISION));
   }
-  cout << format(ANNOUNCE_TEMPLATE, "sRGB -- HSV/L");
+  println(ANNOUNCE_TEMPLATE, "sRGB -- HSV/L");
 }

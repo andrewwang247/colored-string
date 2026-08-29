@@ -9,7 +9,7 @@ Copyright 2026. Andrew Wang.
 #include <cmath>
 #include <concepts>
 #include <exception>
-#include <iterator>
+#include <utility>
 
 #include "rgb_color.h"
 #include "util.h"
@@ -111,8 +111,7 @@ void cylindrical::generic_construct(T red, T green, T blue) noexcept {
       m_hue = 4. + (r - g) / m_chroma;
       break;
     default:
-      // Unexpected pointer difference from argmax
-      std::terminate();
+      std::unreachable();
   }
   m_hue = 60 * std::abs(m_hue);
 }

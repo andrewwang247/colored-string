@@ -84,8 +84,7 @@ string colored_string::show() const {
       m_foreground ? format("{}{}m", FORE_CODE, +m_foreground->code()) : "";
   const auto back_str =
       m_background ? format("{}{}m", BACK_CODE, +m_background->code()) : "";
-  return format("{}{}{}{}", fore_str, back_str, m_data,
-                colored_string::CLEAR_CODE);
+  return fore_str + back_str + m_data + CLEAR_CODE;
 }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
