@@ -90,3 +90,12 @@ enum class palette : color_t {
 
   END
 };
+
+/**
+ * @brief Cast to palette type.
+ * @param col The color to cast.
+ * @return The representative palette value.
+ */
+constexpr palette palette_cast(color_t col) noexcept {
+  return static_cast<palette>(col);
+}

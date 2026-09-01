@@ -75,10 +75,8 @@ void display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
 template <cylindrical_space CS>
 spectrum::spectrum_map_t<CS> spectrum::generate() {
   spectrum_map_t<CS> cyl_to_rgb;
-  const auto ch_rng =
-      views::iota(color_cast(channel::C0), color_cast(channel::END)) |
-      views::transform(
-          [](auto col) static constexpr { return static_cast<channel>(col); });
+  const auto ch_rng = views::iota(color_t{0}, color_cast(channel::END)) |
+                      views::transform(channel_cast);
   for (auto&& [r, g, b] : views::cartesian_product(ch_rng, ch_rng, ch_rng)) {
     cyl_to_rgb.emplace(std::piecewise_construct, std::forward_as_tuple(r, g, b),
                        std::forward_as_tuple(r, g, b));

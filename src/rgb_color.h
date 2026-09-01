@@ -17,6 +17,15 @@ Copyright 2026. Andrew Wang.
 enum class channel : color_t { C0, C1, C2, C3, C4, C5, END };
 
 /**
+ * @brief Cast to channel type.
+ * @param col The color to cast.
+ * @return The representative channel value.
+ */
+constexpr channel channel_cast(color_t col) noexcept {
+  return static_cast<channel>(col);
+}
+
+/**
  * @brief An RGB color in {0,...,5}^3 space.
  */
 class rgb_color final : public color {

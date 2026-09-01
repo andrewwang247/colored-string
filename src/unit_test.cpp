@@ -32,10 +32,8 @@ int main() {
 }
 
 void unit_test::rgb_color_hsvl() noexcept {
-  const auto ch_rng =
-      views::iota(color_cast(channel::C0), color_cast(channel::END)) |
-      views::transform(
-          [](auto col) static constexpr { return static_cast<channel>(col); });
+  const auto ch_rng = views::iota(color_t{0}, color_cast(channel::END)) |
+                      views::transform(channel_cast);
   for (auto&& [r, g, b] : views::cartesian_product(ch_rng, ch_rng, ch_rng)) {
     const rgb_color rgb{r, g, b};
     const auto hsv_convert = hsv{r, g, b}.to_rgb();

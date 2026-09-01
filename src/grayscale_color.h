@@ -44,6 +44,15 @@ enum class gray : color_t {
 };
 
 /**
+ * @brief Cast to gray type.
+ * @param col The color to cast.
+ * @return The representative gray value.
+ */
+constexpr gray gray_cast(color_t col) noexcept {
+  return static_cast<gray>(col);
+}
+
+/**
  * @brief A grayscale color taking on 24 possible values.
  */
 class grayscale_color final : public singular_color {
