@@ -38,7 +38,7 @@ class cylindrical {
    */
   virtual rgb_color to_rgb() const noexcept = 0;
 
-  virtual ~cylindrical() = default;
+  virtual ~cylindrical() noexcept;
 
  private:
   /**

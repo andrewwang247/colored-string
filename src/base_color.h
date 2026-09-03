@@ -41,6 +41,9 @@ class color {
    */
   explicit color(color_t offset) noexcept;
 
+  color(const color&) noexcept;
+  color& operator=(const color& other) noexcept;
+
  public:
   /**
    * @brief See below.
@@ -54,7 +57,7 @@ class color {
    */
   virtual std::unique_ptr<color> clone() const = 0;
 
-  virtual ~color() noexcept = default;
+  virtual ~color() noexcept;
 };
 
 /**

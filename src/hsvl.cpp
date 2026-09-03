@@ -20,6 +20,8 @@ cylindrical::cylindrical(color_t red, color_t green, color_t blue) noexcept {
   generic_construct(red, green, blue);
 }
 
+cylindrical::~cylindrical() noexcept = default;
+
 hsv::hsv(channel red, channel green, channel blue) noexcept
     : cylindrical(red, green, blue) {
   set_saturation();
