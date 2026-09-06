@@ -7,7 +7,7 @@ DEBUG_EXE := unit_test
 
 CXX := clang++
 CPPFLAGS := -MMD
-CXXFLAGS := -std=c++23 -Werror -pedantic-errors -Weverything -Wno-c++98-compat -Wno-padded
+CXXFLAGS := -std=c++23 -Werror -pedantic-errors -Weverything -Wno-c++98-compat -Wno-padded -Wno-poison-system-directories
 OPT := -O3 -DNDEBUG
 DEBUG := -g3 -DDEBUG
 
