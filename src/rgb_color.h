@@ -30,7 +30,7 @@ constexpr channel channel_cast(color_t col) noexcept {
  */
 class rgb_color final : public color {
  private:
-  static constexpr auto OFFSET = 16;
+  static constexpr color_t OFFSET{16};
   channel m_red, m_green, m_blue;
 
  public:

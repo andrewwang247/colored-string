@@ -7,14 +7,14 @@ Copyright 2026. Andrew Wang.
 
 #include <memory>
 
-#include "base_color.h"
+#include "singular_color.h"
 
 /**
  * @brief A bright palette color.
  */
 class bright_color final : public singular_color {
  private:
-  static constexpr auto OFFSET = 8;
+  static constexpr color_t OFFSET{8};
 
  public:
   /**

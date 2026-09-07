@@ -7,7 +7,7 @@ Copyright 2026. Andrew Wang.
 
 #include <memory>
 
-#include "base_color.h"
+#include "singular_color.h"
 
 /**
  * @brief Grayscale colors.
@@ -57,7 +57,7 @@ constexpr gray gray_cast(color_t col) noexcept {
  */
 class grayscale_color final : public singular_color {
  private:
-  static constexpr auto OFFSET = 232;
+  static constexpr color_t OFFSET{232};
 
  public:
   /**

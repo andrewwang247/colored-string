@@ -18,6 +18,7 @@ Copyright 2026. Andrew Wang.
 #include "grayscale_color.h"
 #include "hsvl.h"
 #include "rgb_color.h"
+#include "singular_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
 
