@@ -47,11 +47,6 @@ colored_string::colored_string(const colored_string& other)
       m_background(other.m_background ? other.m_background->clone() : nullptr) {
 }
 
-colored_string::colored_string(colored_string&& other) noexcept
-    : colored_string() {
-  std::swap(*this, other);
-}
-
 colored_string& colored_string::operator=(colored_string other) {
   std::swap(*this, other);
   return *this;

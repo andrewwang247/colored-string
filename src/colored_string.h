@@ -80,7 +80,7 @@ class colored_string {
    * @brief Move constructor.
    * @param other The other string.
    */
-  colored_string(colored_string&& other) noexcept;
+  colored_string(colored_string&& other) = default;
 
   /**
    * @brief Assignment operator for copy and move.
