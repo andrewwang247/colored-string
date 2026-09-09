@@ -8,7 +8,6 @@ Copyright 2026. Andrew Wang.
 #include <algorithm>
 #include <cmath>
 #include <compare>
-#include <concepts>
 #include <exception>
 #include <utility>
 
@@ -67,9 +66,6 @@ class cylindrical {
   template <color_specifier T>
   constexpr void generic_construct(T red, T green, T blue) noexcept;
 };
-
-template <typename T>
-concept cylindrical_space = std::derived_from<T, cylindrical>;
 
 /**
  * @brief Hue saturation value representation.

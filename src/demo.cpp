@@ -8,6 +8,7 @@ Copyright 2026. Andrew Wang.
 #include <exception>
 #include <format>
 #include <iostream>
+#include <iterator>
 #include <optional>
 #include <print>
 #include <ranges>
@@ -29,6 +30,7 @@ using std::print;
 using std::println;
 using std::terminate;
 
+namespace ranges = std::ranges;
 namespace views = std::views;
 
 int main() {
@@ -133,10 +135,19 @@ void demo::paint_america() {
 
 void demo::display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
-  println("Dark rainbow:");
-  spectrum::display(cyl_to_rgb, .3, .55);
-  println("Standard rainbow:");
-  spectrum::display(cyl_to_rgb, .5, .95);
-  println("Pastel rainbow:");
-  spectrum::display(cyl_to_rgb, .7, .95);
+
+  auto dark = cyl_to_rgb | spectrum::filter_lightness(.3) |
+              spectrum::filter_min_value(.55);
+  println("Dark rainbow ({}):", ranges::distance(dark));
+  spectrum::display(dark | views::values);
+
+  auto standard = cyl_to_rgb | spectrum::filter_lightness(.5) |
+                  spectrum::filter_min_value(.95);
+  println("Standard rainbow ({}):", ranges::distance(standard));
+  spectrum::display(standard | views::values);
+
+  auto pastel = cyl_to_rgb | spectrum::filter_lightness(.7) |
+                spectrum::filter_min_value(.95);
+  println("Pastel rainbow ({}):", ranges::distance(pastel));
+  spectrum::display(pastel | views::values);
 }
