@@ -1,13 +1,13 @@
 # Colored String
 
-The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). Build and run `demo` with the `Makefile` targets:
+The `colored_string` class is an extension of `std::string` that adds 8-bit ANSI foreground and background colors when printing to the terminal (assuming your terminal supports it). Build and run `demo` or `unit_test` with the `Makefile` targets:
 
 - `run` / `release` option to run / build an example usage of colored strings
 - `test` / `debug` option to run / build unit tests for cylindrical conversion
 
-Below, we show terminal output when running the release version of `demo` on macOS.
+Below, we show terminal output when running `demo` on Linux.
 
-![Output of demo on macOS](output.png)
+![Output of demo on Linux](output.png)
 
 Warning: `colored_string` does not work with certain text formatting options introduced in C++2x. Alignment, width, and padding options used in `std::format` and `std::print/ln` are not supported due to ANSI code prefixes and suffixes.
 
@@ -60,7 +60,7 @@ from an RGB input, differing in how they compute saturation. We support both the
 
 ### Spectrum
 
-The HSV / HSL spaces are much better at mapping to human spectral perception than RGB. As a result, we can roughly sort colors by hue to create rainbows. To generate the visual pleasing rainbows in `demo`, additional steps were taken:
+The HSV / HSL spaces are much better at mapping to human spectral perception than RGB. As a result, we can roughly sort colors by hue to create rainbows. To generate the perceptually uniform rainbows in `demo`, additional steps were taken:
 
 - Discard colors with lower values to keep the spectrum vibrant.
 - Dark, standard, and pastel variants are created by filtering in low, medium, and high lightness bands, respectively.
