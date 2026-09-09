@@ -135,19 +135,19 @@ void demo::paint_america() {
 
 void demo::display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
+  colored_string display{"  "};
 
-  auto dark = cyl_to_rgb | spectrum::filter_lightness(.3) |
-              spectrum::filter_min_value(.55);
-  println("Dark rainbow ({}):", ranges::distance(dark));
-  spectrum::display(dark | views::values);
+  const auto show_rb = [&](const char* name, double light, double val) {
+    auto rainbow = cyl_to_rgb | spectrum::filter_lightness(light) |
+                   spectrum::filter_min_value(val);
+    println("{} rainbow ({}):", name, ranges::distance(rainbow));
+    for (auto&& rgb : rainbow | views::values) {
+      cout << display.set_background(rgb);
+    }
+    cout.put('\n');
+  };
 
-  auto standard = cyl_to_rgb | spectrum::filter_lightness(.5) |
-                  spectrum::filter_min_value(.95);
-  println("Standard rainbow ({}):", ranges::distance(standard));
-  spectrum::display(standard | views::values);
-
-  auto pastel = cyl_to_rgb | spectrum::filter_lightness(.7) |
-                spectrum::filter_min_value(.95);
-  println("Pastel rainbow ({}):", ranges::distance(pastel));
-  spectrum::display(pastel | views::values);
+  show_rb("Dark", .3, .55);
+  show_rb("Standard", .5, .95);
+  show_rb("Pastel", .7, .95);
 }
