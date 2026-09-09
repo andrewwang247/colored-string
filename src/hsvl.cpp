@@ -1,5 +1,5 @@
 /*
-Cylindrical coordinate color repsentations.
+Cylindrical coordinate color representation.
 
 Copyright 2026. Andrew Wang.
 */

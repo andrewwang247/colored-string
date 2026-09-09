@@ -4,6 +4,7 @@ Operations for drawing rainbows.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+#include <functional>
 #include <iostream>
 #include <map>
 #include <ranges>
@@ -14,43 +15,13 @@ Copyright 2026. Andrew Wang.
 #include "rgb_color.h"
 #include "util.h"
 
-namespace views = std::views;
-
-/**
- * @brief Functor for sorting cylindrical coordinates.
- */
-struct rainbow {
-  /**
-   * @brief Comparison operator between cylindrical coordinates.
-   * @param lhs The left coordinates to test.
-   * @param rhs The right coordinates to test.
-   * @return A binary predicate ordering cylindrical coordinates.
-   */
-  constexpr static bool operator()(const cylindrical& lhs,
-                                   const cylindrical& rhs) {
-    if (!util::almost_eq(lhs.lightness(), rhs.lightness())) {
-      return lhs.lightness() < rhs.lightness();
-    }
-    if (!util::almost_eq(lhs.hue(), rhs.hue())) {
-      return lhs.hue() < rhs.hue();
-    }
-    if (!util::almost_eq(lhs.chroma(), rhs.chroma())) {
-      return lhs.chroma() < rhs.chroma();
-    }
-    if (!util::almost_eq(lhs.value(), rhs.value())) {
-      return lhs.value() < rhs.value();
-    }
-    return lhs.saturation() < rhs.saturation();
-  }
-};
-
 /**
  * @brief Utility functions for spectrums and rainbows.
  */
 namespace spectrum {
 
 template <cylindrical_space CS>
-using spectrum_map_t = std::map<CS, rgb_color, rainbow>;
+using spectrum_map_t = std::map<CS, rgb_color, std::less<>>;
 
 /**
  * @brief Generate a rainbow sorted cylindrical to rgb spectrum map.
@@ -75,9 +46,10 @@ void display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
 template <cylindrical_space CS>
 spectrum::spectrum_map_t<CS> spectrum::generate() {
   spectrum_map_t<CS> cyl_to_rgb;
-  const auto ch_rng = views::iota(color_t{0}, color_cast(channel::END)) |
-                      views::transform(channel_cast);
-  for (auto&& [r, g, b] : views::cartesian_product(ch_rng, ch_rng, ch_rng)) {
+  const auto ch_rng = std::views::iota(color_t{0}, color_cast(channel::END)) |
+                      std::views::transform(channel_cast);
+  const auto rng_cubed = std::views::cartesian_product(ch_rng, ch_rng, ch_rng);
+  for (auto&& [r, g, b] : rng_cubed) {
     cyl_to_rgb.emplace(std::piecewise_construct, std::forward_as_tuple(r, g, b),
                        std::forward_as_tuple(r, g, b));
   }
@@ -90,7 +62,7 @@ void spectrum::display(const spectrum_map_t<CS>& cyl_to_rgb, double lightness,
   colored_string display{"  "};
   for (const auto& [cyl, rgb] : cyl_to_rgb) {
     if (util::almost_eq(lightness, cyl.lightness()) &&
-        util::almost_less(min_value, cyl.value())) {
+        min_value < cyl.value()) {
       std::cout << display.set_background(rgb);
     }
   }

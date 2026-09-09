@@ -54,21 +54,20 @@ void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_list,
     const auto green{static_cast<color_t>(g)};
     const auto blue{static_cast<color_t>(b)};
 
-    {
-      const auto [h, s, v] = hsv_expected;
-      const hsv actual{red, green, blue};
-      assert(util::almost_eq(h, actual.hue(), PRECISION));
-      assert(util::almost_eq(s, actual.saturation(), PRECISION));
-      assert(util::almost_eq(v, actual.value(), PRECISION));
-    }
+    const auto [hsv_hue, hsv_saturation, hsv_value] = hsv_expected;
+    const hsv hsv_actual{red, green, blue};
+    assert(util::almost_eq(hsv_hue, hsv_actual.hue(), PRECISION));
+    assert(util::almost_eq(hsv_saturation, hsv_actual.saturation(), PRECISION));
+    assert(util::almost_eq(hsv_value, hsv_actual.value(), PRECISION));
 
-    {
-      const auto [h, s, l] = hsl_expected;
-      const hsl actual{red, green, blue};
-      assert(util::almost_eq(h, actual.hue(), PRECISION));
-      assert(util::almost_eq(s, actual.saturation(), PRECISION));
-      assert(util::almost_eq(l, actual.lightness(), PRECISION));
-    }
+    const auto [hsl_hue, hsl_saturation, hsl_lightness] = hsl_expected;
+    const hsl hsl_actual{red, green, blue};
+    assert(util::almost_eq(hsl_hue, hsl_actual.hue(), PRECISION));
+    assert(util::almost_eq(hsl_saturation, hsl_actual.saturation(), PRECISION));
+    assert(util::almost_eq(hsl_lightness, hsl_actual.lightness(), PRECISION));
+
+    // Validate epsilon equality operator.
+    assert(hsv_actual == hsl_actual);
   }
   println(ANNOUNCE_TEMPLATE, "sRGB -- HSV/L");
 }

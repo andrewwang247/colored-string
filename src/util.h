@@ -66,16 +66,4 @@ constexpr bool almost_eq(double lhs, double rhs,
   return std::abs(lhs - rhs) < epsilon;
 }
 
-/**
- * @brief Approximate comparison to deal with floating point imprecision.
- * @param lhs Left side to compare.
- * @param rhs Right side to compare.
- * @param epsilon The allowed quantity of imprecision.
- * @return Whether lhs is more than epsilon less than rhs.
- */
-constexpr bool almost_less(double lhs, double rhs,
-                           double epsilon = EPSILON) noexcept {
-  return lhs + epsilon < rhs;
-}
-
 }  // namespace util

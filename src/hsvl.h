@@ -1,5 +1,5 @@
 /*
-Cylindrical coordinate color repsentations.
+Cylindrical coordinate color representation.
 
 Copyright 2026. Andrew Wang.
 */
@@ -7,6 +7,7 @@ Copyright 2026. Andrew Wang.
 
 #include <algorithm>
 #include <cmath>
+#include <compare>
 #include <concepts>
 #include <exception>
 #include <utility>
@@ -25,9 +26,10 @@ class cylindrical {
   cylindrical(channel red, channel green, channel blue) noexcept;
   cylindrical(color_t red, color_t green, color_t blue) noexcept;
 
+  virtual void set_saturation() noexcept = 0;
+
  public:
   constexpr double hue() const noexcept { return m_hue; }
-  constexpr double chroma() const noexcept { return m_chroma; }
   constexpr double saturation() const noexcept { return m_saturation; }
   constexpr double value() const noexcept { return m_value; }
   constexpr double lightness() const noexcept { return m_lightness; }
@@ -38,6 +40,24 @@ class cylindrical {
    */
   virtual rgb_color to_rgb() const noexcept = 0;
 
+  /**
+   * @brief Equality check cylindrical colors with epsilon precision.
+   * @param lhs The left cylindrical color.
+   * @param rhs The right cylindrical color.
+   * @return Whether the colors are epsilon equal.
+   */
+  constexpr friend bool operator==(const cylindrical& lhs,
+                                   const cylindrical& rhs) noexcept;
+
+  /**
+   * @brief Compare cylindrical colors with epsilon precision.
+   * @param lhs The left cylindrical color.
+   * @param rhs The right cylindrical color.
+   * @return Epsilon ordering of the colors.
+   */
+  constexpr friend std::partial_ordering operator<=>(
+      const cylindrical& lhs, const cylindrical& rhs) noexcept;
+
   virtual ~cylindrical() noexcept;
 
  private:
@@ -46,12 +66,6 @@ class cylindrical {
    */
   template <color_specifier T>
   constexpr void generic_construct(T red, T green, T blue) noexcept;
-
- protected:
-  /**
-   * @brief Set the saturation using other members.
-   */
-  virtual void set_saturation() noexcept = 0;
 };
 
 template <typename T>
@@ -122,4 +136,26 @@ constexpr void cylindrical::generic_construct(T red, T green, T blue) noexcept {
       std::unreachable();
   }
   m_hue = 60 * std::abs(m_hue);
+}
+
+constexpr bool operator==(const cylindrical& lhs,
+                          const cylindrical& rhs) noexcept {
+  return util::almost_eq(lhs.m_hue, rhs.m_hue) &&
+         util::almost_eq(lhs.m_chroma, rhs.m_chroma) &&
+         util::almost_eq(lhs.m_value, rhs.m_value) &&
+         util::almost_eq(lhs.m_lightness, rhs.m_lightness);
+}
+
+constexpr std::partial_ordering operator<=>(const cylindrical& lhs,
+                                            const cylindrical& rhs) noexcept {
+  if (!util::almost_eq(lhs.m_lightness, rhs.m_lightness)) {
+    return lhs.m_lightness <=> rhs.m_lightness;
+  }
+  if (!util::almost_eq(lhs.m_hue, rhs.m_hue)) {
+    return lhs.m_hue <=> rhs.m_hue;
+  }
+  if (!util::almost_eq(lhs.m_chroma, rhs.m_chroma)) {
+    return lhs.m_chroma <=> rhs.m_chroma;
+  }
+  return lhs.m_value <=> rhs.m_value;
 }
