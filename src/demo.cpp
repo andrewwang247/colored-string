@@ -92,16 +92,16 @@ void demo::show_all_colors() {
 }
 
 void demo::paint_america() {
-  const bright_color red(palette::RED);
-  const grayscale_color white(gray::G23);
-  const bright_color blue(palette::BLUE);
+  const auto red = bright_color{palette::RED};
+  const auto white = grayscale_color{gray::G23};
+  const auto blue = bright_color{palette::BLUE};
 
-  const colored_string white_star{"X", white, blue};
-  const colored_string blue_patch{" ", nullopt, blue};
+  const auto white_star = colored_string{"X", white, blue};
+  const auto blue_patch = colored_string{" ", nullopt, blue};
 
   const auto right_strip = format("{:26}", "");
-  colored_string red_strip{right_strip, nullopt, red};
-  colored_string white_strip{right_strip, nullopt, white};
+  auto red_strip = colored_string{right_strip, nullopt, red};
+  auto white_strip = colored_string{right_strip, nullopt, white};
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
     for (auto i = 0; i < 8; ++i) cout << blue_patch << white_star;

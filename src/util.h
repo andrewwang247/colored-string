@@ -29,7 +29,7 @@ static constexpr double EPSILON = 1e-4;
  * @return The normalized floating point value.
  */
 constexpr double normalize(color_specifier auto cs) noexcept {
-  constexpr color_t denom{color_cast(decltype(cs)::END) - 1};
+  constexpr auto denom = color_cast(decltype(cs)::END) - 1;
   return std::abs(static_cast<double>(cs)) / denom;
 }
 
@@ -39,7 +39,7 @@ constexpr double normalize(color_specifier auto cs) noexcept {
  * @return The normalized floating point value.
  */
 constexpr double normalize(color_t color) noexcept {
-  constexpr color_t denom{std::numeric_limits<color_t>::max()};
+  constexpr auto denom = std::numeric_limits<color_t>::max();
   return std::abs(static_cast<double>(color)) / denom;
 }
 

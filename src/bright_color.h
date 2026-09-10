@@ -14,7 +14,7 @@ Copyright 2026. Andrew Wang.
  */
 class bright_color final : public singular_color {
  private:
-  static constexpr color_t OFFSET{8};
+  static constexpr auto OFFSET = color_t{8};
 
  public:
   /**

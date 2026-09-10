@@ -14,7 +14,7 @@ Copyright 2026. Andrew Wang.
  */
 class standard_color final : public singular_color {
  private:
-  static constexpr color_t OFFSET{0};
+  static constexpr auto OFFSET = color_t{0};
 
  public:
   /**

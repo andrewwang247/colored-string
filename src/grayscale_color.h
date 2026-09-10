@@ -57,7 +57,7 @@ constexpr gray gray_cast(color_t col) noexcept {
  */
 class grayscale_color final : public singular_color {
  private:
-  static constexpr color_t OFFSET{232};
+  static constexpr auto OFFSET = color_t{232};
 
  public:
   /**
