@@ -28,7 +28,7 @@ int main() {
   println("--- EXECUTING UNIT TESTS ---");
   unit_test::rgb_color_hsvl();
   unit_test::srgb_hsvl(rgb_list, hsv_list, hsl_list);
-  println("--- FINISHED UNIT TESTS ---");
+  println("--- COMPLETED UNIT TESTS ---");
 }
 
 void unit_test::rgb_color_hsvl() noexcept {
@@ -41,7 +41,7 @@ void unit_test::rgb_color_hsvl() noexcept {
     assert(rgb.code() == hsv_convert.code());
     assert(rgb.code() == hsl_convert.code());
   }
-  println(ANNOUNCE_TEMPLATE, "rgb_color -- HSV/L");
+  println(ANNOUNCE_TEMPLATE, "rgb_color", "HSV/L");
 }
 
 void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_list,
@@ -69,5 +69,5 @@ void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_list,
     // Validate epsilon equality operator.
     assert(hsv_actual == hsl_actual);
   }
-  println(ANNOUNCE_TEMPLATE, "sRGB -- HSV/L");
+  println(ANNOUNCE_TEMPLATE, "sRGB", "HSV/L");
 }

@@ -25,14 +25,14 @@ struct triplet {
  * @brief Unit testing.
  */
 namespace unit_test {
-static constexpr auto NUM_CASES = 5000UZ;
+static constexpr auto NUM_CASES = 5'000UZ;
 static constexpr auto PRECISION = 1e-1;
 
 static constexpr auto RGB_MATRIX = "test/mat_rgb.txt";
 static constexpr auto HSV_MATRIX = "test/mat_hsv.txt";
 static constexpr auto HSL_MATRIX = "test/mat_hsl.txt";
 
-static constexpr auto ANNOUNCE_TEMPLATE = "Test {:<25} passed";
+static constexpr auto ANNOUNCE_TEMPLATE = "Test {:>12} -- {:<8} passed";
 
 /**
  * @brief Read triplets from a file.
