@@ -7,7 +7,6 @@ Copyright 2026. Andrew Wang.
 #include <cassert>
 #include <fstream>
 #include <span>
-#include <stdexcept>
 #include <vector>
 
 /**

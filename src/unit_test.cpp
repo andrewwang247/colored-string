@@ -17,6 +17,7 @@ Copyright 2026. Andrew Wang.
 
 using std::println;
 using std::span;
+using util::almost_eq;
 
 namespace views = std::views;
 
@@ -56,15 +57,15 @@ void unit_test::srgb_hsvl(span<const triplet<unsigned>> rgb_list,
 
     const auto [hsv_hue, hsv_saturation, hsv_value] = hsv_expected;
     const hsv hsv_actual{red, green, blue};
-    assert(util::almost_eq(hsv_hue, hsv_actual.hue(), PRECISION));
-    assert(util::almost_eq(hsv_saturation, hsv_actual.saturation(), PRECISION));
-    assert(util::almost_eq(hsv_value, hsv_actual.value(), PRECISION));
+    assert(almost_eq(hsv_hue, hsv_actual.hue(), PRECISION));
+    assert(almost_eq(hsv_saturation, hsv_actual.saturation(), PRECISION));
+    assert(almost_eq(hsv_value, hsv_actual.value(), PRECISION));
 
     const auto [hsl_hue, hsl_saturation, hsl_lightness] = hsl_expected;
     const hsl hsl_actual{red, green, blue};
-    assert(util::almost_eq(hsl_hue, hsl_actual.hue(), PRECISION));
-    assert(util::almost_eq(hsl_saturation, hsl_actual.saturation(), PRECISION));
-    assert(util::almost_eq(hsl_lightness, hsl_actual.lightness(), PRECISION));
+    assert(almost_eq(hsl_hue, hsl_actual.hue(), PRECISION));
+    assert(almost_eq(hsl_saturation, hsl_actual.saturation(), PRECISION));
+    assert(almost_eq(hsl_lightness, hsl_actual.lightness(), PRECISION));
 
     // Validate epsilon equality operator.
     assert(hsv_actual == hsl_actual);

@@ -15,8 +15,9 @@ Copyright 2026. Andrew Wang.
 using color_t = unsigned char;
 
 template <typename T>
-concept color_specifier = std::same_as<std::underlying_type_t<T>, color_t> ||
-                          std::same_as<T, color_t>;
+concept color_specifier =
+    std::same_as<T, color_t> ||
+    (std::is_enum_v<T> && std::same_as<std::underlying_type_t<T>, color_t>);
 
 /**
  * @brief Cast to the underlying color type.

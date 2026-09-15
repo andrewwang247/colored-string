@@ -4,11 +4,7 @@ Utility functions for colors and numerics.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
-#include <algorithm>
 #include <cmath>
-#include <initializer_list>
-#include <iostream>
-#include <iterator>
 #include <limits>
 
 #include "rgb_color.h"

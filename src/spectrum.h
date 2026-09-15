@@ -6,6 +6,7 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <concepts>
 #include <map>
+#include <ranges>
 #include <tuple>
 
 #include "colored_string.h"
