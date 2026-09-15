@@ -81,9 +81,10 @@ void demo::show_all_colors() {
 
   println("Grayscale colors:");
   const auto gray_chunks = views::iota(color_t{0}, color_cast(gray::END)) |
+                           views::transform(gray_cast) |
                            views::chunk(color_cast(palette::END));
   for (auto&& chunk : gray_chunks) {
-    for (auto shade : chunk | views::transform(gray_cast)) {
+    for (auto shade : chunk) {
       show_color(grayscale_color{shade});
     }
     cout.put('\n');
