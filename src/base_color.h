@@ -5,6 +5,7 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
+#include <compare>
 #include <concepts>
 #include <type_traits>
 
@@ -41,12 +42,36 @@ class color {
    */
   explicit color(color_t offset) noexcept;
 
+  /**
+   * @brief Polymorphic comparison helper between colors.
+   * @param other The color to compare against.
+   * @return Ordering relation between this and other.
+   */
+  virtual std::strong_ordering compare(const color& other) const noexcept;
+
  public:
   /**
-   * @brief See below.
+   * @brief Get the unique code associated with this color.
    * @return The 8-bit ANSI color code.
    */
   virtual color_t code() const noexcept = 0;
 
   virtual ~color() noexcept;
+
+  /**
+   * @brief Spaceship comparison based on code.
+   * @param lhs The left color to compare.
+   * @param rhs The right color to compare.
+   * @return Ordering relation between lhs and rhs.
+   */
+  friend std::strong_ordering operator<=>(const color& lhs,
+                                          const color& rhs) noexcept;
+
+  /**
+   * @brief Equality check based on code.
+   * @param lhs The left color to compare.
+   * @param rhs The right color to compare.
+   * @return Whether lhs and rhs are equal.
+   */
+  friend bool operator==(const color& lhs, const color& rhs) noexcept;
 };

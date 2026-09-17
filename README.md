@@ -65,4 +65,4 @@ The HSV / HSL spaces are much better at mapping to human spectral perception tha
 
 ### Testing
 
-We validate all $6^3$ possible conversions between RGB and HSV / HSL using the `channel` enum. We also sample points in the larger sRGB space and precompute the RGB to HSV / HSL conversions. The results are stored in the `test/mat_*.txt` files. When building the `debug` version, unit tests are executed when running `unit_test` to verify the correctness of our own `hsvl` conversion.
+We validate all $6^3$ possible conversions between RGB and HSV / HSL using the `channel` enum. We also sample points in the larger sRGB space and precompute the RGB to HSV / HSL conversions. The results are stored in the `test/mat_*.txt` files. When building the `debug` version, unit tests are executed when running `unit_test` to assert the correctness of our own `hsvl` conversion and verify polymorphic 3-way comparison between colors.

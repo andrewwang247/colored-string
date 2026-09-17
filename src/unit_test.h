@@ -1,5 +1,5 @@
 /*
-Unit tests for cylindrical coordinates.
+Unit tests for color and cylindrical.
 
 Copyright 2026. Andrew Wang.
 */
@@ -44,7 +44,7 @@ static std::vector<triplet<T>> read_file(const char* name);
 /**
  * @brief Validate conversions between RGB and HSVL.
  */
-void rgb_color_hsvl() noexcept;
+void rgb_color_hsvl();
 
 /**
  * @brief Validate sRGB conversions to and from HSVL.
@@ -54,7 +54,13 @@ void rgb_color_hsvl() noexcept;
  */
 void srgb_hsvl(std::span<const triplet<unsigned>> rgb_list,
                std::span<const triplet<double>> hsv_list,
-               std::span<const triplet<double>> hsl_list) noexcept;
+               std::span<const triplet<double>> hsl_list);
+
+/**
+ * @brief Validate comparison of color types.
+ */
+void color_compare();
+
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
