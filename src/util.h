@@ -4,8 +4,11 @@ Utility functions for colors and numerics.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+#include <algorithm>
 #include <cmath>
+#include <functional>
 #include <limits>
+#include <ranges>
 
 #include "rgb_color.h"
 
@@ -60,6 +63,36 @@ constexpr channel denormalize(double normed) noexcept {
 constexpr bool almost_eq(double lhs, double rhs,
                          double epsilon = EPSILON) noexcept {
   return std::abs(lhs - rhs) < epsilon;
+}
+
+template <typename Comp, typename Proj>
+bool is_strictly_monotonic(std::ranges::random_access_range auto&& items,
+                           Comp comp, Proj proj) {
+  return std::ranges::adjacent_find(items, comp, proj) == items.end();
+}
+
+/**
+ * @brief Validate that a range is sorted and strictly increasing.
+ * @param items The range to validate.
+ * @param proj Optional projection for items in range.
+ * @return Whether proj(items[i]) < proj(items[j]) whenever i < j.
+ */
+template <typename Proj = std::identity>
+bool is_strictly_ascending(std::ranges::random_access_range auto&& items,
+                           Proj proj = {}) {
+  return is_strictly_monotonic(items, std::ranges::greater_equal{}, proj);
+}
+
+/**
+ * @brief Validate that a range is sorted and strictly decreasing.
+ * @param items The range to validate.
+ * @param proj Optional projection for items in range.
+ * @return Whether proj(items[i]) > proj(items[j]) whenever i < j.
+ */
+template <typename Proj = std::identity>
+bool is_strictly_descending(std::ranges::random_access_range auto&& items,
+                            Proj proj = {}) {
+  return is_strictly_monotonic(items, std::ranges::less_equal{}, proj);
 }
 
 }  // namespace util

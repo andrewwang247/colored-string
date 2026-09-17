@@ -29,6 +29,8 @@ using std::span;
 using std::unique_ptr;
 using std::vector;
 using util::almost_eq;
+using util::is_strictly_ascending;
+using util::is_strictly_descending;
 
 namespace ranges = std::ranges;
 namespace views = std::views;
