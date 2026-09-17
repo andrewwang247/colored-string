@@ -84,6 +84,13 @@ class colored_string {
   void reset_background() noexcept;
 
   /**
+   * @brief Spaceship operator for lexicographic comparison.
+   * @param other The colored string to compare against.
+   * @return Ordering relation between this and other.
+   */
+  auto operator<=>(const colored_string& other) const noexcept = default;
+
+  /**
    * @brief Print with foreground and background colors.
    * @param os The output stream.
    * @param str Colored string to print.
