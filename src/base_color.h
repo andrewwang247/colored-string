@@ -6,7 +6,6 @@ Copyright 2026. Andrew Wang.
 #pragma once
 
 #include <concepts>
-#include <memory>
 #include <type_traits>
 
 /**
@@ -51,12 +50,6 @@ class color {
    * @return The 8-bit ANSI color code.
    */
   virtual color_t code() const noexcept = 0;
-
-  /**
-   * @brief Polymorphic cloning.
-   * @return A new copy of the color.
-   */
-  virtual std::unique_ptr<color> clone() const = 0;
 
   virtual ~color() noexcept;
 };

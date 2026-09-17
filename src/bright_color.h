@@ -5,8 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
-#include <memory>
-
 #include "singular_color.h"
 
 /**
@@ -23,5 +21,5 @@ class bright_color final : public singular_color {
    */
   explicit bright_color(palette palette_in) noexcept;
 
-  std::unique_ptr<color> clone() const override;
+  ~bright_color() noexcept override;
 };

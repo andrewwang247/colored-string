@@ -5,7 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <iostream>
-#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -24,14 +23,9 @@ class colored_string {
   static constexpr auto CLEAR_CODE = "\x1b[0m";
 
   std::string m_data;
-  std::unique_ptr<color> m_foreground, m_background;
+  std::optional<color_t> m_foreground, m_background;
 
  public:
-  /**
-   * @brief Default constructor with empty data and colors.
-   */
-  explicit colored_string() = default;
-
   /**
    * @brief Data only constructor.
    * @param data String value for this.
@@ -63,33 +57,6 @@ class colored_string {
   colored_string(std::string_view data, std::nullopt_t none, const color& bg);
 
   /**
-   * @brief Constructor with pointers to colors.
-   * @param data String value for this.
-   * @param fg Pointer to foreground color.
-   * @param bg Pointer to background color.
-   */
-  colored_string(std::string_view data, const color* fg, const color* bg);
-
-  /**
-   * @brief Copy constructor.
-   * @param other The other string.
-   */
-  colored_string(const colored_string& other);
-
-  /**
-   * @brief Move constructor.
-   * @param other The other string.
-   */
-  colored_string(colored_string&& other) = default;
-
-  /**
-   * @brief Assignment operator for copy and move.
-   * @param other The other string.
-   * @return A reference to this.
-   */
-  colored_string& operator=(colored_string other);
-
-  /**
    * @brief Expose underlying string. Modifiable if non-const.
    * @param self Explicit object parameter.
    * @return Reference to the string data.
@@ -105,12 +72,6 @@ class colored_string {
   colored_string& set_foreground(const color& fore);
 
   /**
-   * @brief Get foreground color. Null if not present.
-   * @return Pointer to foreground color.
-   */
-  const color* get_foreground() const noexcept;
-
-  /**
    * @brief Reset foreground color to default.
    */
   void reset_foreground() noexcept;
@@ -123,21 +84,9 @@ class colored_string {
   colored_string& set_background(const color& back);
 
   /**
-   * @brief Get background color. Null if not present.
-   * @return Pointer to background color.
-   */
-  const color* get_background() const noexcept;
-
-  /**
    * @brief Reset background color to default.
    */
   void reset_background() noexcept;
-
-  /**
-   * @brief Get the string that is printed with colors.
-   * @returns The constructed string with included ANSI color codes.
-   */
-  std::string show() const;
 
   /**
    * @brief Print with foreground and background colors.

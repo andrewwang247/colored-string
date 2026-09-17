@@ -5,8 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
-#include <memory>
-
 #include "singular_color.h"
 
 /**
@@ -24,5 +22,5 @@ class standard_color final : public singular_color {
    */
   explicit standard_color(palette palette_in) noexcept;
 
-  std::unique_ptr<color> clone() const override;
+  ~standard_color() noexcept override;
 };

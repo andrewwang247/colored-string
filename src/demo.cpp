@@ -5,7 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #include "demo.h"
 
-#include <exception>
 #include <format>
 #include <iostream>
 #include <iterator>
@@ -28,7 +27,6 @@ using std::format;
 using std::nullopt;
 using std::print;
 using std::println;
-using std::terminate;
 
 namespace ranges = std::ranges;
 namespace views = std::views;
@@ -42,11 +40,9 @@ int main() {
 void demo::show_color(const color& col) {
   colored_string str{format("{:>3}", col.code())};
   cout << str.set_foreground(col);
-  if (str.get_foreground()->code() != col.code()) terminate();
   str.reset_foreground();
   str.data_reference() = "   ";
   cout << str.set_background(col) << ' ';
-  if (str.get_background()->code() != col.code()) terminate();
   str.reset_background();
 }
 
@@ -128,8 +124,7 @@ void demo::paint_america() {
   white_strip.data_reference() += extension;
 
   for (auto i = 0; i < 3; ++i) {
-    println("{}", white_strip.show());
-    println("{}", red_strip.show());
+    cout << white_strip << '\n' << red_strip << '\n';
   }
   cout.put('\n');
 }

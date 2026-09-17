@@ -15,9 +15,7 @@ Warning: `colored_string` does not work with certain text formatting options int
 
 Every supported color has a unique 8-bit ANSI code, yielding a total of $256 = 2^8$ possible colors. All references to ANSI in this document should be assumed to mean 8-bit ANSI unless otherwise specified. More information about ANSI color codes can be found on [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit). In code, `unsigned char` (as `color_t`) is used to represent ANSI color values. All enum classes also use `color_t` as their underlying type so that everything is compatible. These can be converted into `color_t` by using the helper function `color_cast`.
 
-Each (non-abstract) color class implements the `color` interface (abstract class). This interface exposes a public `code` function that returns a `color_t` representing the ANSI code for this color. Every `color` can also polymorphically clone itself. This operation explicitly calls `new`. Thus it's encapsulated privately, and only available to the `colored_string` friend class.
-
-Let *a*, *b*, and *n* be positive integers with *a* < *b*. From here on out, define [*a*, *b*] to be the integer interval { *a*, ..., *b* } and [*n*] to be shorthand for [0, *n*] = { 0, ..., *n* - 1 }.
+Each (non-abstract) color class implements the `color` interface (abstract class). This interface exposes a public `code` function that returns a `color_t` representing the ANSI code for this color. Let *a*, *b*, and *n* be positive integers with *a* < *b*. From here on out, define [*a*, *b*] to be the integer interval { *a*, ..., *b* } and [*n*] to be shorthand for [0, *n*] = { 0, ..., *n* - 1 }.
 
 ### Palette
 
@@ -38,11 +36,11 @@ The `grayscale_color` class has codes in [232, 255]. They are specified by the `
 
 ## Strings
 
-Using the polymorphic behavior of the `color` interface, each `colored_string` is fully specified by string data with 2 (possibly null) colors for the foreground and background. The string data component of `colored_string` is constructed via `std::string_view` wherein the `data_reference` function allows for access and modification to the underlying string data.
+Each `colored_string` is fully specified by string data with 2 (optional) color codes for the foreground and background. The string data component of `colored_string` is constructed via `std::string_view` wherein the `data_reference` function allows for access and modification to the underlying string data.
 
 ### Escape Sequences
 
-The colors do not come into play until the `show` function or the overloaded `operator<<` is called. A null foreground or background color means that the default foreground or background is used, respectively. Otherwise, escape sequences are added such that a color with code *x* will have the sequence `\x1b[<g>;5;<x>m` inserted into the stream (`<x>` = *x*) before the body of the string. Substitute `<g>` with `38` for foreground colors and `48` for background colors. This operation assumes that the ANSI symbols for begin and end escape sequences are `\x1b` and `m` respectively, which is often the case.
+The colors do not come into play until the overloaded `operator<<` is called. A null foreground or background color means that the default foreground or background is used, respectively. Otherwise, escape sequences are added such that a color with code *x* will have the sequence `\x1b[<g>;5;<x>m` inserted into the stream (`<x>` = *x*) before the body of the string. Substitute `<g>` with `38` for foreground colors and `48` for background colors. This operation assumes that the ANSI symbols for begin and end escape sequences are `\x1b` and `m` respectively, which is often the case.
 
 After the body of the string, the sequence `\x1b[0m` is added to reset foreground and background back to their default states. This is the main advantage of encapsulating the color state into a `colored_string` class. Objects have a user-defined lifetime and scope unlike `std::cout` and `std::cerr`. The user is free to print strings with any foreground and background combination. The color state of the stream always returns to default. Without this encapsulation, the user must keep track of state after every stream insertion.
 

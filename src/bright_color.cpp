@@ -5,17 +5,10 @@ Copyright 2026. Andrew Wang.
 */
 #include "bright_color.h"
 
-#include <memory>
-
 #include "base_color.h"
 #include "singular_color.h"
-
-using std::make_unique;
-using std::unique_ptr;
 
 bright_color::bright_color(palette palette_in) noexcept
     : singular_color(color_cast(palette_in), bright_color::OFFSET) {}
 
-unique_ptr<color> bright_color::clone() const {
-  return make_unique<bright_color>(*this);
-}
+bright_color::~bright_color() noexcept = default;

@@ -5,8 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
-#include <memory>
-
 #include "base_color.h"
 
 /**
@@ -43,6 +41,4 @@ class rgb_color final : public color {
   rgb_color(channel red_in, channel green_in, channel blue_in) noexcept;
 
   color_t code() const noexcept override;
-
-  std::unique_ptr<color> clone() const override;
 };

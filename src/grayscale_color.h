@@ -5,8 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 
-#include <memory>
-
 #include "singular_color.h"
 
 /**
@@ -66,5 +64,5 @@ class grayscale_color final : public singular_color {
    */
   explicit grayscale_color(gray gray_in) noexcept;
 
-  std::unique_ptr<color> clone() const override;
+  ~grayscale_color() noexcept override;
 };
