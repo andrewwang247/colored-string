@@ -41,9 +41,6 @@ class color {
    */
   explicit color(color_t offset) noexcept;
 
-  color(const color&) noexcept;
-  color& operator=(const color& other) noexcept;
-
  public:
   /**
    * @brief See below.
