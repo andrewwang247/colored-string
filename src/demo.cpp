@@ -8,7 +8,6 @@ Copyright 2026. Andrew Wang.
 #include <format>
 #include <iostream>
 #include <iterator>
-#include <optional>
 #include <print>
 #include <ranges>
 
@@ -24,7 +23,6 @@ Copyright 2026. Andrew Wang.
 
 using std::cout;
 using std::format;
-using std::nullopt;
 using std::print;
 using std::println;
 
@@ -38,7 +36,8 @@ int main() {
 }
 
 void demo::show_color(const color& col) {
-  colored_string str{format("{:>3}", col.code())};
+  auto str =
+      colored_string::builder().data(format("{:>3}", col.code())).build();
   cout << str.set_foreground(col);
   str.reset_foreground();
   str.data_reference() = "   ";
@@ -93,12 +92,19 @@ void demo::paint_america() {
   const auto white = grayscale_color{gray::G23};
   const auto blue = bright_color{palette::BLUE};
 
-  const auto white_star = colored_string{"X", white, blue};
-  const auto blue_patch = colored_string{" ", nullopt, blue};
+  const auto white_star = colored_string::builder()
+                              .data("X")
+                              .foreground(white)
+                              .background(blue)
+                              .build();
+  const auto blue_patch =
+      colored_string::builder().data(" ").background(blue).build();
 
   const auto right_strip = format("{:26}", "");
-  auto red_strip = colored_string{right_strip, nullopt, red};
-  auto white_strip = colored_string{right_strip, nullopt, white};
+  auto red_strip =
+      colored_string::builder().data(right_strip).background(red).build();
+  auto white_strip =
+      colored_string::builder().data(right_strip).background(white).build();
 
   const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
     for (auto i = 0; i < 8; ++i) cout << blue_patch << white_star;
@@ -131,7 +137,7 @@ void demo::paint_america() {
 
 void demo::display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
-  colored_string display{"  "};
+  auto display = colored_string::builder().data("  ").build();
 
   const auto show_rb = [&](const char* name, double light, double val) {
     auto rainbow = cyl_to_rgb | spectrum::filter_lightness(light) |

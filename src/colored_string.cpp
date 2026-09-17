@@ -10,28 +10,41 @@ Copyright 2026. Andrew Wang.
 #include <print>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include "base_color.h"
 
-using std::nullopt_t;
+using std::optional;
 using std::ostream;
 using std::print;
 using std::string;
 using std::string_view;
 
-colored_string::colored_string(string_view data) : m_data(data) {}
+colored_string::colored_string(string data, optional<color_t> fg,
+                               optional<color_t> bg) noexcept
+    : m_data(std::move(data)), m_foreground(fg), m_background(bg) {}
 
-colored_string::colored_string(string_view data, const color& fg,
-                               const color& bg)
-    : m_data(data), m_foreground(fg.code()), m_background(bg.code()) {}
+colored_string::builder& colored_string::builder::data(
+    string_view sv) noexcept {
+  m_str = sv;
+  return *this;
+}
 
-colored_string::colored_string(string_view data, const color& fg,
-                               nullopt_t /*none*/)
-    : m_data(data), m_foreground(fg.code()) {}
+colored_string::builder& colored_string::builder::foreground(
+    const color& fg) noexcept {
+  m_fore = fg.code();
+  return *this;
+}
 
-colored_string::colored_string(string_view data, nullopt_t /*none*/,
-                               const color& bg)
-    : m_data(data), m_background(bg.code()) {}
+colored_string::builder& colored_string::builder::background(
+    const color& bg) noexcept {
+  m_back = bg.code();
+  return *this;
+}
+
+colored_string colored_string::builder::build() noexcept {
+  return {std::move(m_str), m_fore, m_back};
+}
 
 colored_string& colored_string::set_foreground(const color& fore) {
   m_foreground = fore.code();

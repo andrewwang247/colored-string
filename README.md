@@ -36,7 +36,7 @@ The `grayscale_color` class has codes in [232, 255]. They are specified by the `
 
 ## Strings
 
-Each `colored_string` is fully specified by string data with 2 (optional) color codes for the foreground and background. The string data component of `colored_string` is constructed via `std::string_view` wherein the `data_reference` function allows for access and modification to the underlying string data.
+Each `colored_string` is fully specified by string data with 2 (optional) color codes for the foreground and background. Use the fluent `colored_string::builder` for construction. The `data_reference` function allows for access and modification to the underlying string data.
 
 ### Escape Sequences
 

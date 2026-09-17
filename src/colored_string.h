@@ -25,36 +25,31 @@ class colored_string {
   std::string m_data;
   std::optional<color_t> m_foreground, m_background;
 
+  /**
+   * @brief Private constructor for use with builder.
+   * @param data The raw string data.
+   * @param fg The foreground color code.
+   * @param bg The background color code.
+   */
+  colored_string(std::string data, std::optional<color_t> fg,
+                 std::optional<color_t> bg) noexcept;
+
  public:
   /**
-   * @brief Data only constructor.
-   * @param data String value for this.
+   * @brief Fluent builder for colored_string.
+   * @warning Cannot re-build the same instance. Data is moved!
    */
-  explicit colored_string(std::string_view data);
+  class builder {
+   private:
+    std::string m_str;
+    std::optional<color_t> m_fore, m_back;
 
-  /**
-   * @brief Constructor with colors.
-   * @param data String value for this.
-   * @param fg Reference to foreground color.
-   * @param bg Reference to background color.
-   */
-  colored_string(std::string_view data, const color& fg, const color& bg);
-
-  /**
-   * @brief Constructor with only foreground.
-   * @param data String value for this.
-   * @param fg Reference to foreground color.
-   * @param none No color for background.
-   */
-  colored_string(std::string_view data, const color& fg, std::nullopt_t none);
-
-  /**
-   * @brief Constructor with only background.
-   * @param data String value for this.
-   * @param none No color for foreground.
-   * @param bg Reference to background color.
-   */
-  colored_string(std::string_view data, std::nullopt_t none, const color& bg);
+   public:
+    builder& data(std::string_view sv) noexcept;
+    builder& foreground(const color& fg) noexcept;
+    builder& background(const color& bg) noexcept;
+    colored_string build() noexcept;
+  };
 
   /**
    * @brief Expose underlying string. Modifiable if non-const.
