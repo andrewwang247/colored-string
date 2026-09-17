@@ -62,10 +62,10 @@ void colored_string::reset_background() noexcept { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
   if (str.m_foreground) {
-    print(os, "{}{}m", colored_string::FORE_CODE, +str.m_foreground.value());
+    print(os, "{}{}m", colored_string::FORE_CODE, str.m_foreground.value());
   }
   if (str.m_background) {
-    print(os, "{}{}m", colored_string::BACK_CODE, +str.m_background.value());
+    print(os, "{}{}m", colored_string::BACK_CODE, str.m_background.value());
   }
   os << str.m_data;
   if (str.m_foreground || str.m_background) {

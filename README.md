@@ -9,7 +9,7 @@ Below, we show terminal output when running `demo` on Linux.
 
 ![Output of demo on Linux](output.png)
 
-Warning: `colored_string` does not work with certain text formatting options introduced in C++2x. Alignment, width, and padding options used in `std::format` and `std::print/ln` are not supported due to ANSI code prefixes and suffixes.
+Warning: `colored_string` either does not work or is untested with certain text formatting options introduced in C++2x. Certain alignment, width, and padding options used by `iostream` manipulators, `std::format`, and `std::print/ln` are not supported due to ANSI code prefixes and suffixes.
 
 ## Colors
 

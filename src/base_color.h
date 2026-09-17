@@ -46,13 +46,6 @@ class color {
 
   color& operator=(const color& other) noexcept = default;
 
-  /**
-   * @brief Polymorphic comparison helper between colors.
-   * @param other The color to compare against.
-   * @return Ordering relation between this and other.
-   */
-  virtual std::strong_ordering compare(const color& other) const noexcept;
-
  public:
   /**
    * @brief Get the unique code associated with this color.
@@ -76,6 +69,11 @@ class color {
    * @param rhs The right color to compare.
    * @return Ordering relation between lhs and rhs.
    */
-  friend std::strong_ordering operator<=>(const color& lhs,
-                                          const color& rhs) noexcept;
+  inline friend auto operator<=>(const color& lhs, const color& rhs) noexcept;
 };
+
+// AUTO RETURN IMPLEMENTATIONS
+
+auto operator<=>(const color& lhs, const color& rhs) noexcept {
+  return lhs.code() <=> rhs.code();
+}
