@@ -21,6 +21,4 @@ class standard_color final : public singular_color {
    * @param palette_in Input palette.
    */
   explicit standard_color(palette palette_in) noexcept;
-
-  ~standard_color() noexcept override;
 };

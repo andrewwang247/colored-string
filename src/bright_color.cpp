@@ -10,5 +10,3 @@ Copyright 2026. Andrew Wang.
 
 bright_color::bright_color(palette palette_in) noexcept
     : singular_color(color_cast(palette_in), bright_color::OFFSET) {}
-
-bright_color::~bright_color() noexcept = default;

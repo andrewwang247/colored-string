@@ -90,36 +90,83 @@ void unit_test::color_compare() {
   vector<unique_ptr<color>> all_colors;
   all_colors.reserve(1 << 8);
 
-  // Construct sorted ranges.
-  const auto palette_rng = views::iota(color_t{0}, color_cast(palette::END)) |
-                           views::transform(palette_cast);
+  // Construct sorted ranges for each set of colors.
+
+  vector<standard_color> standards;
+  constexpr auto palette_end = color_cast(palette::END);
+  standards.reserve(palette_end);
+  const auto palette_rng =
+      views::iota(color_t{0}, palette_end) | views::transform(palette_cast);
   for (auto shade : palette_rng) {
     auto ptr = make_unique<standard_color>(shade);
     all_colors.emplace_back(std::move(ptr));
+    standards.emplace_back(shade);
   }
 
+  vector<bright_color> brights;
+  brights.reserve(palette_end);
   for (auto shade : palette_rng) {
     auto ptr = make_unique<bright_color>(shade);
     all_colors.emplace_back(std::move(ptr));
+    brights.emplace_back(shade);
   }
 
-  const auto ch_rng = views::iota(color_t{0}, color_cast(channel::END)) |
-                      views::transform(channel_cast);
+  vector<rgb_color> rgbs;
+  constexpr auto ch_end = color_cast(channel::END);
+  constexpr auto ch_num = ch_end * ch_end * ch_end;
+  rgbs.reserve(ch_num);
+  const auto ch_rng =
+      views::iota(color_t{0}, ch_end) | views::transform(channel_cast);
   const auto rgb_rng = views::cartesian_product(ch_rng, ch_rng, ch_rng);
   for (auto&& [r, g, b] : rgb_rng) {
     auto ptr = make_unique<rgb_color>(r, g, b);
     all_colors.emplace_back(std::move(ptr));
+    rgbs.emplace_back(r, g, b);
   }
 
-  const auto gray_rng = views::iota(color_t{0}, color_cast(gray::END)) |
-                        views::transform(gray_cast);
+  vector<grayscale_color> grays;
+  constexpr auto gray_end = color_cast(gray::END);
+  grays.reserve(gray_end);
+  const auto gray_rng =
+      views::iota(color_t{0}, gray_end) | views::transform(gray_cast);
   for (auto shade : gray_rng) {
     auto ptr = make_unique<grayscale_color>(shade);
     all_colors.emplace_back(std::move(ptr));
+    grays.emplace_back(shade);
   }
 
-  assert(ranges::is_sorted(
-      all_colors, {},
-      [](const auto& ptr) static -> const color& { return *ptr; }));
+  const auto deref = [](const auto& ptr) -> const color& {
+    assert(ptr);
+    return *ptr;
+  };
+  const auto color_slice = [&all_colors](auto drop, auto take) {
+    return all_colors | views::drop(drop) | views::take(take);
+  };
+
+  assert(is_strictly_ascending(all_colors, deref));
+  assert(is_strictly_descending(all_colors | views::reverse, deref));
+
+  assert(ranges::equal(color_slice(0, palette_end), standards, {}, deref));
+  assert(is_strictly_ascending(standards));
+  assert(is_strictly_descending(standards | views::reverse));
+
+  assert(
+      ranges::equal(color_slice(palette_end, palette_end), brights, {}, deref));
+  assert(is_strictly_ascending(brights));
+  assert(is_strictly_descending(brights | views::reverse));
+
+  assert(ranges::equal(color_slice(2 * palette_end, ch_num), rgbs, {}, deref));
+  assert(is_strictly_ascending(rgbs));
+  assert(is_strictly_descending(rgbs | views::reverse));
+
+  assert(ranges::equal(color_slice(2 * palette_end + ch_num, gray_end), grays,
+                       {}, deref));
+  assert(is_strictly_ascending(grays));
+  assert(is_strictly_descending(grays | views::reverse));
+
+  assert(standards.back() < brights.front());
+  assert(brights.back() < rgbs.front());
+  assert(rgbs.back() < grays.front());
+
   println(ANNOUNCE_TEMPLATE, "color", "<=>");
 }

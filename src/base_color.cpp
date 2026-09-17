@@ -15,12 +15,10 @@ strong_ordering color::compare(const color& other) const noexcept {
   return code() <=> other.code();
 }
 
-color::~color() noexcept = default;
+bool operator==(const color& lhs, const color& rhs) noexcept {
+  return lhs.code() == rhs.code();
+}
 
 strong_ordering operator<=>(const color& lhs, const color& rhs) noexcept {
   return lhs.compare(rhs);
-}
-
-bool operator==(const color& lhs, const color& rhs) noexcept {
-  return lhs.compare(rhs) == strong_ordering::equal;
 }

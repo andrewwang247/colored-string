@@ -10,5 +10,3 @@ Copyright 2026. Andrew Wang.
 
 standard_color::standard_color(palette palette_in) noexcept
     : singular_color(color_cast(palette_in), standard_color::OFFSET) {}
-
-standard_color::~standard_color() noexcept = default;

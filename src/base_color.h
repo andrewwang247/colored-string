@@ -42,6 +42,10 @@ class color {
    */
   explicit color(color_t offset) noexcept;
 
+  color(const color&) noexcept = default;
+
+  color& operator=(const color& other) noexcept = default;
+
   /**
    * @brief Polymorphic comparison helper between colors.
    * @param other The color to compare against.
@@ -56,7 +60,15 @@ class color {
    */
   virtual color_t code() const noexcept = 0;
 
-  virtual ~color() noexcept;
+  virtual ~color() noexcept = default;
+
+  /**
+   * @brief Equality check based on code.
+   * @param lhs The left color to compare.
+   * @param rhs The right color to compare.
+   * @return Whether lhs and rhs are equal.
+   */
+  friend bool operator==(const color& lhs, const color& rhs) noexcept;
 
   /**
    * @brief Spaceship comparison based on code.
@@ -66,12 +78,4 @@ class color {
    */
   friend std::strong_ordering operator<=>(const color& lhs,
                                           const color& rhs) noexcept;
-
-  /**
-   * @brief Equality check based on code.
-   * @param lhs The left color to compare.
-   * @param rhs The right color to compare.
-   * @return Whether lhs and rhs are equal.
-   */
-  friend bool operator==(const color& lhs, const color& rhs) noexcept;
 };

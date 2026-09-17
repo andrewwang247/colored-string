@@ -4,8 +4,12 @@ Unit tests for color and cylindrical.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+#include <algorithm>
 #include <cassert>
+#include <concepts>
 #include <fstream>
+#include <functional>
+#include <ranges>
 #include <span>
 #include <vector>
 
@@ -61,6 +65,28 @@ void srgb_hsvl(std::span<const triplet<unsigned>> rgb_list,
  */
 void color_compare();
 
+// HELPER FUNCTIONS
+
+/**
+ * @brief Validate that a range is sorted and strictly increasing.
+ * @param items The range to validate.
+ * @param proj Optional projection for items in range.
+ * @return Whether proj(items[i]) < proj(items[j]) whenever i < j.
+ */
+template <typename Proj = std::identity>
+bool is_strictly_ascending(std::ranges::random_access_range auto&& items,
+                           Proj proj = {});
+
+/**
+ * @brief Validate that a range is sorted and strictly decreasing.
+ * @param items The range to validate.
+ * @param proj Optional projection for items in range.
+ * @return Whether proj(items[i]) > proj(items[j]) whenever i < j.
+ */
+template <typename Proj = std::identity>
+bool is_strictly_descending(std::ranges::random_access_range auto&& items,
+                            Proj proj = {});
+
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
@@ -81,4 +107,18 @@ static std::vector<triplet<T>> unit_test::read_file(const char* name) {
 
   assert(data.size() == NUM_CASES);
   return data;
+}
+
+template <typename Proj>
+bool unit_test::is_strictly_ascending(
+    std::ranges::random_access_range auto&& items, Proj proj) {
+  return std::ranges::adjacent_find(items, std::ranges::greater_equal{},
+                                    proj) == items.end();
+}
+
+template <typename Proj>
+bool unit_test::is_strictly_descending(
+    std::ranges::random_access_range auto&& items, Proj proj) {
+  return std::ranges::adjacent_find(items, std::ranges::less_equal{}, proj) ==
+         items.end();
 }

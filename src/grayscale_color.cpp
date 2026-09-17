@@ -10,5 +10,3 @@ Copyright 2026. Andrew Wang.
 
 grayscale_color::grayscale_color(gray gray_in) noexcept
     : singular_color(color_cast(gray_in), grayscale_color::OFFSET) {}
-
-grayscale_color::~grayscale_color() noexcept = default;

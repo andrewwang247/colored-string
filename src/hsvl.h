@@ -56,7 +56,7 @@ class cylindrical {
   constexpr friend std::partial_ordering operator<=>(
       const cylindrical& lhs, const cylindrical& rhs) noexcept;
 
-  virtual ~cylindrical() noexcept;
+  virtual ~cylindrical() noexcept = default;
 
  private:
   /**

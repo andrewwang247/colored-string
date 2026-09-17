@@ -63,6 +63,4 @@ class grayscale_color final : public singular_color {
    * @param gray_in Input gray scale indicator.
    */
   explicit grayscale_color(gray gray_in) noexcept;
-
-  ~grayscale_color() noexcept override;
 };

@@ -20,6 +20,4 @@ class bright_color final : public singular_color {
    * @param palette_in Input palette.
    */
   explicit bright_color(palette palette_in) noexcept;
-
-  ~bright_color() noexcept override;
 };
