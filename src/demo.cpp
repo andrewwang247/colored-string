@@ -5,11 +5,11 @@ Copyright 2026. Andrew Wang.
 */
 #include "demo.h"
 
-#include <format>
 #include <iostream>
 #include <iterator>
 #include <print>
 #include <ranges>
+#include <string>
 
 #include "base_color.h"
 #include "bright_color.h"
@@ -22,9 +22,9 @@ Copyright 2026. Andrew Wang.
 #include "standard_color.h"
 
 using std::cout;
-using std::format;
 using std::print;
 using std::println;
+using std::to_string;
 
 namespace ranges = std::ranges;
 namespace views = std::views;
@@ -36,13 +36,13 @@ int main() {
 }
 
 void demo::show_color(const color& col) {
-  auto str =
-      colored_string::builder().data(format("{:>3}", col.code())).build();
-  cout << str.set_foreground(col);
+  auto str = colored_string{to_string(col.code())};
+  print("{:>3}", str.set_foreground(col));
   str.reset_foreground();
-  str.data_reference() = "   ";
-  cout << str.set_background(col) << ' ';
+  str.data_reference().clear();
+  print("{:3}", str.set_background(col));
   str.reset_background();
+  cout.put(' ');
 }
 
 void demo::show_all_colors() {
@@ -97,23 +97,18 @@ void demo::paint_america() {
                               .foreground(white)
                               .background(blue)
                               .build();
-  const auto blue_patch =
-      colored_string::builder().data(" ").background(blue).build();
+  const auto blue_patch = colored_string::builder().background(blue).build();
+  const auto red_patch = colored_string::builder().background(red).build();
+  const auto white_patch = colored_string::builder().background(white).build();
 
-  const auto right_strip = format("{:26}", "");
-  auto red_strip =
-      colored_string::builder().data(right_strip).background(red).build();
-  auto white_strip =
-      colored_string::builder().data(right_strip).background(white).build();
-
-  const auto star_line_red = [&blue_patch, &white_star, &red_strip]() {
-    for (auto i = 0; i < 8; ++i) cout << blue_patch << white_star;
-    cout << blue_patch << red_strip << '\n';
+  const auto star_line_red = [&blue_patch, &white_star, &red_patch]() {
+    for (auto i = 0; i < 8; ++i) print("{:1}{}", blue_patch, white_star);
+    println("{:1}{:26}", blue_patch, red_patch);
   };
-  const auto star_line_white = [&blue_patch, &white_star, &white_strip]() {
-    cout << blue_patch << blue_patch;
-    for (auto i = 0; i < 7; ++i) cout << white_star << blue_patch;
-    cout << blue_patch << white_strip << '\n';
+  const auto star_line_white = [&blue_patch, &white_star, &white_patch]() {
+    print("{:2}", blue_patch);
+    for (auto i = 0; i < 7; ++i) print("{}{:1}", white_star, blue_patch);
+    println("{:1}{:26}", blue_patch, white_patch);
   };
 
   println("'MERICA:");
@@ -125,31 +120,33 @@ void demo::paint_america() {
   star_line_white();
   star_line_red();
 
-  const auto extension = format("{:17}", "");
-  red_strip.data_reference() += extension;
-  white_strip.data_reference() += extension;
-
   for (auto i = 0; i < 3; ++i) {
-    cout << white_strip << '\n' << red_strip << '\n';
+    println("{:43}", white_patch);
+    println("{:43}", red_patch);
   }
   cout.put('\n');
 }
 
 void demo::display_rainbows() {
   const auto cyl_to_rgb{spectrum::generate<hsl>()};
-  auto display = colored_string::builder().data("  ").build();
+  auto display = colored_string{"  "};
 
-  const auto show_rb = [&](const char* name, double light, double val) {
+  const auto show_rb = [&](const char* name, gray shade, double light,
+                           double val) {
     auto rainbow = cyl_to_rgb | spectrum::filter_lightness(light) |
                    spectrum::filter_min_value(val);
-    println("{} rainbow ({}):", name, ranges::distance(rainbow));
+    const auto color_name = colored_string::builder()
+                                .data(name)
+                                .foreground(grayscale_color{shade})
+                                .build();
+    println("{:~^10} rainbow ({}):", color_name, ranges::distance(rainbow));
     for (auto&& rgb : rainbow | views::values) {
       cout << display.set_background(rgb);
     }
     cout.put('\n');
   };
 
-  show_rb("Dark", .3, .55);
-  show_rb("Standard", .5, .95);
-  show_rb("Pastel", .7, .95);
+  show_rb("Dark", gray::G7, .3, .55);
+  show_rb("Standard", gray::G15, .5, .95);
+  show_rb("Pastel", gray::G23, .7, .95);
 }

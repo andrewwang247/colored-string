@@ -4,6 +4,9 @@ Colored strings interface.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
+#include <algorithm>
+#include <array>
+#include <format>
 #include <iostream>
 #include <optional>
 #include <string>
@@ -32,9 +35,22 @@ class colored_string {
    * @param bg The background color code.
    */
   colored_string(std::string data, std::optional<color_t> fg,
-                 std::optional<color_t> bg) noexcept;
+                 std::optional<color_t> bg);
+
+  friend struct std::formatter<colored_string>;
 
  public:
+  /**
+   * @brief Default constructor with no data or color.
+   */
+  explicit colored_string() = default;
+
+  /**
+   * @brief Construct with only string data and no colors.
+   * @param data The raw string data.
+   */
+  explicit colored_string(std::string_view data);
+
   /**
    * @brief Fluent builder for colored_string.
    * @warning Cannot re-build the same instance. Data is moved!
@@ -105,3 +121,61 @@ template <typename Self>
 auto&& colored_string::data_reference(this Self&& self) {
   return std::forward<Self>(self).m_data;
 }
+
+/**
+ * @brief Custom formatter for colored_string.
+ */
+template <>
+struct std::formatter<colored_string> : std::formatter<std::string_view> {
+  std::string fmt_args;
+
+  /**
+   * @brief Capture full option specifier until closing brace.
+   * @param ctx The parsing context.
+   * @return Iterator to end of specifier.
+   */
+  [[maybe_unused]] constexpr auto parse(std::format_parse_context& ctx) {
+    const auto* it = std::ranges::find(ctx, '}');
+    const auto ctx_args = std::string_view{ctx.begin(), it};
+    fmt_args.reserve(ctx_args.length() + 3);
+    fmt_args += "{:";
+    fmt_args += ctx_args;
+    fmt_args += '}';
+    return it;
+  }
+
+  /**
+   * @brief Format colored_string properly.
+   * @param str The colored_string to format.
+   * @param ctx The formatting context.
+   * @returns The format context.
+   */
+  [[maybe_unused]] auto format(const colored_string& str,
+                               std::format_context& ctx) const {
+    auto out = ctx.out();
+
+    const auto write_code = [&out](string_view escape, color_t code) {
+      std::array<char, 3> buffer{};  // max of 3 base-10 digits for a code
+      const auto [ptr, ec] = to_chars(buffer.begin(), buffer.end(), code);
+      if (ec != errc{}) {
+        throw system_error(make_error_code(ec),
+                           "Could not convert code to chars");
+      }
+      out = std::ranges::copy(escape, out).out;
+      out = std::ranges::copy(buffer.data(), ptr, out).out;
+      *out++ = 'm';
+    };
+
+    if (str.m_foreground)
+      write_code(colored_string::FORE_CODE, *str.m_foreground);
+    if (str.m_background)
+      write_code(colored_string::BACK_CODE, *str.m_background);
+
+    out = std::vformat_to(out, fmt_args, std::make_format_args(str.m_data));
+
+    if (str.m_foreground || str.m_background) {
+      out = std::ranges::copy(colored_string::CLEAR_CODE, out).out;
+    }
+    return out;
+  }
+};

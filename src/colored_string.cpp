@@ -27,8 +27,10 @@ using std::string_view;
 using std::system_error;
 using std::to_chars;
 
+colored_string::colored_string(string_view data) : m_data(data) {}
+
 colored_string::colored_string(string data, optional<color_t> fg,
-                               optional<color_t> bg) noexcept
+                               optional<color_t> bg)
     : m_data(std::move(data)), m_foreground(fg), m_background(bg) {}
 
 colored_string::builder& colored_string::builder::data(
