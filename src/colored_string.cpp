@@ -5,20 +5,27 @@ Copyright 2026. Andrew Wang.
 */
 #include "colored_string.h"
 
+#include <array>
+#include <charconv>
 #include <iostream>
 #include <optional>
-#include <print>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <utility>
 
 #include "base_color.h"
 
+using std::array;
+using std::errc;
+using std::make_error_code;
 using std::optional;
 using std::ostream;
-using std::print;
+using std::streamsize;
 using std::string;
 using std::string_view;
+using std::system_error;
+using std::to_chars;
 
 colored_string::colored_string(string data, optional<color_t> fg,
                                optional<color_t> bg) noexcept
@@ -61,15 +68,30 @@ colored_string& colored_string::set_background(const color& back) {
 void colored_string::reset_background() noexcept { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
-  if (str.m_foreground) {
-    print(os, "{}{}m", colored_string::FORE_CODE, str.m_foreground.value());
-  }
-  if (str.m_background) {
-    print(os, "{}{}m", colored_string::BACK_CODE, str.m_background.value());
-  }
+  const auto write_code = [&os](string_view escape, color_t code) {
+    array<char, 3> buffer{};  // max of 3 base-10 digits for a code
+    os.write(escape.data(), static_cast<streamsize>(escape.length()));
+    const auto [ptr, ec] = to_chars(buffer.begin(), buffer.end(), code);
+    if (ec != errc{}) {
+      throw system_error(make_error_code(ec),
+                         "Could not convert code to chars");
+    }
+    os.write(buffer.data(), ptr - buffer.begin());
+    os.put('m');
+  };
+
+  if (str.m_foreground)
+    write_code(colored_string::FORE_CODE, *str.m_foreground);
+  if (str.m_background)
+    write_code(colored_string::BACK_CODE, *str.m_background);
+
+  // Use operator<< to respect formatting
   os << str.m_data;
+
   if (str.m_foreground || str.m_background) {
-    print(os, colored_string::CLEAR_CODE);
+    os.write(colored_string::CLEAR_CODE.data(),
+             static_cast<streamsize>(colored_string::CLEAR_CODE.length()));
   }
+
   return os;
 }

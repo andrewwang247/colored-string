@@ -18,9 +18,9 @@ Copyright 2026. Andrew Wang.
 class colored_string {
  private:
   // ANSI 8-bit escape sequences
-  static constexpr auto FORE_CODE = "\x1b[38;5;";
-  static constexpr auto BACK_CODE = "\x1b[48;5;";
-  static constexpr auto CLEAR_CODE = "\x1b[0m";
+  static constexpr std::string_view FORE_CODE = "\x1b[38;5;";
+  static constexpr std::string_view BACK_CODE = "\x1b[48;5;";
+  static constexpr std::string_view CLEAR_CODE = "\x1b[0m";
 
   std::string m_data;
   std::optional<color_t> m_foreground, m_background;
