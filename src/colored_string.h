@@ -5,7 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <algorithm>
-#include <array>
 #include <format>
 #include <iostream>
 #include <optional>
@@ -14,6 +13,7 @@ Copyright 2026. Andrew Wang.
 #include <utility>
 
 #include "base_color.h"
+#include "util.h"
 
 /**
  * @brief String that maintains foreground and background colors.
@@ -155,14 +155,11 @@ struct std::formatter<colored_string> : std::formatter<std::string_view> {
     auto out = ctx.out();
 
     const auto write_code = [&out](string_view escape, color_t code) {
-      std::array<char, 3> buffer{};  // max of 3 base-10 digits for a code
-      const auto [ptr, ec] = to_chars(buffer.begin(), buffer.end(), code);
-      if (ec != errc{}) {
-        throw system_error(make_error_code(ec),
-                           "Could not convert code to chars");
-      }
+      util::col_str_buffer buffer;
+      const auto sv = util::color_to_str(buffer, code);
+
       out = std::ranges::copy(escape, out).out;
-      out = std::ranges::copy(buffer.data(), ptr, out).out;
+      out = std::ranges::copy(sv, out).out;
       *out++ = 'm';
     };
 
@@ -171,6 +168,7 @@ struct std::formatter<colored_string> : std::formatter<std::string_view> {
     if (str.m_background)
       write_code(colored_string::BACK_CODE, *str.m_background);
 
+    // Apply formatting to only the data.
     out = std::vformat_to(out, fmt_args, std::make_format_args(str.m_data));
 
     if (str.m_foreground || str.m_background) {

@@ -9,7 +9,6 @@ Copyright 2026. Andrew Wang.
 #include <iterator>
 #include <print>
 #include <ranges>
-#include <string>
 
 #include "base_color.h"
 #include "bright_color.h"
@@ -20,11 +19,11 @@ Copyright 2026. Andrew Wang.
 #include "singular_color.h"
 #include "spectrum.h"
 #include "standard_color.h"
+#include "util.h"
 
 using std::cout;
 using std::print;
 using std::println;
-using std::to_string;
 
 namespace ranges = std::ranges;
 namespace views = std::views;
@@ -36,7 +35,8 @@ int main() {
 }
 
 void demo::show_color(const color& col) {
-  auto str = colored_string{to_string(col.code())};
+  util::col_str_buffer buffer;
+  auto str = colored_string{util::color_to_str(buffer, col.code())};
   print("{:>3}", str.set_foreground(col));
   str.reset_foreground();
   str.data_reference().clear();

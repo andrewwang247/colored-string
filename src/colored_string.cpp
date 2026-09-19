@@ -5,27 +5,20 @@ Copyright 2026. Andrew Wang.
 */
 #include "colored_string.h"
 
-#include <array>
-#include <charconv>
 #include <iostream>
 #include <optional>
 #include <string>
 #include <string_view>
-#include <system_error>
 #include <utility>
 
 #include "base_color.h"
+#include "util.h"
 
-using std::array;
-using std::errc;
-using std::make_error_code;
 using std::optional;
 using std::ostream;
 using std::streamsize;
 using std::string;
 using std::string_view;
-using std::system_error;
-using std::to_chars;
 
 colored_string::colored_string(string_view data) : m_data(data) {}
 
@@ -71,14 +64,11 @@ void colored_string::reset_background() noexcept { m_background.reset(); }
 
 ostream& operator<<(ostream& os, const colored_string& str) {
   const auto write_code = [&os](string_view escape, color_t code) {
-    array<char, 3> buffer{};  // max of 3 base-10 digits for a code
+    util::col_str_buffer buffer;
+    const auto sv = util::color_to_str(buffer, code);
+
     os.write(escape.data(), static_cast<streamsize>(escape.length()));
-    const auto [ptr, ec] = to_chars(buffer.begin(), buffer.end(), code);
-    if (ec != errc{}) {
-      throw system_error(make_error_code(ec),
-                         "Could not convert code to chars");
-    }
-    os.write(buffer.data(), ptr - buffer.begin());
+    os.write(sv.data(), static_cast<streamsize>(sv.length()));
     os.put('m');
   };
 

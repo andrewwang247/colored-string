@@ -5,10 +5,14 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <algorithm>
+#include <array>
+#include <charconv>
 #include <cmath>
 #include <functional>
 #include <limits>
 #include <ranges>
+#include <string_view>
+#include <system_error>
 
 #include "rgb_color.h"
 
@@ -20,7 +24,14 @@ namespace util {
 /**
  * @brief Default allowed floating point imprecision.
  */
-static constexpr double EPSILON = 1e-4;
+static constexpr auto EPSILON = 1e-4;
+
+/**
+ * @brief Number of digits required to represent color_t as base 10 string.
+ */
+static constexpr auto COLOR_DIGITS = std::numeric_limits<color_t>::digits10 + 1;
+
+using col_str_buffer = std::array<char, COLOR_DIGITS>;
 
 /**
  * @brief Normalize specifier values to [0, 1] range.
@@ -63,6 +74,22 @@ constexpr channel denormalize(double normed) noexcept {
 constexpr bool almost_eq(double lhs, double rhs,
                          double epsilon = EPSILON) noexcept {
   return std::abs(lhs - rhs) < epsilon;
+}
+
+/**
+ * @brief Convert a color to its base 10 string representation.
+ * @param buffer The array to write characters to.
+ * @param col The color to convert into its string representation.
+ * @return A string_view backed by buffer of the produced string.
+ * @throws system_error if color could not be converted to chars.
+ */
+constexpr std::string_view color_to_str(col_str_buffer& buffer, color_t col) {
+  const auto [ptr, ec] = std::to_chars(buffer.begin(), buffer.end(), col);
+  if (ec != std::errc{}) {
+    throw std::system_error(std::make_error_code(ec),
+                            "Could not convert color to chars");
+  }
+  return {buffer.begin(), ptr};
 }
 
 template <typename Comp, typename Proj>
