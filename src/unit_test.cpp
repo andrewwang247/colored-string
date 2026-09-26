@@ -20,16 +20,14 @@ Copyright 2026. Andrew Wang.
 
 using std::println;
 using std::span;
+using unit_test::read_csv;
 
 namespace views = std::views;
 
 int main() {
-  const auto true_colors =
-      unit_test::read_csv<true_color, color_t>(unit_test::RGB_MATRIX);
-  const auto hsv_colors =
-      unit_test::read_csv<hsv_color, double>(unit_test::HSV_MATRIX);
-  const auto hsl_colors =
-      unit_test::read_csv<hsl_color, double>(unit_test::HSL_MATRIX);
+  const auto true_colors = read_csv<true_color, color_t>("resources/rgb.csv");
+  const auto hsv_colors = read_csv<hsv_color, double>("resources/hsv.csv");
+  const auto hsl_colors = read_csv<hsl_color, double>("resources/hsl.csv");
 
   println("--- EXECUTING UNIT TESTS ---");
   unit_test::color_concepts();

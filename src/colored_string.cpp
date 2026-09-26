@@ -9,6 +9,7 @@ Copyright 2026. Andrew Wang.
 #include <array>
 #include <format>
 #include <iostream>
+#include <string_view>
 
 #include "parse.h"
 #include "true_color.h"
@@ -17,7 +18,12 @@ using std::array;
 using std::format_context;
 using std::formatter;
 using std::ostream;
-using std::streamsize;
+
+using std::string_view_literals::operator""sv;
+
+static constexpr auto FORE_CODE = "\x1b[38;2;"sv;
+static constexpr auto BACK_CODE = "\x1b[48;2;"sv;
+static constexpr auto CLEAR_CODE = "\x1b[0m"sv;
 
 ostream& operator<<(ostream& os, const colored_string& cs) {
   array<char, parse::DIGITS> buffer{};
@@ -29,14 +35,14 @@ ostream& operator<<(ostream& os, const colored_string& cs) {
   };
 
   if (cs.foreground) {
-    parse::write_sv(os, parse::FORE_CODE);
+    parse::write_sv(os, FORE_CODE);
     write_num(cs.foreground->red, ';');
     write_num(cs.foreground->green, ';');
     write_num(cs.foreground->blue, 'm');
   }
 
   if (cs.background) {
-    parse::write_sv(os, parse::BACK_CODE);
+    parse::write_sv(os, BACK_CODE);
     write_num(cs.background->red, ';');
     write_num(cs.background->green, ';');
     write_num(cs.background->blue, 'm');
@@ -46,7 +52,7 @@ ostream& operator<<(ostream& os, const colored_string& cs) {
   os << cs.data;
 
   if (cs.foreground || cs.background) {
-    parse::write_sv(os, parse::CLEAR_CODE);
+    parse::write_sv(os, CLEAR_CODE);
   }
 
   return os;
@@ -54,34 +60,38 @@ ostream& operator<<(ostream& os, const colored_string& cs) {
 
 format_context::iterator formatter<colored_string>::format(
     const colored_string& cs, format_context& ctx) const {
+  using std::make_format_args;
+  using std::vformat_to;
+  using std::ranges::copy;
+
   auto out = ctx.out();
   array<char, parse::DIGITS> buffer{};
 
   const auto write_num = [&out, &buffer](color_t color, char append) {
     const auto sv = parse::to_str(buffer, color);
-    out = std::ranges::copy(sv, out).out;
+    out = copy(sv, out).out;
     *out++ = append;
   };
 
   if (cs.foreground) {
-    out = std::ranges::copy(parse::FORE_CODE, out).out;
+    out = copy(FORE_CODE, out).out;
     write_num(cs.foreground->red, ';');
     write_num(cs.foreground->green, ';');
     write_num(cs.foreground->blue, 'm');
   }
 
   if (cs.background) {
-    out = std::ranges::copy(parse::BACK_CODE, out).out;
+    out = copy(BACK_CODE, out).out;
     write_num(cs.background->red, ';');
     write_num(cs.background->green, ';');
     write_num(cs.background->blue, 'm');
   }
 
-  // Apply formatting to only the data.
-  out = std::vformat_to(out, fmt_args, std::make_format_args(cs.data));
+  // Apply formatting to only the string data.
+  out = vformat_to(out, fmt_args, make_format_args(cs.data));
 
   if (cs.foreground || cs.background) {
-    out = std::ranges::copy(parse::CLEAR_CODE, out).out;
+    out = copy(CLEAR_CODE, out).out;
   }
   return out;
 }
