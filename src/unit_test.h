@@ -6,14 +6,17 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <algorithm>
 #include <cassert>
+#include <charconv>
 #include <concepts>
 #include <fstream>
 #include <iterator>
 #include <print>
 #include <ranges>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <vector>
 
 #include "cylindrical.h"
@@ -72,14 +75,14 @@ std::vector<CLS> unit_test::read_csv(const char* name) {
   std::vector<CLS> data;
   data.reserve(NUM_CASES);
 
-  const auto from_str = [](std::string_view str) {
+  const auto from_str = [](std::string_view sv) {
     T result{};
-    const auto [ptr, ec] = std::from_chars(str.begin(), str.end(), result);
+    const auto [ptr, ec] = std::from_chars(sv.begin(), sv.end(), result);
     if (ec != std::errc{}) {
       throw std::system_error(std::make_error_code(ec),
                               "Failed to convert numeric");
     }
-    if (ptr != str.end()) {
+    if (ptr != sv.end()) {
       throw std::invalid_argument("Failed to convert numeric");
     }
     return result;
