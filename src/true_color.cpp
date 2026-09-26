@@ -12,6 +12,7 @@ Copyright 2026. Andrew Wang.
 
 #include "parse.h"
 
+using channel::color_t;
 using std::format;
 using std::invalid_argument;
 using std::string;
@@ -39,4 +40,10 @@ true_color true_color::from_hex(string_view hex_code) {
 
 std::string true_color::hex() const {
   return format("#{:02X}{:02X}{:02X}", red, green, blue);
+}
+
+true_color true_color::operator~() const noexcept {
+  return {.red = static_cast<color_t>(~red),
+          .green = static_cast<color_t>(~green),
+          .blue = static_cast<color_t>(~blue)};
 }

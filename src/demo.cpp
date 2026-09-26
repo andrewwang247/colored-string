@@ -42,13 +42,12 @@ void demo::paint_america() {
   constexpr auto white = true_color{.red = 255, .green = 255, .blue = 255};
   constexpr auto blue = true_color{.red = 10, .green = 49, .blue = 97};
 
-  const auto gray = true_color::from_hex("808080");
   const auto red_hex =
-      colored_string{.data = red.hex(), .foreground = red, .background = gray};
+      colored_string{.data = red.hex(), .foreground = red, .background = ~red};
   const auto white_hex = colored_string{
-      .data = white.hex(), .foreground = white, .background = gray};
+      .data = white.hex(), .foreground = white, .background = ~white};
   const auto blue_hex = colored_string{
-      .data = blue.hex(), .foreground = blue, .background = gray};
+      .data = blue.hex(), .foreground = blue, .background = ~blue};
   println("  Hex:{:^11}|{:^11}|{:^11}", red_hex, white_hex, blue_hex);
 
   const auto white_star =

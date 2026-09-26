@@ -53,13 +53,13 @@ concept color_class =
  * @param name The path to the file.
  * @return Vector of CSV rows as template type.
  */
-template <color_class CLS, parse::numeric T>
+template <color_class CLS, channel::numeric T>
 std::vector<CLS> read_csv(const char* name);
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
 
-template <unit_test::color_class CLS, parse::numeric T>
+template <unit_test::color_class CLS, channel::numeric T>
 std::vector<CLS> unit_test::read_csv(const char* name) {
   std::ifstream fin{name};
   assert(fin);

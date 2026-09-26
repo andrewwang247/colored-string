@@ -5,18 +5,27 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <compare>
+#include <concepts>
 #include <cstdint>
+#include <limits>
 #include <string>
 #include <string_view>
 
+namespace channel {
 using color_t = std::uint8_t;
+
+static constexpr auto MAX = std::numeric_limits<color_t>::max();
+
+template <typename T>
+concept numeric = std::integral<T> || std::floating_point<T>;
+}  // namespace channel
 
 /**
  * @brief ANSI 24 bit true color
  */
 class true_color {
  public:
-  color_t red, green, blue;
+  channel::color_t red, green, blue;
 
   /**
    * @brief Factory from hex code.
@@ -30,6 +39,12 @@ class true_color {
    * @return Hexadecimal string of this color.
    */
   std::string hex() const;
+
+  /**
+   * @brief Get the complement of a color.
+   * @return Bitwise inversion of color.
+   */
+  true_color operator~() const noexcept;
 
   auto operator<=>(const true_color&) const = default;
 };
