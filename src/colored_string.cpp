@@ -14,6 +14,7 @@ Copyright 2026. Andrew Wang.
 #include "parse.h"
 #include "true_color.h"
 
+using channel::color_t;
 using std::array;
 using std::format_context;
 using std::formatter;

@@ -13,6 +13,7 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
+using channel::color_t;
 using std::array;
 using std::make_error_code;
 using std::ostream;

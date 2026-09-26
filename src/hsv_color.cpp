@@ -13,6 +13,7 @@ Copyright 2026. Andrew Wang.
 #include "true_color.h"
 
 using channel::denormalize;
+using channel::validate_range;
 using std::abs;
 using std::max;
 using std::min;
@@ -24,7 +25,7 @@ hsv_color::hsv_color(true_color tc) noexcept : cylindrical(tc) {
 
 hsv_color::hsv_color(double hue_in, double sat_in, double val_in) noexcept
     : cylindrical(hue_in, sat_in) {
-  channel::validate_range<0, 1>(val_in);
+  validate_range<0, 1>(val_in);
 
   value = val_in;
   chroma = sat_in * val_in;
