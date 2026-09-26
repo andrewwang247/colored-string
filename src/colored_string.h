@@ -44,16 +44,16 @@ struct std::formatter<colored_string> : std::formatter<std::string_view> {
    * @param ctx The parsing context.
    * @return Iterator to end of specifier.
    */
-  [[maybe_unused]] constexpr auto parse(std::format_parse_context& ctx);
+  constexpr auto parse(std::format_parse_context& ctx);
 
   /**
-   * @brief Format colored_string properly.
+   * @brief Format only string while respecting color state.
    * @param cs The colored_string to format.
    * @param ctx The formatting context.
    * @returns The format context.
    */
-  [[maybe_unused]] std::format_context::iterator format(
-      const colored_string& cs, std::format_context& ctx) const;
+  std::format_context::iterator format(const colored_string& cs,
+                                       std::format_context& ctx) const;
 };
 
 // CONSTEXPR IMPLEMENTATIONS

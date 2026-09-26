@@ -7,6 +7,9 @@ Copyright 2026. Andrew Wang.
 #include "cylindrical.h"
 #include "true_color.h"
 
+/**
+ * @brief HSL colors.
+ */
 class hsl_color : public cylindrical {
  public:
   explicit hsl_color() = default;

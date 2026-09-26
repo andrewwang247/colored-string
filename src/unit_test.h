@@ -23,15 +23,19 @@ Copyright 2026. Andrew Wang.
 
 namespace unit_test {
 static constexpr auto NUM_CASES = 5'000U;
-
-static constexpr auto RGB_MATRIX = "resources/rgb.csv";
-static constexpr auto HSV_MATRIX = "resources/hsv.csv";
-static constexpr auto HSL_MATRIX = "resources/hsl.csv";
-
 static constexpr auto ANNOUNCE_TEMPLATE = "Test {:>12} -- {:<8} passed";
 
+/**
+ * @brief Verify that types match compile time traits.
+ */
 void color_concepts();
 
+/**
+ * @brief Test conversions between true_color and cylindrical types.
+ * @param true_colors The sRGB colors.
+ * @param hsv_colors The HSV colors.
+ * @param hsl_colors The HSL colors.
+ */
 void rgb_hsvl(std::span<const true_color> true_colors,
               std::span<const hsv_color> hsv_colors,
               std::span<const hsl_color> hsl_colors);
@@ -44,6 +48,13 @@ concept color_class =
     std::same_as<T, true_color> ||      // NOLINT(whitespace/indent_namespace)
     std::derived_from<T, cylindrical>;  // NOLINT(whitespace/indent_namespace)
 
+/**
+ * @brief Read from a 3 column CSV file of uniform type.
+ * @tparam CLS The value type of the rows.
+ * @tparam T The value type of the entries.
+ * @param name The path to the file.
+ * @returns Vector of CSV rows as template type.
+ */
 template <color_class CLS, numeric T>
 std::vector<CLS> read_csv(const char* name);
 }  // namespace unit_test

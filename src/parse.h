@@ -12,12 +12,6 @@ Copyright 2026. Andrew Wang.
 #include "true_color.h"
 
 namespace parse {
-using std::string_view_literals::operator""sv;
-
-static constexpr auto FORE_CODE = "\x1b[38;2;"sv;
-static constexpr auto BACK_CODE = "\x1b[48;2;"sv;
-static constexpr auto CLEAR_CODE = "\x1b[0m"sv;
-
 /**
  * @brief Number of digits required to represent color_t as base 10 string.
  */
