@@ -25,7 +25,7 @@ class cylindrical {
  public:
   /**
    * @brief Convert cylindrical color into RGB coordinates.
-   * @returns 24 bit RGB representation of this.
+   * @return 24 bit RGB representation of this.
    */
   virtual true_color to_rgb() const noexcept = 0;
 
