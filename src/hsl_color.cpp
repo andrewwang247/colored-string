@@ -6,7 +6,6 @@ Copyright 2026. Andrew Wang.
 #include "hsl_color.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 
 #include "channel.h"
@@ -26,7 +25,7 @@ hsl_color::hsl_color(true_color tc) noexcept : cylindrical(tc) {
 
 hsl_color::hsl_color(double hue_in, double sat_in, double light_in) noexcept
     : cylindrical(hue_in, sat_in) {
-  assert(0. <= light_in && light_in <= 1.);
+  channel::validate_range<0, 1>(light_in);
 
   lightness = light_in;
   chroma = sat_in * (1. - abs(2 * light_in - 1));

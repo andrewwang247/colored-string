@@ -6,22 +6,20 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <algorithm>
 #include <cassert>
-#include <charconv>
 #include <concepts>
 #include <fstream>
 #include <iterator>
 #include <print>
 #include <ranges>
 #include <span>
-#include <stdexcept>
 #include <string>
 #include <string_view>
-#include <system_error>
 #include <vector>
 
 #include "cylindrical.h"
 #include "hsl_color.h"
 #include "hsv_color.h"
+#include "parse.h"
 #include "true_color.h"
 
 namespace unit_test {
@@ -44,9 +42,6 @@ void rgb_hsvl(std::span<const true_color> true_colors,
               std::span<const hsl_color> hsl_colors);
 
 template <typename T>
-concept numeric = std::unsigned_integral<T> || std::floating_point<T>;
-
-template <typename T>
 concept color_class =
     std::same_as<T, true_color> ||      // NOLINT(whitespace/indent_namespace)
     std::derived_from<T, cylindrical>;  // NOLINT(whitespace/indent_namespace)
@@ -56,15 +51,15 @@ concept color_class =
  * @tparam CLS The value type of the rows.
  * @tparam T The value type of the entries.
  * @param name The path to the file.
- * @returns Vector of CSV rows as template type.
+ * @return Vector of CSV rows as template type.
  */
-template <color_class CLS, numeric T>
+template <color_class CLS, parse::numeric T>
 std::vector<CLS> read_csv(const char* name);
 }  // namespace unit_test
 
 // TEMPLATED IMPLEMENTATIONS
 
-template <unit_test::color_class CLS, unit_test::numeric T>
+template <unit_test::color_class CLS, parse::numeric T>
 std::vector<CLS> unit_test::read_csv(const char* name) {
   std::ifstream fin{name};
   assert(fin);
@@ -75,24 +70,12 @@ std::vector<CLS> unit_test::read_csv(const char* name) {
   std::vector<CLS> data;
   data.reserve(NUM_CASES);
 
-  const auto from_str = [](std::string_view sv) {
-    T result{};
-    const auto [ptr, ec] = std::from_chars(sv.begin(), sv.end(), result);
-    if (ec != std::errc{}) {
-      throw std::system_error(std::make_error_code(ec),
-                              "Failed to convert numeric");
-    }
-    if (ptr != sv.end()) {
-      throw std::invalid_argument("Failed to convert numeric");
-    }
-    return result;
-  };
-
   for (std::string line; std::getline(fin, line);) {
-    auto row = std::views::split(line, ',') |
-               std::views::transform([&from_str](auto&& rng) {
-                 return from_str(std::string_view{rng.begin(), rng.end()});
-               });
+    auto row =
+        std::views::split(line, ',') | std::views::transform([](auto&& rng) {
+          return parse::from_str<T, 10>(
+              std::string_view{rng.begin(), rng.end()});
+        });
 
     assert(std::ranges::distance(row) == 3);
 

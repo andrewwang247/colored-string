@@ -6,7 +6,6 @@ Copyright 2026. Andrew Wang.
 #include "cylindrical.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <compare>
 #include <iterator>
@@ -19,17 +18,16 @@ using std::abs;
 using std::fmod;
 using std::max;
 using std::min;
-using std::unreachable;
 
 using channel::almost_eq;
 
 namespace ranges = std::ranges;
 
 cylindrical::cylindrical(true_color tc) noexcept {
-  const auto r = channel::normalize(tc.red);
-  const auto g = channel::normalize(tc.green);
-  const auto b = channel::normalize(tc.blue);
-  const auto rgb_list = {r, g, b};
+  const auto red = channel::normalize(tc.red);
+  const auto green = channel::normalize(tc.green);
+  const auto blue = channel::normalize(tc.blue);
+  const auto rgb_list = {red, green, blue};
 
   const auto x_max = max(rgb_list);
   const auto x_min = min(rgb_list);
@@ -44,26 +42,26 @@ cylindrical::cylindrical(true_color tc) noexcept {
   const auto var_argmax = ranges::distance(rgb_list.begin(), max_iter);
 
   switch (var_argmax) {
-    case 0:  // r
-      hue = fmod((g - b) / chroma, 6.);
+    case 0:  // red
+      hue = fmod((green - blue) / chroma, 6.);
       hue += hue < 0. ? 6. : 0.;
       break;
-    case 1:  // g
-      hue = 2. + (b - r) / chroma;
+    case 1:  // green
+      hue = 2. + (blue - red) / chroma;
       break;
-    case 2:  // b
-      hue = 4. + (r - g) / chroma;
+    case 2:  // blue
+      hue = 4. + (red - green) / chroma;
       break;
     default:
-      unreachable();
+      std::unreachable();
   }
   hue = 60 * abs(hue);
 }
 
 cylindrical::cylindrical(double hue_in, double sat_in) noexcept
     : hue(hue_in), saturation(sat_in) {
-  assert(0. <= hue_in && hue_in <= 360.);
-  assert(0. <= sat_in && sat_in <= 1.);
+  channel::validate_range<0, 360>(hue_in);
+  channel::validate_range<0, 1>(sat_in);
 }
 
 bool operator==(const cylindrical& lhs, const cylindrical& rhs) noexcept {

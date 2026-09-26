@@ -5,6 +5,7 @@ Copyright 2026. Andrew Wang.
 */
 #include "demo.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <print>
 #include <string_view>
@@ -15,24 +16,40 @@ Copyright 2026. Andrew Wang.
 #include "true_color.h"
 
 using std::cout;
+using std::getenv;
 using std::print;
 using std::println;
 using std::string_view;
 
 int main() {
+  if (const auto* terminal = getenv("COLORTERM")) {
+    println("echo $COLORTERM = {}", terminal);
+  }
+
   demo::paint_america();
   demo::hue_rainbow("Dark", .25);
-  demo::hue_rainbow("Standard", .5);
-  demo::hue_rainbow("Pastel", .75);
+  demo::hue_rainbow("Middle", .5);
+  demo::hue_rainbow("Bright", .75);
   demo::value_palette("Gray", 0., 0.);
   demo::value_palette("Desert", 25., .7);
   demo::value_palette("Forest", 140., .6);
 }
 
 void demo::paint_america() {
-  const auto red = true_color{.red = 179, .green = 25, .blue = 66};
-  const auto white = true_color{.red = 255, .green = 255, .blue = 255};
-  const auto blue = true_color{.red = 10, .green = 49, .blue = 97};
+  println("America:");
+
+  constexpr auto red = true_color{.red = 179, .green = 25, .blue = 66};
+  constexpr auto white = true_color{.red = 255, .green = 255, .blue = 255};
+  constexpr auto blue = true_color{.red = 10, .green = 49, .blue = 97};
+
+  const auto gray = true_color::from_hex("808080");
+  const auto red_hex =
+      colored_string{.data = red.hex(), .foreground = red, .background = gray};
+  const auto white_hex = colored_string{
+      .data = white.hex(), .foreground = white, .background = gray};
+  const auto blue_hex = colored_string{
+      .data = blue.hex(), .foreground = blue, .background = gray};
+  println("  Hex:{:^11}|{:^11}|{:^11}", red_hex, white_hex, blue_hex);
 
   const auto white_star =
       colored_string{.data = "X", .foreground = white, .background = blue};
@@ -50,7 +67,6 @@ void demo::paint_america() {
     println("{:1}{:26}", blue_patch, white_patch);
   };
 
-  println("'MERICA:");
   red_star_line();
   white_star_line();
   red_star_line();
@@ -66,9 +82,9 @@ void demo::paint_america() {
 }
 
 void demo::hue_rainbow(string_view name, double light) {
-  auto display = colored_string{.data = " "};
   println("{:~^10} rainbow:", name);
   constexpr auto incr = 360 / WIDTH;
+  auto display = colored_string{.data = " "};
   for (auto i = 0U; i != WIDTH; ++i) {
     const auto hue = static_cast<double>(incr * i);
     const auto hsl = hsl_color{hue, .5, light};
@@ -79,9 +95,9 @@ void demo::hue_rainbow(string_view name, double light) {
 }
 
 void demo::value_palette(string_view name, double hue, double sat) {
-  auto display = colored_string{.data = " "};
   println("{:~^10} palette:", name);
   constexpr auto incr = 1. / WIDTH;
+  auto display = colored_string{.data = " "};
   for (auto i = 0U; i != WIDTH; ++i) {
     const auto hsv = hsv_color{hue, sat, incr * i};
     display.background = hsv.to_rgb();

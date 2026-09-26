@@ -4,15 +4,29 @@ Channel numerics.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
-#include <cassert>
 #include <cmath>
 #include <concepts>
 #include <limits>
+#include <stdexcept>
 
 #include "true_color.h"
 
 namespace channel {
 static constexpr auto MAX_COLOR = std::numeric_limits<color_t>::max();
+
+/**
+ * @brief Check that a value is within a closed range.
+ * @param value The value to check.
+ * @tparam Left The left bound of the range.
+ * @tparam Right The right bound of the range.
+ */
+template <auto Left, auto Right>
+constexpr void validate_range(auto value) {
+  static_assert(Left < Right);
+  if (value < Left || value > Right) {
+    throw std::invalid_argument("Input is outside of desired range.");
+  }
+}
 
 /**
  * @brief Normalize color_t values to [0, 1] range.
@@ -28,8 +42,8 @@ constexpr double normalize(color_t color) noexcept {
  * @param normed Normalized value in [0, 1] range.
  * @return Denormalized color_t value.
  */
-constexpr color_t denormalize(std::floating_point auto normed) noexcept {
-  assert(0. <= normed && normed <= 1.);
+constexpr color_t denormalize(std::floating_point auto normed) {
+  validate_range<0, 1>(normed);
   const auto expanded = std::lround(MAX_COLOR * normed);
   return static_cast<color_t>(expanded);
 }

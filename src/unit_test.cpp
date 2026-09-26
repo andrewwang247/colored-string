@@ -71,6 +71,9 @@ void unit_test::rgb_hsvl(span<const true_color> true_colors,
     const auto rgb_from_hsl = hsl.to_rgb();
     assert(rgb == rgb_from_hsv);
     assert(rgb == rgb_from_hsl);
+
+    const auto rgb_from_hex = true_color::from_hex(rgb.hex());
+    assert(rgb == rgb_from_hex);
   }
   println(ANNOUNCE_TEMPLATE, "sRGB", "HSV/L");
 }
