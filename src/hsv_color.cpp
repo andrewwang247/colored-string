@@ -6,18 +6,16 @@ Copyright 2026. Andrew Wang.
 #include "hsv_color.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 
 #include "channel.h"
 #include "cylindrical.h"
 #include "true_color.h"
 
+using channel::denormalize;
 using std::abs;
 using std::max;
 using std::min;
-
-using channel::denormalize;
 
 hsv_color::hsv_color(true_color tc) noexcept : cylindrical(tc) {
   if (chroma == 0.) return;
@@ -26,7 +24,7 @@ hsv_color::hsv_color(true_color tc) noexcept : cylindrical(tc) {
 
 hsv_color::hsv_color(double hue_in, double sat_in, double val_in) noexcept
     : cylindrical(hue_in, sat_in) {
-  assert(0. <= val_in && val_in <= 1.);
+  channel::validate_range<0, 1>(val_in);
 
   value = val_in;
   chroma = sat_in * val_in;
