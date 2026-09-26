@@ -7,6 +7,9 @@ Copyright 2026. Andrew Wang.
 #include "cylindrical.h"
 #include "true_color.h"
 
+/**
+ * @brief HSV colors.
+ */
 class hsv_color : public cylindrical {
  public:
   explicit hsv_color() = default;
