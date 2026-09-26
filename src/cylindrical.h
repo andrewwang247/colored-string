@@ -8,7 +8,6 @@ Copyright 2026. Andrew Wang.
 #include <compare>
 #include <concepts>
 
-#include "channel.h"
 #include "true_color.h"
 
 /**

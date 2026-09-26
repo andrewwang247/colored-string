@@ -18,6 +18,7 @@ Copyright 2026. Andrew Wang.
 #include "hsv_color.h"
 #include "true_color.h"
 
+using channel::color_t;
 using std::println;
 using std::span;
 using unit_test::read_csv;
@@ -62,6 +63,10 @@ void unit_test::rgb_hsvl(span<const true_color> true_colors,
                          span<const hsl_color> hsl_colors) {
   for (auto&& [rgb, hsv, hsl] :
        views::zip(true_colors, hsv_colors, hsl_colors)) {
+    assert(~~rgb == rgb);
+    const auto rgb_from_hex = true_color::from_hex(rgb.hex());
+    assert(rgb == rgb_from_hex);
+
     const auto hsv_from_rgb = hsv_color(rgb);
     const auto hsl_from_rgb = hsl_color(rgb);
     assert(hsv == hsv_from_rgb);
@@ -71,9 +76,6 @@ void unit_test::rgb_hsvl(span<const true_color> true_colors,
     const auto rgb_from_hsl = hsl.to_rgb();
     assert(rgb == rgb_from_hsv);
     assert(rgb == rgb_from_hsl);
-
-    const auto rgb_from_hex = true_color::from_hex(rgb.hex());
-    assert(rgb == rgb_from_hex);
   }
   println(ANNOUNCE_TEMPLATE, "sRGB", "HSV/L");
 }

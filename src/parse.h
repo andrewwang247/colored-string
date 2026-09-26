@@ -19,7 +19,9 @@ namespace parse {
 /**
  * @brief Number of digits required to represent color_t as base 10 string.
  */
-static constexpr auto DIGITS = std::numeric_limits<color_t>::digits10 + 1;
+static constexpr auto DIGITS =
+    1 + std::numeric_limits<              // NOLINT(whitespace/indent_namespace)
+            channel::color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
 
 /**
  * @brief Convert a color to its base 10 string representation.
@@ -27,12 +29,9 @@ static constexpr auto DIGITS = std::numeric_limits<color_t>::digits10 + 1;
  * @param col The color to convert into its string representation.
  * @return A string_view backed by buffer of the produced string.
  */
-std::string_view to_str(std::array<char, DIGITS>& buffer, color_t col);
+std::string_view to_str(std::array<char, DIGITS>& buffer, channel::color_t col);
 
-template <typename T>
-concept numeric = std::unsigned_integral<T> || std::floating_point<T>;
-
-template <numeric T, int Base>
+template <channel::numeric T, int Base>
 T from_str(std::string_view sv);
 
 /**
@@ -45,7 +44,7 @@ void write_sv(std::ostream& os, std::string_view sv);
 
 // TEMPLATED IMPLEMENTATIONS
 
-template <parse::numeric T, int Base>
+template <channel::numeric T, int Base>
 T parse::from_str(std::string_view sv) {
   static_assert(Base > 0);
   static constexpr auto ERR_MSG = "Failed to convert from string";
