@@ -7,25 +7,22 @@ Copyright 2026. Andrew Wang.
 #include <compare>
 #include <concepts>
 #include <cstdint>
-#include <limits>
 #include <string>
 #include <string_view>
 
-namespace channel {
-using color_t = std::uint8_t;
+namespace cs {
 
-static constexpr auto MAX = std::numeric_limits<color_t>::max();
+using color_t = std::uint8_t;
 
 template <typename T>
 concept numeric = std::integral<T> || std::floating_point<T>;
-}  // namespace channel
 
 /**
  * @brief ANSI 24 bit true color
  */
 class true_color {
  public:
-  channel::color_t red, green, blue;
+  color_t red, green, blue;
 
   /**
    * @brief Factory from hex code.
@@ -48,3 +45,5 @@ class true_color {
 
   auto operator<=>(const true_color&) const = default;
 };
+
+}  // namespace cs

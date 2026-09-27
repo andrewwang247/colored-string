@@ -10,6 +10,7 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
+namespace cs {
 /**
  * @brief Base cylindrical representation.
  */
@@ -38,3 +39,5 @@ class cylindrical {
   friend std::partial_ordering operator<=>(const cylindrical& lhs,
                                            const cylindrical& rhs) noexcept;
 };
+
+}  // namespace cs

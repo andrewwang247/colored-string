@@ -6,11 +6,14 @@ Copyright 2026. Andrew Wang.
 #pragma once
 #include <cmath>
 #include <concepts>
+#include <limits>
 #include <stdexcept>
 
 #include "true_color.h"
 
-namespace channel {
+namespace cs::channel {
+
+static constexpr auto COLOR_MAX = std::numeric_limits<color_t>::max();
 
 /**
  * @brief Check that a value is within a closed range.
@@ -32,7 +35,7 @@ constexpr void validate_range(auto value) {
  * @return The normalized floating point value.
  */
 constexpr double normalize(color_t color) noexcept {
-  return static_cast<double>(color) / MAX;
+  return static_cast<double>(color) / COLOR_MAX;
 }
 
 /**
@@ -42,7 +45,7 @@ constexpr double normalize(color_t color) noexcept {
  */
 constexpr color_t denormalize(std::floating_point auto normed) {
   validate_range<0, 1>(normed);
-  const auto expanded = std::lround(MAX * normed);
+  const auto expanded = std::lround(COLOR_MAX * normed);
   return static_cast<color_t>(expanded);
 }
 
@@ -57,4 +60,4 @@ constexpr bool almost_eq(std::floating_point auto lhs,
   static constexpr auto EPSILON = 1e-4;
   return std::abs(lhs - rhs) < EPSILON;
 }
-}  // namespace channel
+}  // namespace cs::channel

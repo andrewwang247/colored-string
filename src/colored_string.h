@@ -14,6 +14,8 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
+namespace cs {
+
 /**
  * @brief String with foreground and background colors.
  */
@@ -35,8 +37,11 @@ class colored_string {
   friend std::ostream& operator<<(std::ostream& os, const colored_string& cs);
 };
 
+}  // namespace cs
+
+// Formatter declared in global namespace.
 template <>
-struct std::formatter<colored_string> : std::formatter<std::string_view> {
+struct std::formatter<cs::colored_string> : std::formatter<std::string_view> {
   std::string fmt_args;
 
   /**
@@ -52,13 +57,13 @@ struct std::formatter<colored_string> : std::formatter<std::string_view> {
    * @param ctx The formatting context.
    * @return The format context.
    */
-  std::format_context::iterator format(const colored_string& cs,
+  std::format_context::iterator format(const cs::colored_string& cs,
                                        std::format_context& ctx) const;
 };
 
 // CONSTEXPR IMPLEMENTATIONS
 
-constexpr auto std::formatter<colored_string>::parse(
+constexpr auto std::formatter<cs::colored_string>::parse(
     std::format_parse_context& ctx) {
   const auto* it = std::ranges::find(ctx, '}');
   const auto ctx_args = std::string_view{ctx.begin(), it};

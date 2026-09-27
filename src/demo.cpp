@@ -26,14 +26,16 @@ int main() {
     println("echo $COLORTERM = {}", terminal);
   }
 
-  demo::paint_america();
-  demo::hue_rainbow("Dark", .25);
-  demo::hue_rainbow("Middle", .5);
-  demo::hue_rainbow("Bright", .75);
-  demo::value_palette("Gray", 0., 0.);
-  demo::value_palette("Desert", 25., .7);
-  demo::value_palette("Forest", 140., .6);
+  cs::demo::paint_america();
+  cs::demo::hue_rainbow("Dark", .25);
+  cs::demo::hue_rainbow("Middle", .5);
+  cs::demo::hue_rainbow("Bright", .75);
+  cs::demo::value_palette("Gray", 0., 0.);
+  cs::demo::value_palette("Desert", 25., .7);
+  cs::demo::value_palette("Forest", 140., .6);
 }
+
+namespace cs {
 
 void demo::paint_america() {
   println("America:");
@@ -104,3 +106,5 @@ void demo::value_palette(string_view name, double hue, double sat) {
   }
   cout.put('\n');
 }
+
+}  // namespace cs

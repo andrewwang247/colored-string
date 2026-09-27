@@ -7,6 +7,8 @@ Copyright 2026. Andrew Wang.
 #include "cylindrical.h"
 #include "true_color.h"
 
+namespace cs {
+
 /**
  * @brief HSV colors.
  */
@@ -18,3 +20,5 @@ class hsv_color : public cylindrical {
 
   true_color to_rgb() const noexcept override;
 };
+
+}  // namespace cs

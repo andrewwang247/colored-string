@@ -12,11 +12,12 @@ Copyright 2026. Andrew Wang.
 
 #include "parse.h"
 
-using channel::color_t;
 using std::format;
 using std::invalid_argument;
 using std::string;
 using std::string_view;
+
+namespace cs {
 
 true_color true_color::from_hex(string_view hex_code) {
   if (hex_code.empty()) {
@@ -47,3 +48,5 @@ true_color true_color::operator~() const noexcept {
           .green = static_cast<color_t>(~green),
           .blue = static_cast<color_t>(~blue)};
 }
+
+}  // namespace cs

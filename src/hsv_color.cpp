@@ -12,11 +12,11 @@ Copyright 2026. Andrew Wang.
 #include "cylindrical.h"
 #include "true_color.h"
 
-using channel::denormalize;
-using channel::validate_range;
 using std::abs;
 using std::max;
 using std::min;
+
+namespace cs {
 
 hsv_color::hsv_color(true_color tc) noexcept : cylindrical(tc) {
   if (chroma == 0.) return;
@@ -25,7 +25,7 @@ hsv_color::hsv_color(true_color tc) noexcept : cylindrical(tc) {
 
 hsv_color::hsv_color(double hue_in, double sat_in, double val_in) noexcept
     : cylindrical(hue_in, sat_in) {
-  validate_range<0, 1>(val_in);
+  channel::validate_range<0, 1>(val_in);
 
   value = val_in;
   chroma = sat_in * val_in;
@@ -33,6 +33,8 @@ hsv_color::hsv_color(double hue_in, double sat_in, double val_in) noexcept
 }
 
 true_color hsv_color::to_rgb() const noexcept {
+  using channel::denormalize;
+
   const auto shape = [this](int n) {
     const auto div = n + hue / 60.;
     const auto k = fmod(div, 6.);
@@ -43,3 +45,5 @@ true_color hsv_color::to_rgb() const noexcept {
           .green = denormalize(shape(3)),
           .blue = denormalize(shape(1))};
 }
+
+}  // namespace cs
