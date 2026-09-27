@@ -22,7 +22,8 @@ Copyright 2026. Andrew Wang.
 #include "parse.h"
 #include "true_color.h"
 
-namespace unit_test {
+namespace cs::unit_test {
+
 static constexpr auto NUM_CASES = 5'000U;
 static constexpr auto ANNOUNCE_TEMPLATE = "Test {:>12} -- {:<8} passed";
 
@@ -53,14 +54,8 @@ concept color_class =
  * @param name The path to the file.
  * @return Vector of CSV rows as template type.
  */
-template <color_class CLS, channel::numeric T>
-std::vector<CLS> read_csv(const char* name);
-}  // namespace unit_test
-
-// TEMPLATED IMPLEMENTATIONS
-
-template <unit_test::color_class CLS, channel::numeric T>
-std::vector<CLS> unit_test::read_csv(const char* name) {
+template <color_class CLS, numeric T>
+std::vector<CLS> read_csv(const char* name) {
   std::ifstream fin{name};
   assert(fin);
 
@@ -91,3 +86,5 @@ std::vector<CLS> unit_test::read_csv(const char* name) {
   std::println("Imported {} rows from {}", NUM_CASES, name);
   return data;
 }
+
+}  // namespace cs::unit_test

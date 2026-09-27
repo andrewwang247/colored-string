@@ -14,7 +14,6 @@ Copyright 2026. Andrew Wang.
 #include "parse.h"
 #include "true_color.h"
 
-using channel::color_t;
 using std::array;
 using std::format_context;
 using std::formatter;
@@ -25,6 +24,8 @@ using std::string_view_literals::operator""sv;
 static constexpr auto FORE_CODE = "\x1b[38;2;"sv;
 static constexpr auto BACK_CODE = "\x1b[48;2;"sv;
 static constexpr auto CLEAR_CODE = "\x1b[0m"sv;
+
+namespace cs {
 
 ostream& operator<<(ostream& os, const colored_string& cs) {
   array<char, parse::DIGITS> buffer{};
@@ -59,17 +60,17 @@ ostream& operator<<(ostream& os, const colored_string& cs) {
   return os;
 }
 
-format_context::iterator formatter<colored_string>::format(
-    const colored_string& cs, format_context& ctx) const {
-  using std::make_format_args;
-  using std::vformat_to;
+}  // namespace cs
+
+format_context::iterator formatter<cs::colored_string>::format(
+    const cs::colored_string& cs, format_context& ctx) const {
   using std::ranges::copy;
 
   auto out = ctx.out();
-  array<char, parse::DIGITS> buffer{};
+  array<char, cs::parse::DIGITS> buffer{};
 
-  const auto write_num = [&out, &buffer](color_t color, char append) {
-    const auto sv = parse::to_str(buffer, color);
+  const auto write_num = [&out, &buffer](cs::color_t color, char append) {
+    const auto sv = cs::parse::to_str(buffer, color);
     out = copy(sv, out).out;
     *out++ = append;
   };
@@ -89,7 +90,7 @@ format_context::iterator formatter<colored_string>::format(
   }
 
   // Apply formatting to only the string data.
-  out = vformat_to(out, fmt_args, make_format_args(cs.data));
+  out = std::vformat_to(out, fmt_args, std::make_format_args(cs.data));
 
   if (cs.foreground || cs.background) {
     out = copy(CLEAR_CODE, out).out;

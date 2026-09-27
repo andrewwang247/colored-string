@@ -15,24 +15,13 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
-namespace parse {
+namespace cs::parse {
 /**
  * @brief Number of digits required to represent color_t as base 10 string.
  */
 static constexpr auto DIGITS =
-    1 + std::numeric_limits<              // NOLINT(whitespace/indent_namespace)
-            channel::color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
-
-/**
- * @brief Convert a color to its base 10 string representation.
- * @param buffer The array to write characters to.
- * @param col The color to convert into its string representation.
- * @return A string_view backed by buffer of the produced string.
- */
-std::string_view to_str(std::array<char, DIGITS>& buffer, channel::color_t col);
-
-template <channel::numeric T, int Base>
-T from_str(std::string_view sv);
+    1 + std::numeric_limits<     // NOLINT(whitespace/indent_namespace)
+            color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
 
 /**
  * @brief Write a string view to an output stream.
@@ -40,12 +29,17 @@ T from_str(std::string_view sv);
  * @param sv The string to write.
  */
 void write_sv(std::ostream& os, std::string_view sv);
-}  // namespace parse
 
-// TEMPLATED IMPLEMENTATIONS
+/**
+ * @brief Convert a color to its base 10 string representation.
+ * @param buffer The array to write characters to.
+ * @param col The color to convert into its string representation.
+ * @return A string_view backed by buffer of the produced string.
+ */
+std::string_view to_str(std::array<char, DIGITS>& buffer, color_t col);
 
-template <channel::numeric T, int Base>
-T parse::from_str(std::string_view sv) {
+template <numeric T, int Base>
+T from_str(std::string_view sv) {
   static_assert(Base > 0);
   static constexpr auto ERR_MSG = "Failed to convert from string";
   T result{};
@@ -67,3 +61,5 @@ T parse::from_str(std::string_view sv) {
   }
   return result;
 }
+
+}  // namespace cs::parse

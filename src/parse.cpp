@@ -13,7 +13,6 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
-using channel::color_t;
 using std::array;
 using std::make_error_code;
 using std::ostream;
@@ -21,6 +20,8 @@ using std::streamsize;
 using std::string_view;
 using std::system_error;
 using std::to_chars;
+
+namespace cs {
 
 string_view parse::to_str(array<char, DIGITS>& buffer, color_t col) {
   const auto [ptr, ec] = to_chars(buffer.begin(), buffer.end(), col);
@@ -33,3 +34,5 @@ string_view parse::to_str(array<char, DIGITS>& buffer, color_t col) {
 void parse::write_sv(ostream& os, string_view sv) {
   os.write(sv.data(), static_cast<streamsize>(sv.length()));
 }
+
+}  // namespace cs

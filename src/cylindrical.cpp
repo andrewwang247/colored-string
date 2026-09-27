@@ -14,9 +14,6 @@ Copyright 2026. Andrew Wang.
 #include "channel.h"
 #include "true_color.h"
 
-using channel::almost_eq;
-using channel::normalize;
-using channel::validate_range;
 using std::abs;
 using std::fmod;
 using std::max;
@@ -24,7 +21,11 @@ using std::min;
 
 namespace ranges = std::ranges;
 
+namespace cs {
+
 cylindrical::cylindrical(true_color tc) noexcept {
+  using channel::normalize;
+
   const auto red = normalize(tc.red);
   const auto green = normalize(tc.green);
   const auto blue = normalize(tc.blue);
@@ -61,11 +62,13 @@ cylindrical::cylindrical(true_color tc) noexcept {
 
 cylindrical::cylindrical(double hue_in, double sat_in) noexcept
     : hue(hue_in), saturation(sat_in) {
-  validate_range<0, 360>(hue_in);
-  validate_range<0, 1>(sat_in);
+  channel::validate_range<0, 360>(hue_in);
+  channel::validate_range<0, 1>(sat_in);
 }
 
 bool operator==(const cylindrical& lhs, const cylindrical& rhs) noexcept {
+  using channel::almost_eq;
+
   return almost_eq(lhs.hue, rhs.hue) && almost_eq(lhs.chroma, rhs.chroma) &&
          almost_eq(lhs.value, rhs.value) &&
          almost_eq(lhs.lightness, rhs.lightness);
@@ -73,6 +76,8 @@ bool operator==(const cylindrical& lhs, const cylindrical& rhs) noexcept {
 
 std::partial_ordering operator<=>(const cylindrical& lhs,
                                   const cylindrical& rhs) noexcept {
+  using channel::almost_eq;
+
   if (!almost_eq(lhs.lightness, rhs.lightness)) {
     return lhs.lightness <=> rhs.lightness;
   }
@@ -86,3 +91,5 @@ std::partial_ordering operator<=>(const cylindrical& lhs,
 }
 
 cylindrical::~cylindrical() = default;
+
+}  // namespace cs

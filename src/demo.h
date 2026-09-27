@@ -8,7 +8,7 @@ Copyright 2026. Andrew Wang.
 
 #include "true_color.h"
 
-namespace demo {
+namespace cs::demo {
 static constexpr auto WIDTH = 72U;
 
 /**
@@ -30,4 +30,4 @@ void hue_rainbow(std::string_view name, double light);
  * @param sat Fixed saturation.
  */
 void value_palette(std::string_view name, double hue, double sat);
-}  // namespace demo
+}  // namespace cs::demo

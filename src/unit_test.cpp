@@ -18,23 +18,26 @@ Copyright 2026. Andrew Wang.
 #include "hsv_color.h"
 #include "true_color.h"
 
-using channel::color_t;
 using std::println;
 using std::span;
-using unit_test::read_csv;
 
 namespace views = std::views;
 
 int main() {
-  const auto true_colors = read_csv<true_color, color_t>("resources/rgb.csv");
-  const auto hsv_colors = read_csv<hsv_color, double>("resources/hsv.csv");
-  const auto hsl_colors = read_csv<hsl_color, double>("resources/hsl.csv");
+  using cs::unit_test::read_csv;
+
+  const auto true_colors =
+      read_csv<cs::true_color, cs::color_t>("resources/rgb.csv");
+  const auto hsv_colors = read_csv<cs::hsv_color, double>("resources/hsv.csv");
+  const auto hsl_colors = read_csv<cs::hsl_color, double>("resources/hsl.csv");
 
   println("--- EXECUTING UNIT TESTS ---");
-  unit_test::color_concepts();
-  unit_test::rgb_hsvl(true_colors, hsv_colors, hsl_colors);
+  cs::unit_test::color_concepts();
+  cs::unit_test::rgb_hsvl(true_colors, hsv_colors, hsl_colors);
   println("--- COMPLETED UNIT TESTS ---");
 }
+
+namespace cs {
 
 template <typename T>
 static constexpr void assert_traits() {
@@ -79,3 +82,5 @@ void unit_test::rgb_hsvl(span<const true_color> true_colors,
   }
   println(ANNOUNCE_TEMPLATE, "sRGB", "HSV/L");
 }
+
+}  // namespace cs
