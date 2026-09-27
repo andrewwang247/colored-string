@@ -8,32 +8,42 @@ Copyright 2026. Andrew Wang.
 #include <cassert>
 #include <compare>
 #include <concepts>
+#include <cstddef>
+#include <fstream>
+#include <iterator>
 #include <print>
 #include <ranges>
 #include <span>
+#include <string>
+#include <string_view>
 #include <type_traits>
+#include <vector>
 
 #include "colored_string.h"
 #include "hsl_color.h"
 #include "hsv_color.h"
+#include "parse.h"
 #include "true_color.h"
 
+using std::getline;
+using std::ifstream;
 using std::println;
+using std::size_t;
 using std::span;
+using std::string;
+using std::string_view;
+using std::vector;
 
+namespace ranges = std::ranges;
 namespace views = std::views;
 
 int main() {
-  using cs::unit_test::read_csv;
-
-  const auto true_colors =
-      read_csv<cs::true_color, cs::color_t>("resources/rgb.csv");
-  const auto hsv_colors = read_csv<cs::hsv_color, double>("resources/hsv.csv");
-  const auto hsl_colors = read_csv<cs::hsl_color, double>("resources/hsl.csv");
+  const auto solutions =
+      cs::unit_test::read_solutions("resources/colors.csv", 5'000U);
 
   println("--- EXECUTING UNIT TESTS ---");
   cs::unit_test::color_concepts();
-  cs::unit_test::rgb_hsvl(true_colors, hsv_colors, hsl_colors);
+  cs::unit_test::rgb_hsvl(solutions);
   println("--- COMPLETED UNIT TESTS ---");
 }
 
@@ -49,6 +59,8 @@ static constexpr void assert_traits() {
   static_assert(std::is_nothrow_move_assignable_v<T>);
 }
 
+static constexpr auto RESULT_TEMPLATE = "Test {:>12} -- {:<8} passed";
+
 void unit_test::color_concepts() {
   assert_traits<true_color>();
   static_assert(std::is_aggregate_v<true_color>);
@@ -58,17 +70,59 @@ void unit_test::color_concepts() {
 
   assert_traits<colored_string>();
   static_assert(std::is_aggregate_v<colored_string>);
-  println(ANNOUNCE_TEMPLATE, "concepts", "color");
+  println(RESULT_TEMPLATE, "concepts", "color");
 }
 
-void unit_test::rgb_hsvl(span<const true_color> true_colors,
-                         span<const hsv_color> hsv_colors,
-                         span<const hsl_color> hsl_colors) {
-  for (auto&& [rgb, hsv, hsl] :
-       views::zip(true_colors, hsv_colors, hsl_colors)) {
+vector<unit_test::solution_t> unit_test::read_solutions(const char* name,
+                                                        size_t sz) {
+  using parse::from_str;
+
+  ifstream fin{name};
+  assert(fin);
+
+  string line;
+  getline(fin, line);
+  static constexpr auto EXPECTED_HEADER =
+      "hex,red,green,blue,hue,saturation_v,saturation_l,value,lightness";
+  assert(line == EXPECTED_HEADER);
+
+  vector<solution_t> solutions;
+  solutions.reserve(sz);
+
+  while (getline(fin, line)) {
+    auto row = views::split(line, ',') | views::transform([](auto&& rng) {
+                 return string_view{rng.begin(), rng.end()};
+               });
+    assert(ranges::distance(row) == 9);
+    auto it = row.begin();
+
+    const auto hex = string{*it++};
+    const auto rgb = true_color{.red = from_str<color_t>(*it++),
+                                .green = from_str<color_t>(*it++),
+                                .blue = from_str<color_t>(*it++)};
+
+    const auto hue = from_str<double>(*it++);
+    const auto sat_v = from_str<double>(*it++);
+    const auto sat_l = from_str<double>(*it++);
+
+    const auto hsv = hsv_color{hue, sat_v, from_str<double>(*it++)};
+    const auto hsl = hsl_color{hue, sat_l, from_str<double>(*it++)};
+
+    assert(it == row.end());
+    solutions.emplace_back(hex, rgb, hsv, hsl);
+  }
+
+  assert(solutions.size() == sz);
+  return solutions;
+}
+
+void unit_test::rgb_hsvl(span<const solution_t> solutions) {
+  for (const auto& [hex, rgb, hsv, hsl] : solutions) {
     assert(~~rgb == rgb);
-    const auto rgb_from_hex = true_color::from_hex(rgb.hex());
-    assert(rgb == rgb_from_hex);
+
+    assert(rgb.hex() == hex);
+    assert(rgb == true_color::from_hex(hex));
+    assert(rgb == true_color::from_hex(hex.substr(1)));
 
     const auto hsv_from_rgb = hsv_color(rgb);
     const auto hsl_from_rgb = hsl_color(rgb);
@@ -80,7 +134,7 @@ void unit_test::rgb_hsvl(span<const true_color> true_colors,
     assert(rgb == rgb_from_hsv);
     assert(rgb == rgb_from_hsl);
   }
-  println(ANNOUNCE_TEMPLATE, "sRGB", "HSV/L");
+  println(RESULT_TEMPLATE, "sRGB", "HSV/L");
 }
 
 }  // namespace cs

@@ -28,7 +28,7 @@ true_color true_color::from_hex(string_view hex_code) {
   }
   if (hex_code.length() != 6) {
     throw invalid_argument(
-        "Hex code must have length 6 after removing optional #");
+        "Hex code must have length 6 without counting optional #");
   }
 
   static constexpr auto HEX_BASE = 16;

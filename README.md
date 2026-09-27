@@ -25,4 +25,4 @@ This is the main advantage of encapsulating the color state into a `colored_stri
 
 ## HSV / HSL
 
-As a showcase of what you can do with colored strings, we include an implementation of [HSV and HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) that is interoperable with our `true_color` type. The HSV / HSL spaces are much better at mapping to human spectral perception than RGB as shown in `demo`. Test cases for conversion between sRGB and HSV/L are stored in the CSV files under `resources`.
+As a showcase of what you can do with colored strings, we include an implementation of [HSV and HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) that is interoperable with our `true_color` type. The HSV / HSL spaces are much better at mapping to human spectral perception than RGB as shown in `demo`. Test cases for conversion between hex codes, sRGB, and HSV/L are stored in `resources/colors.csv`.
