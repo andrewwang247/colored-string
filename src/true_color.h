@@ -25,7 +25,7 @@ class true_color {
   color_t red, green, blue;
 
   /**
-   * @brief Factory from hex code.
+   * @brief Factory from hex code. Optional # prefix.
    * @param hex_code The hexadecimal string.
    * @return true_color represented by code.
    */

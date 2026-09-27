@@ -38,7 +38,7 @@ void write_sv(std::ostream& os, std::string_view sv);
  */
 std::string_view to_str(std::array<char, DIGITS>& buffer, color_t col);
 
-template <numeric T, int Base>
+template <numeric T, int Base = 10>
 T from_str(std::string_view sv) {
   static_assert(Base > 0);
   static constexpr auto ERR_MSG = "Failed to convert from string";
