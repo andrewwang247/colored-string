@@ -7,7 +7,6 @@ Copyright 2026. Andrew Wang.
 
 #include <array>
 #include <charconv>
-#include <iostream>
 #include <string_view>
 #include <system_error>
 
@@ -15,8 +14,6 @@ Copyright 2026. Andrew Wang.
 
 using std::array;
 using std::make_error_code;
-using std::ostream;
-using std::streamsize;
 using std::string_view;
 using std::system_error;
 using std::to_chars;
@@ -29,10 +26,6 @@ string_view parse::to_str(array<char, DIGITS>& buffer, color_t col) {
     throw system_error(make_error_code(ec), "Could not convert to string");
   }
   return {buffer.begin(), ptr};
-}
-
-void parse::write_sv(ostream& os, string_view sv) {
-  os.write(sv.data(), static_cast<streamsize>(sv.length()));
 }
 
 }  // namespace cs

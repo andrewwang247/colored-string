@@ -7,7 +7,6 @@ Copyright 2026. Andrew Wang.
 #include <array>
 #include <charconv>
 #include <concepts>
-#include <iostream>
 #include <limits>
 #include <stdexcept>
 #include <string_view>
@@ -22,13 +21,6 @@ namespace cs::parse {
 static constexpr auto DIGITS =
     1 + std::numeric_limits<     // NOLINT(whitespace/indent_namespace)
             color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
-
-/**
- * @brief Write a string view to an output stream.
- * @param os The output stream to write to.
- * @param sv The string to write.
- */
-void write_sv(std::ostream& os, std::string_view sv);
 
 /**
  * @brief Convert a color to its base 10 string representation.
