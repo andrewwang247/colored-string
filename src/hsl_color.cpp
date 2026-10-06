@@ -17,6 +17,8 @@ using std::fmod;
 using std::max;
 using std::min;
 
+using cs::channel::denormalize;
+
 namespace cs {
 
 hsl_color::hsl_color(true_color tc) noexcept : cylindrical(tc) {
@@ -34,8 +36,6 @@ hsl_color::hsl_color(double hue_in, double sat_in, double light_in) noexcept
 }
 
 true_color hsl_color::to_rgb() const noexcept {
-  using channel::denormalize;
-
   const auto shape = [this](int n) {
     const auto div = n + hue / 30.;
     const auto k = fmod(div, 12.);

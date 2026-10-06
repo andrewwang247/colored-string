@@ -19,13 +19,14 @@ using std::fmod;
 using std::max;
 using std::min;
 
+using cs::channel::almost_eq;
+using cs::channel::normalize;
+
 namespace ranges = std::ranges;
 
 namespace cs {
 
 cylindrical::cylindrical(true_color tc) noexcept {
-  using channel::normalize;
-
   const auto red = normalize(tc.red);
   const auto green = normalize(tc.green);
   const auto blue = normalize(tc.blue);
@@ -67,8 +68,6 @@ cylindrical::cylindrical(double hue_in, double sat_in) noexcept
 }
 
 bool operator==(const cylindrical& lhs, const cylindrical& rhs) noexcept {
-  using channel::almost_eq;
-
   return almost_eq(lhs.hue, rhs.hue) && almost_eq(lhs.chroma, rhs.chroma) &&
          almost_eq(lhs.value, rhs.value) &&
          almost_eq(lhs.lightness, rhs.lightness);
@@ -76,8 +75,6 @@ bool operator==(const cylindrical& lhs, const cylindrical& rhs) noexcept {
 
 std::partial_ordering operator<=>(const cylindrical& lhs,
                                   const cylindrical& rhs) noexcept {
-  using channel::almost_eq;
-
   if (!almost_eq(lhs.lightness, rhs.lightness)) {
     return lhs.lightness <=> rhs.lightness;
   }

@@ -5,7 +5,6 @@ Copyright 2026. Andrew Wang.
 */
 #pragma once
 #include <compare>
-#include <concepts>
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -13,9 +12,6 @@ Copyright 2026. Andrew Wang.
 namespace cs {
 
 using color_t = std::uint8_t;
-
-template <typename T>
-concept numeric = std::integral<T> || std::floating_point<T>;
 
 /**
  * @brief ANSI 24 bit true color

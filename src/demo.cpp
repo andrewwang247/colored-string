@@ -82,11 +82,13 @@ void demo::paint_america() {
   }
 }
 
+static constexpr auto DISPLAY_WIDTH = 72U;
+
 void demo::hue_rainbow(string_view name, double light) {
   println("{:~^10} rainbow:", name);
-  constexpr auto incr = 360 / WIDTH;
+  constexpr auto incr = 360 / DISPLAY_WIDTH;
   auto display = colored_string{.data = " "};
-  for (auto i = 0U; i < WIDTH; ++i) {
+  for (auto i = 0U; i < DISPLAY_WIDTH; ++i) {
     const auto hue = static_cast<double>(incr * i);
     const auto hsl = hsl_color{hue, .5, light};
     display.background = hsl.to_rgb();
@@ -97,9 +99,9 @@ void demo::hue_rainbow(string_view name, double light) {
 
 void demo::value_palette(string_view name, double hue, double sat) {
   println("{:~^10} palette:", name);
-  constexpr auto incr = 1. / WIDTH;
+  constexpr auto incr = 1. / DISPLAY_WIDTH;
   auto display = colored_string{.data = " "};
-  for (auto i = 0U; i < WIDTH; ++i) {
+  for (auto i = 0U; i < DISPLAY_WIDTH; ++i) {
     const auto hsv = hsv_color{hue, sat, incr * i};
     display.background = hsv.to_rgb();
     cout << display;

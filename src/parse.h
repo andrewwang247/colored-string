@@ -22,6 +22,9 @@ static constexpr auto DIGITS =
     1 + std::numeric_limits<     // NOLINT(whitespace/indent_namespace)
             color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
 
+template <typename T>
+concept numeric = std::integral<T> || std::floating_point<T>;
+
 /**
  * @brief Convert a color to its base 10 string representation.
  * @param buffer The array to write characters to.

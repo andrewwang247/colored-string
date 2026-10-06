@@ -9,8 +9,6 @@ Copyright 2026. Andrew Wang.
 #include "true_color.h"
 
 namespace cs::demo {
-static constexpr auto WIDTH = 72U;
-
 /**
  * @brief Paint the American flag.
  */
