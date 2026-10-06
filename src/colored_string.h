@@ -42,8 +42,10 @@ class colored_string {
 // Formatter declared in global namespace.
 template <>
 struct std::formatter<cs::colored_string> : std::formatter<std::string_view> {
+ private:
   std::string fmt_args;
 
+ public:
   /**
    * @brief Capture full option specifier until closing brace.
    * @param ctx The parsing context.

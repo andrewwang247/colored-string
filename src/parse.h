@@ -4,10 +4,8 @@ String representation of color types.
 Copyright 2026. Andrew Wang.
 */
 #pragma once
-#include <array>
 #include <charconv>
 #include <concepts>
-#include <limits>
 #include <stdexcept>
 #include <string_view>
 #include <system_error>
@@ -15,28 +13,13 @@ Copyright 2026. Andrew Wang.
 #include "true_color.h"
 
 namespace cs::parse {
-/**
- * @brief Number of digits required to represent color_t as base 10 string.
- */
-static constexpr auto DIGITS =
-    1 + std::numeric_limits<     // NOLINT(whitespace/indent_namespace)
-            color_t>::digits10;  // NOLINT(whitespace/indent_namespace)
 
 template <typename T>
 concept numeric = std::integral<T> || std::floating_point<T>;
 
-/**
- * @brief Convert a color to its base 10 string representation.
- * @param buffer The array to write characters to.
- * @param col The color to convert into its string representation.
- * @return A string_view backed by buffer of the produced string.
- */
-std::string_view to_str(std::array<char, DIGITS>& buffer, color_t col);
-
 template <numeric T, int Base = 10>
 T from_str(std::string_view sv) {
   static_assert(Base > 0);
-  static constexpr auto ERR_MSG = "Failed to convert from string";
   T result{};
 
   const auto typed_parse = [&result](auto begin, auto end) {
@@ -49,10 +32,11 @@ T from_str(std::string_view sv) {
   const auto [ptr, ec] = typed_parse(sv.begin(), sv.end());
 
   if (ec != std::errc{}) {
-    throw std::system_error(std::make_error_code(ec), ERR_MSG);
+    throw std::system_error(std::make_error_code(ec),
+                            "Failed to convert from string");
   }
   if (ptr != sv.end()) {
-    throw std::invalid_argument(ERR_MSG);
+    throw std::invalid_argument("Failed to convert entire string");
   }
   return result;
 }

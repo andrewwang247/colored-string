@@ -39,7 +39,7 @@ namespace views = std::views;
 
 int main() {
   const auto solutions =
-      cs::unit_test::read_solutions("resources/colors.csv", 5'000U);
+      cs::unit_test::read_solutions("./resources/colors.csv", 5'000U);
 
   println("--- EXECUTING UNIT TESTS ---");
   cs::unit_test::color_concepts();
@@ -113,6 +113,7 @@ vector<unit_test::solution_t> unit_test::read_solutions(const char* name,
   }
 
   assert(solutions.size() == sz);
+  println("Imported {} solutions from {}", sz, name);
   return solutions;
 }
 

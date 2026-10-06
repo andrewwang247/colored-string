@@ -68,31 +68,28 @@ void demo::paint_america() {
     println("{:1}{:26}", blue_patch, white_patch);
   };
 
-  red_star_line();
-  white_star_line();
-  red_star_line();
-  white_star_line();
-  red_star_line();
-  white_star_line();
-  red_star_line();
+  for (auto i = 0; i < 3; ++i) {
+    red_star_line();    // Lines 1, 3, 5
+    white_star_line();  // Lines 2, 4, 6
+  }
+  red_star_line();  // Line 7
 
   for (auto i = 0; i < 3; ++i) {
-    println("{:43}", white_patch);
-    println("{:43}", red_patch);
+    println("{:43}", white_patch);  // Lines 8, 10, 12
+    println("{:43}", red_patch);    // Lines 9, 11, 13
   }
 }
 
 static constexpr auto DISPLAY_WIDTH = 72U;
+static_assert(360 % DISPLAY_WIDTH == 0);
 
 void demo::hue_rainbow(string_view name, double light) {
   println("{:~^10} rainbow:", name);
   constexpr auto incr = 360 / DISPLAY_WIDTH;
-  auto display = colored_string{.data = " "};
   for (auto i = 0U; i < DISPLAY_WIDTH; ++i) {
-    const auto hue = static_cast<double>(incr * i);
-    const auto hsl = hsl_color{hue, .5, light};
-    display.background = hsl.to_rgb();
-    cout << display;
+    const auto cyl = hsl_color{static_cast<double>(incr * i), .5, light};
+    const auto rgb = cyl.to_rgb();
+    cout << colored_string{.data = "-", .foreground = ~rgb, .background = rgb};
   }
   cout.put('\n');
 }
@@ -100,11 +97,10 @@ void demo::hue_rainbow(string_view name, double light) {
 void demo::value_palette(string_view name, double hue, double sat) {
   println("{:~^10} palette:", name);
   constexpr auto incr = 1. / DISPLAY_WIDTH;
-  auto display = colored_string{.data = " "};
   for (auto i = 0U; i < DISPLAY_WIDTH; ++i) {
-    const auto hsv = hsv_color{hue, sat, incr * i};
-    display.background = hsv.to_rgb();
-    cout << display;
+    const auto cyl = hsv_color{hue, sat, incr * i};
+    const auto rgb = cyl.to_rgb();
+    cout << colored_string{.data = "-", .foreground = ~rgb, .background = rgb};
   }
   cout.put('\n');
 }

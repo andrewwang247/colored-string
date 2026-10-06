@@ -19,6 +19,8 @@ using std::string_view;
 
 namespace cs {
 
+static constexpr auto HEX_BASE = 16;
+
 true_color true_color::from_hex(string_view hex_code) {
   if (hex_code.empty()) {
     throw invalid_argument("Hex code cannot be empty");
@@ -31,7 +33,6 @@ true_color true_color::from_hex(string_view hex_code) {
         "Hex code must have length 6 without counting optional #");
   }
 
-  static constexpr auto HEX_BASE = 16;
   const auto red = parse::from_str<color_t, HEX_BASE>(hex_code.substr(0, 2));
   const auto green = parse::from_str<color_t, HEX_BASE>(hex_code.substr(2, 2));
   const auto blue = parse::from_str<color_t, HEX_BASE>(hex_code.substr(4, 2));
